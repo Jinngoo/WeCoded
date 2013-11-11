@@ -1,0 +1,138 @@
+body{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.frame{
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.left{
+	width: 620px;
+	height: 470px;
+	background: url("../image/common/logo_main.jpg") no-repeat;
+	margin-left: 30px;
+	margin-top: 30px;
+	border-bottom: 1px solid black;
+	float: left;
+}
+
+.right{
+	float: right;
+	width: 300px;
+	height: 600px;
+}
+
+.right .good{
+	width: 250px;
+	height: 200px;
+	margin: 0 auto;
+	margin-top:150px;
+	background: url("../image/common/good.jpg") no-repeat;
+}
+
+.right .login_panel{
+	width: 300px;
+	height: 150px;
+	margin-top: 50px;
+	margin-right: 30px;
+	border-right: 1px solid black;
+	float: right;
+}
+.login_panel .box{
+	margin-left: 60px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+.center {
+	width: 400px;
+	height: 240px;
+	margin: 0 auto;
+	margin-top: 50px;
+    filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #969696,
+        direction=  120, strength=  6 ); 
+    -moz-box-shadow: 2px 2px 14px #969696; 
+    -webkit-box-shadow: 2px 2px 14px #969696; 
+    box-shadow: 2px 2px 14px #969696; 
+}
+
+.input{
+	width: 300px;
+	height: 30px;
+	margin-left: 50px;
+	border: 1px solid #c0c0c0;
+    filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #c0c0c0,
+        direction=  120, strength=  3 ); 
+    -moz-box-shadow: inset 2px 2px 6px #c0c0c0; 
+    -webkit-box-shadow: inset 2px 2px 6px #c0c0c0;
+    box-shadow: inset 2px 2px 6px #c0c0c0; 
+}
+.lable{
+    padding: 10px 0px 5px 20px;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#register{
+	margin: 30px 0px 0px 100px;
+}
+#submit{
+	margin: 30px 0px 0px 50px;
+}
+
+.tip{
+	width: 300px;
+	height: 140px;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+.title{
+	width: 500px;
+	text-align: center;
+	font-weight: bold;
+	font-family: 微软雅黑;
+	margin: 0 auto;
+	margin-top: 150px;
+}
+.btn{
+	border:2px solid #ffffff;
+    background-color: #dddddd;
+    cursor: pointer;
+    padding: 5px 15px;
+    font-weight: bold;
+}
+.btn_shadow{
+	filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #ffffff,
+        direction=  120, strength=  10 );
+    -moz-box-shadow:  0px 0px 20px #ffffff; 
+    -webkit-box-shadow:  0px 0px 20px #ffffff; 
+    box-shadow:  0px 0px 20px #ffffff; 
+}
+
+.gradient{
+	background-image: -moz-linear-gradient(top, #ff4f02, #8f2c00);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff4f02), color-stop(1, #8f2c00)); 
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4f02', endColorstr='#8f2c00', GradientType='0');
+}
+
+*/

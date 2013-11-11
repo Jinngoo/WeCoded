@@ -1,0 +1,38 @@
+body {
+	/*background: url(../images/common/body-bg.jpg?1311907684000) repeat;*/
+	font: 12px Tahoma, Helvetica, Arial, '宋体', sans-serif;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.content{
+	width: 1280px;
+	height: 1000px;
+	margin: 0 auto;
+	margin-top: 90px;
+	background-color: white;
+}
+
+.content .photo{
+	width: 100px;
+	height: 100px;
+	margin-bottom: 20px;
+	filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #333333,
+		direction=  140, strength=  5 ); /*ie*/
+	-moz-box-shadow: 3px 3px 10px #333333; /*firefox*/
+	-webkit-box-shadow: 3px 3px 10px #333333; /*safari或chrome*/
+	box-shadow: 3px 3px 10px #333333; /*opera或ie9*/
+}
+
+
+
+.info{
+	width: 1280px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}

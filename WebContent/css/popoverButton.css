@@ -1,0 +1,39 @@
+.jinva_popover_btn {
+	margin-right: 3px;
+	margin-bottom: 10px;
+	padding: 5px;
+	cursor: default;
+}
+
+.jinva_popover_btn_body {
+	width: 180px;
+	height: 50px;
+	position: relative;
+}
+
+.jinva_popover_btn_body_img {
+	width: 50px;
+	heihgt: 50px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.jinva_popover_btn_body_content {
+	width: 100px;
+	line-height: 45px;
+	margin-top: 5px;
+	text-align: left;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: absolute;
+	left: 60px;
+	top: 0px;
+}
+
+.jinva_popover_btn_body_toolbar {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}

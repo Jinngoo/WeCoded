@@ -1,0 +1,16 @@
+.shadow {
+	border: 1px solid #dddddd;
+	filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #c0c0c0,
+		direction=  120, strength=  4 ); /*ie*/
+	-moz-box-shadow: 2px 2px 8px #c0c0c0; /*firefox*/
+	-webkit-box-shadow: 2px 2px 8px #c0c0c0; /*safari或chrome*/
+	box-shadow: 2px 2px 8px #c0c0c0; /*opera或ie9*/
+}
+.shadow_focus {
+	border: 1px solid #ff99ff;
+	filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #ff99ff,
+		direction=  120, strength=  6 ); /*ie*/
+	-moz-box-shadow: 2px 2px 12px #ff99ff; /*firefox*/
+	-webkit-box-shadow: 2px 2px 12px #ff99ff; /*safari或chrome*/
+	box-shadow: 2px 2px 12px #ff99ff; /*opera或ie9*/
+}
