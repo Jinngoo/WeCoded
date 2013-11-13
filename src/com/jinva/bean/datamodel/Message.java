@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Message", catalog = "app_jinva")
+@Table(name = "Message")
 public class Message {
 
 	private String id;

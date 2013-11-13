@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "GroupProvider", catalog = "app_jinva")
+@Table(name = "GroupProvider")
 public class GroupProvider {
 
 	private String id;

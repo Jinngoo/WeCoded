@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "User", catalog = "app_jinva")
+@Table(name = "User")
 public class User {
 
 	private String id;

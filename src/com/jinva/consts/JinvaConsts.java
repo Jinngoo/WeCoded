@@ -2,6 +2,8 @@ package com.jinva.consts;
 
 public interface JinvaConsts {
 
+	String USER = "user";
+	
 	String USER_ID = "user_id";
 	
 	String USER_NAME = "user_name";

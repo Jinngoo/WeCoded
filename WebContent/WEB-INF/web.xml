@@ -6,30 +6,50 @@
   
 	<display-name>jinva</display-name>
   
-	<!--  Spring 配置 Web整合 -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/applicationContext.xml</param-value>
-	</context-param>
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<listener>
-		<listener-class>com.jinva.util.InitListener</listener-class>
-	</listener>
-
-	<distributable/>
+	<!-- Handles all requests into the application -->
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:spring/applicationContext.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
 	
-	<filter>  
-		<filter-name>StrutsPrepareFilter</filter-name>  
-		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter</filter-class>  
-	</filter>  
-	<filter-mapping>  
-		<filter-name>StrutsPrepareFilter</filter-name>  
-		<url-pattern>/*</url-pattern>  
-	</filter-mapping> 
+	<!-- Reads request input using UTF-8 encoding -->
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<servlet-name>SpringMVC</servlet-name>
+	</filter-mapping>
+	
 	<!-- 定义AjaxAnywhere过滤器 -->
 	<filter>
         <filter-name>AjaxAnywhere</filter-name>
@@ -39,47 +59,21 @@
         <filter-name>AjaxAnywhere</filter-name>
         <url-pattern>/*</url-pattern> 
     </filter-mapping>
-	
     
-    <filter>  
-		<filter-name>StrutsExecuteFilter</filter-name>  
-		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter</filter-class>  
-	</filter>
-	<filter-mapping>  
-   		<filter-name>StrutsExecuteFilter</filter-name>  
-		<url-pattern>/*</url-pattern>  
-	</filter-mapping>  
-	
-	<!-- 在Web项目中 启用 Struts2 -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>struts2</filter-name> -->
-<!-- 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>struts2</filter-name> -->
-<!-- 		<url-pattern>/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+    <welcome-file-list>
+	    <welcome-file></welcome-file>
+	</welcome-file-list>
 
-    
-		<!-- 定义ActionContextCleanUP过滤器 -->
-<!-- 	<filter> -->
-<!-- 		<filter-name>struts-cleanup</filter-name> -->
-<!-- 		<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class> -->
-<!-- 	</filter> -->
-<!-- 	<filter-mapping> -->
-<!-- 		<filter-name>struts-cleanup</filter-name> -->
-<!-- 		<url-pattern>/*</url-pattern> -->
-<!-- 	</filter-mapping> -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/view/404.jsp</location>
+	</error-page>
 	
-<!--   <welcome-file-list> -->
-<!--     <welcome-file>index.jsp</welcome-file> -->
-<!--   </welcome-file-list> -->
+<!-- 	<listener> -->
+<!-- 		<listener-class>com.jinva.util.InitListener</listener-class> -->
+<!-- 	</listener> -->
 
-<!-- 	<jsp-config>  -->
-<!-- 		<taglib>  -->
-<!-- 			<taglib-uri>/WEB-INF/tld/GroupButton.tld</taglib-uri>  -->
-<!-- 			<taglib-location>/jinva</taglib-location>  -->
-<!-- 		</taglib>  -->
-<!-- 	</jsp-config> -->
+<!-- 	<distributable/> -->
+	
 
 </web-app>

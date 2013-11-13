@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "OrderProvider", catalog = "app_jinva")
+@Table(name = "OrderProvider")
 public class OrderProvider {
 
 	private String id;

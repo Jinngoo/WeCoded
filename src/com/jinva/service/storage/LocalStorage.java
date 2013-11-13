@@ -1,5 +1,6 @@
 package com.jinva.service.storage;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.jinva.util.InitListener;
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 public class LocalStorage implements IStorage {
 
@@ -28,7 +28,8 @@ public class LocalStorage implements IStorage {
 		InputStream in = null;
 		OutputStream out = null;
 		try {
-			in = new ByteInputStream(content, content.length);
+			in = new ByteArrayInputStream(content);
+//			in = new ByteInputStream(content, content.length);
 			out = new FileOutputStream(getStoragePath(path) + filename);
 			IOUtils.copy(in, out);
 		} catch (FileNotFoundException e) {
