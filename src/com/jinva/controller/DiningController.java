@@ -1,23 +1,34 @@
 package com.jinva.controller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.jinva.bean.datamodel.Group;
 import com.jinva.bean.datamodel.OrderProvider;
+import com.jinva.bean.datamodel.Restaurant;
+import com.jinva.bean.datamodel.Team;
+import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.service.JinvaService;
+import com.jinva.util.CommonUtil;
 
 @Controller
 @RequestMapping("/dining")
-public class DiningController {
+public class DiningController extends BaseControllerSupport{
 
     @Autowired
     private JinvaService jinvaService;
@@ -27,35 +38,98 @@ public class DiningController {
         return "dining/dining";
     }
 
-    @RequestMapping(value = "orderProviderList", method = RequestMethod.GET)
-    public String orderProviderList(HttpServletRequest request) {
-        String userId = "1";//"getUserId()"
-        List<OrderProvider> orderProviderList = jinvaService.getOrderProviderList(0, -1, userId);
+    public String orderProviderList(HttpServletRequest request, HttpSession session) {
+        List<OrderProvider> orderProviderList = jinvaService.getOrderProviderList(0, -1, getUserId(session));
         jinvaService.parseOrderProviderName(orderProviderList, new HashMap<String, String>());
-        jinvaService.parseOrderProviderGroup(orderProviderList);
+        jinvaService.parseOrderProviderTeam(orderProviderList);
         jinvaService.parseOrderProviderRestaurant(orderProviderList, new HashMap<String, String>());
         request.setAttribute("orderProviderList", orderProviderList);
         
         return index();
     }
     
-    @RequestMapping(value = "groupList", method = RequestMethod.GET)
-    public String groupList(HttpServletRequest request) {
-        String userId = "1";//"getUserId()"
-        List<Group> myGroupList = jinvaService.getMyGroupList(0, -1, userId);
-        List<Group> joinedGroupList = jinvaService.getJoinedGroupList(0, -1, userId);
-        List<Group> otherGroupList = jinvaService.getOtherGroupList(0, -1, userId);
+    @RequestMapping(value = "teamList", method = RequestMethod.GET)
+    public String teamList(HttpServletRequest request, HttpSession session) {
+        String userId = getUserId(session);
+        List<Team> myTeamList = jinvaService.getMyTeamList(0, -1, userId);
+        List<Team> joinedTeamList = jinvaService.getJoinedTeamList(0, -1, userId);
+        List<Team> otherTeamList = jinvaService.getOtherTeamList(0, -1, userId);
         Map<String, String> cache = new HashMap<String, String>();
-        jinvaService.parseGroupOwnerName(myGroupList, cache);
-        jinvaService.parseGroupOwnerName(joinedGroupList, cache);
-        jinvaService.parseGroupOwnerName(otherGroupList, cache);
-        jinvaService.parseGroupMemberCount(myGroupList);
-        jinvaService.parseGroupMemberCount(joinedGroupList);
-        jinvaService.parseGroupMemberCount(otherGroupList);
-        request.setAttribute("myGroupList", myGroupList);
-        request.setAttribute("joinedGroupList", joinedGroupList);
-        request.setAttribute("otherGroupList", otherGroupList);
+        jinvaService.parseTeamOwnerName(myTeamList, cache);
+        jinvaService.parseTeamOwnerName(joinedTeamList, cache);
+        jinvaService.parseTeamOwnerName(otherTeamList, cache);
+        jinvaService.parseTeamMemberCount(myTeamList);
+        jinvaService.parseTeamMemberCount(joinedTeamList);
+        jinvaService.parseTeamMemberCount(otherTeamList);
+        request.setAttribute("myTeamList", myTeamList);
+        request.setAttribute("joinedTeamList", joinedTeamList);
+        request.setAttribute("otherTeamList", otherTeamList);
         return index();
     }
+    
+    @RequestMapping(value = "loadTeam", method = RequestMethod.GET)
+    public ResponseEntity<Team> loadTeam(HttpServletRequest request){
+        String id = request.getParameter("id");
+        Team team = jinvaService.get(Team.class, id);
+        return new ResponseEntity<Team>(team, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "deleteTeam/{id}", method = RequestMethod.GET)
+    public String deleteTeam(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
+        jinvaService.delete(Team.class, id);
+        jinvaService.delete(UserTeam.class, new String[]{"teamId"}, new Object[]{id});
+        return teamList(request, session);
+    }
 
+    @RequestMapping(value = "cancelProvide/{id}", method = RequestMethod.POST)
+    public ResponseEntity<String> cancelProvide(@PathVariable ("id") String id, HttpServletRequest request){
+        jinvaService.cancelProvide(id);
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "loadRestaurant/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Restaurant> loadRestaurant(@PathVariable ("id") String id, HttpServletRequest request) {
+        Restaurant restaurant = jinvaService.get(Restaurant.class, id);
+        return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "joinTeam/{id}", method = RequestMethod.GET)
+    public String joinTeam(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
+        UserTeam userTeam = new UserTeam();
+        userTeam.setEnterDate(new Date());
+        userTeam.setTeamId(id);
+        userTeam.setUserId(getUserId(session));
+        jinvaService.save(userTeam);
+        return teamList(request, session);
+    }
+    
+    @RequestMapping(value = "quitGroup/{id}", method = RequestMethod.GET)
+    public String quitGroup(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
+        jinvaService.deleteUserTeam(getUserId(session), id);
+        return teamList(request, session);
+    }
+    
+    @RequestMapping(value = "saveTeam", method = RequestMethod.POST)
+    public String saveTeam(HttpServletRequest request, HttpSession session) throws InterruptedException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
+        Map<String, Object> parameterMap = CommonUtil.getValidParameterMap(request, "group");
+        String teamId = CommonUtil.toString(parameterMap.get("id"));
+        String userId = getUserId(session);
+        if (StringUtils.isEmpty(teamId)) {// insert
+            Team team = Team.class.newInstance();
+            BeanUtils.populate(team, parameterMap);
+            team.setOwnerId(userId);
+            teamId = (String) jinvaService.save(team);
+            UserTeam userTeam = new UserTeam();
+            userTeam.setEnterDate(new Date());
+            userTeam.setTeamId(teamId);
+            userTeam.setUserId(userId);
+            jinvaService.save(userTeam);
+        } else {//update
+            Team team = jinvaService.get(Team.class, teamId);
+            BeanUtils.populate(team, parameterMap);
+            jinvaService.update(team);
+        }
+        return teamList(request, session);
+    }
+    
 }

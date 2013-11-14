@@ -1,16 +1,16 @@
 package com.jinva.controller;
 
-import java.util.HashMap;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,37 +25,73 @@ public class MainController {
     @Autowired
     private JinvaService jinvaService;
     
+    @RequestMapping(value = "test/{id}/")
+    public String test(@PathVariable ("id") String id, HttpServletRequest request){
+        System.out.println(id);
+        request.setAttribute("test", id);
+        return "main";
+    }
+    
     @RequestMapping(value = { "", "/" })
     public String index(HttpSession session, HttpServletRequest request) {
         String serverInfo = request.getServletContext().getServerInfo();
         request.setAttribute("serverInfo", serverInfo);
-        request.setAttribute("test", "TODO test static field");
+        request.setAttribute("test", "123");
 
         User user = (User) session.getAttribute(JinvaConsts.USER);
-        if (user == null) {
-            return "login";
-        }
-
-        return "main";
+        return user == null ? "redirect:/login" : "main";
     }
+    
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String login(HttpSession session){
+        User user = (User) session.getAttribute(JinvaConsts.USER);
+        return user == null ? "login" : "redirect:/";
+    }
+    
+    @RequestMapping(value = "login/validateName", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> validateName(HttpServletRequest request){
+        String name = request.getParameter("name");
+        boolean access = jinvaService.getUser(name) == null;
+        return new ResponseEntity<Boolean>(access, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "login/signup", method = RequestMethod.POST)
+    public ResponseEntity<String> signup(HttpServletRequest request) throws UnsupportedEncodingException {
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        String nickname = request.getParameter("nickname");
+        nickname = URLDecoder.decode(URLDecoder.decode(nickname, "utf-8"), "utf-8");
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity<JSONObject> login(HttpSession session,HttpServletRequest request) {
+        String code = null;
+        if (jinvaService.getUser(name) != null) {
+            code = "duplicate";
+        } else {
+            User user = new User(password, name, nickname);
+            if (jinvaService.save(user) == null) {
+                code = "error";
+            } else {
+                code = "success";
+            }
+        }
+        return new ResponseEntity<String>(code, HttpStatus.OK);
+    }
+    
+    
+    @RequestMapping(value = "login/signin", method = RequestMethod.POST)
+    public ResponseEntity<String> signin(HttpSession session,HttpServletRequest request) {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
         User user = jinvaService.getUser(name);
-        JSONObject result = new JSONObject();
+        String code = null;
         if (user == null) {
-            result.put("code", "nouser");
+            code = "nouser";
         } else if (!pass.equals(user.getPassword())) {
-            result.put("code", "wrongpass");
+            code = "wrongpass";
         } else {
-            session.setAttribute(JinvaConsts.USER_ID, user.getId());
-            session.setAttribute(JinvaConsts.USER_NAME, user.getName());
-            session.setAttribute(JinvaConsts.USER_NICKNAME, user.getNickname());
-            result.put("code", "success");
+            session.setAttribute(JinvaConsts.USER, user);
+            code = "success";
         }
-        return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
+        return new ResponseEntity<String>(code, HttpStatus.OK);
     }
 
 }

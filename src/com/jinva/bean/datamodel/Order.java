@@ -30,10 +30,10 @@ public class Order {
 	private String restaurantName;
 	private Double dishPrice;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -42,7 +42,7 @@ public class Order {
 		this.id = id;
 	}
 
-	@Column(name = "userId", length = 32, nullable = false)
+	@Column(name = "userId", length = 36, nullable = false)
 	public String getUserId() {
 		return userId;
 	}
@@ -51,7 +51,7 @@ public class Order {
 		this.userId = userId;
 	}
 
-	@Column(name = "providerId", length = 32, nullable = false)
+	@Column(name = "providerId", length = 36, nullable = false)
 	public String getProviderId() {
 		return providerId;
 	}
@@ -60,7 +60,7 @@ public class Order {
 		this.providerId = providerId;
 	}
 
-	@Column(name = "dishId", length = 32, nullable = false)
+	@Column(name = "dishId", length = 36, nullable = false)
 	public String getDishId() {
 		return dishId;
 	}

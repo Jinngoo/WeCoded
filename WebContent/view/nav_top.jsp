@@ -17,6 +17,7 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
+				<p class="navbar-text">${sessionScope.user.name}</p>
 				<li><a href="#">Logout</a></li>
 			</ul>
 		</div>

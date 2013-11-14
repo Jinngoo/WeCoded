@@ -30,10 +30,10 @@ public class User {
 		this.nickname = nickname;
 	}
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}

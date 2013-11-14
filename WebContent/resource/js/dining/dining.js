@@ -8,7 +8,7 @@
     if (!$.trim(activeTab)) {
         activeTab = "orderProvider";
     }
-    $("#" + activeTab + "Tab").children('a[data-toggle="tab"]').tab('show')
+    $("#" + activeTab + "Tab").children('a[data-toggle="tab"]').tab('show');
 //    $("#" + activeTab + "Tab").addClass("active");
     $("#" + activeTab + "List").addClass("active");
 });
@@ -20,12 +20,15 @@ function bindAll(){
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 			$("#" + targetZone + "Body").hide();
 			$("#" + targetZone + "Loading").show();
+			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
-
+//		    setTimeout(function(){
+//		        $('a[rel=popover]').popover({html:true,delay:{show:500}});
+//		        console.log($('a[rel=popover]').length);
+//		    }, 2000)
 		};
-		var url = 'dining/' + targetZone;
-		console.log(url)
+		var url = contextPath + '/dining/' + targetZone;//springmvc restful ajaxanywhere
 		ajaxAnywhere.getAJAX(url, targetZone);
 	});
 	// ///////////////// group /////////////////
@@ -40,7 +43,7 @@ function bindAll(){
 		}
 		ajaxAnywhere.formName = "group_form";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
-			return "groupList";
+			return "teamList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 			$("#createGroupBtn").button("loading");
@@ -61,7 +64,7 @@ function bindAll(){
 	// ///////////////// restaurant /////////////////
 	// create group submit
 	$("#createRestaurantBtn").click(function() {
-		if (J.isEmpty($("#restaurant_name").val())) {// null validate
+		if (!$.trim($("#restaurant_name").val())) {// null validate
 			$("#restaurant_name_group").addClass("error");
 			return;
 		}
@@ -111,26 +114,26 @@ function bindCollapseTrigger(){
     });
 }
 
-function editGroup(groupId) {
-	var url = 'ajax_loadGroup';
+function editTeam(teamId) {
+	var url = contextPath + '/dining/loadTeam';
 	var params = {
-		"id" : groupId
+		"id" : teamId
 	};
-	$.post(url, params, function(data, textStatus, jqXHR) {
-		var group = data.result["group"];
-		if (group == null) {
-			alert("Group not exist");
+	$.get(url, params, function(data, textStatus, jqXHR) {
+		var team = data;
+		if (team == null) {
+			alert("Team not exist");
 		} else {
-			J.fillForm(group, "group");
+			J.fillForm(team, "group");
 			$("#collapseCreateGroupBtn").collapse('toggle');
 			$("#collapseCreateGroup").collapse('toggle');
 		}
 	});
 }
 
-function joinGroup(groupId, password) {
+function joinTeam(teamId, password) {
 	if (J.isNotEmpty(password)) {
-		$("#toJoinGroupId").val(groupId);
+		$("#toJoinGroupId").val(teamId);
 		$("#toJoinGroupPassword").val(password);
 		$("#passwordModal").modal({
 			backdrop : true,
@@ -138,10 +141,10 @@ function joinGroup(groupId, password) {
 			show : true
 		});
 	} else {
-		var url = "aa_joinGroup?groupId=" + groupId;
+		var url = contextPath + "/dining/joinTeam/" + teamId;
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
-			return "groupList";
+			return "teamList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
@@ -162,13 +165,13 @@ function confirmPassword() {
 	}
 }
 
-function quitGroup(groupId, isConfirm) {
+function quitTeam(teamId, isConfirm) {
 	$("#confirmBtn").unbind("click");
 	if (isConfirm) {
-		var url = "aa_quitGroup?groupId=" + groupId;
+		var url = contextPath + "/dining/quitTeam/" + teamId;
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
-			return "groupList";
+			return "teamList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
@@ -179,18 +182,18 @@ function quitGroup(groupId, isConfirm) {
 		$("#confirmTip").html("确定退出么?");
 		$("#confirmModal").modal("show");
 		$("#confirmBtn").click(function() {
-			quitGroup(groupId, true);
+			quitTeam(teamId, true);
 		});
 	}
 }
 
-function deleteGroup(groupId, memberCount, isConfirm) {
+function deleteTeam(teamId, memberCount, isConfirm) {
 	$("#confirmBtn").unbind("click");
 	if (isConfirm) {
-		var url = "aa_deleteGroup?groupId=" + groupId;
+		var url = contextPath + "/dining/deleteTeam/" + teamId;
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
-			return "groupList";
+			return "teamList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
@@ -205,7 +208,7 @@ function deleteGroup(groupId, memberCount, isConfirm) {
 		}
 		$("#confirmModal").modal("show");
 		$("#confirmBtn").click(function() {
-			deleteGroup(groupId, memberCount, true);
+			deleteTeam(teamId, memberCount, true);
 		});
 	}
 }
@@ -213,12 +216,9 @@ function deleteGroup(groupId, memberCount, isConfirm) {
 function cancelProvide(orderProviderId, isConfirm) {
 	$("#confirmBtn").unbind("click");
 	if (isConfirm) {
-		var url = "ajax_cancelProvide";
-		var params = {
-			"orderProviderId" : orderProviderId
-		};
+		var url = contextPath + "/dining/cancelProvide/" + orderProviderId;
 		$.post(url, params, function(data, textStatus, jqXHR) {
-			var code = data.result["code"];
+			var code = data;
 			if (code == "success") {
 				window.location.reload();// TODO aa?
 			} else if (code == "error") {
@@ -237,12 +237,9 @@ function cancelProvide(orderProviderId, isConfirm) {
 }
 
 function editRestaurant(restaurantId) {
-	var url = 'ajax_loadRestaurant';
-	var params = {
-		"id" : restaurantId
-	};
-	$.post(url, params, function(data, textStatus, jqXHR) {
-		var restaurant = data.result["restaurant"];
+	var url = contextPath + '/dining/loadRestaurant/' + restaurantId;
+	$.get(url, {}, function(data, textStatus, jqXHR) {
+		var restaurant = data;
 		if (restaurant == null) {
 			alert("Restaurant not exist");
 		} else {
@@ -253,8 +250,9 @@ function editRestaurant(restaurantId) {
 	});
 }
 
+//TODO
 function showRestaurantMenu(restaurantId) {
-	var url = "${pageContext.request.contextPath}/main_dish";
+	var url = contextPath + "/main_dish";
 	url += "?back=" + encodeURIComponent("main_dining?active=restaurant");
 	url += "&restaurantId=" + restaurantId;
 	$("#mainContent").slideUp("fast", function() {
@@ -263,7 +261,7 @@ function showRestaurantMenu(restaurantId) {
 }
 
 function showGroupMember(groupId) {
-	var url = "${pageContext.request.contextPath}/main_member";
+	var url = contextPath + "/main_member";
 	url += "?back=" + encodeURIComponent("main_dining?active=group");
 	url += "&groupId=" + groupId;
 	$("#mainContent").slideUp("fast", function() {
@@ -272,7 +270,7 @@ function showGroupMember(groupId) {
 }
 
 function provideMeal() {
-	var url = "${pageContext.request.contextPath}/main_provideMeal";
+	var url = contextPath + "/main_provideMeal";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
@@ -280,7 +278,7 @@ function provideMeal() {
 }
 
 function joinProvideMeal(orderProviderId) {
-	var url = "${pageContext.request.contextPath}/main_order";
+	var url = contextPath + "/main_order";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
 	url += "&orderProviderId=" + orderProviderId;
 	$("#mainContent").slideUp("fast", function() {
@@ -289,7 +287,7 @@ function joinProvideMeal(orderProviderId) {
 }
 
 function showOrderList(orderProviderId) {
-	var url = "${pageContext.request.contextPath}/main_orderList";
+	var url = contextPath + "/main_orderList";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
 	url += "&orderProviderId=" + orderProviderId;
 	$("#mainContent").slideUp("fast", function() {

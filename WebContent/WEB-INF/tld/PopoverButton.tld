@@ -10,7 +10,7 @@
  <tag>
   <name>PopoverButton</name>
   <tag-class>com.jinva.tag.PopoverButtonTag</tag-class>
-  <body-content>scriptless</body-content>
+  <body-content>jsp</body-content>
   <attribute>
    <name>id</name>
    <rtexprvalue>true</rtexprvalue>

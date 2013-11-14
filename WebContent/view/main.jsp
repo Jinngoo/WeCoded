@@ -29,6 +29,11 @@
 	
 	<h1>Jinn</h1>
 	<h3>${requestScope.serverInfo }</h3>
+	<h4>${requestScope.test }</h4>
+	<button onclick="test()">abc</button>
+	<aa:zone name="testzone">
+		${requestScope.test }
+	</aa:zone>
 	
 		<a href="${CONTEXT_PATH}/dining" target="_self"><h2>dining &lt;==</h2></a>
 	

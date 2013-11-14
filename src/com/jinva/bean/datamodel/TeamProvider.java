@@ -9,19 +9,19 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "GroupProvider")
-public class GroupProvider {
+@Table(name = "TeamProvider")
+public class TeamProvider {
 
 	private String id;
 
-	private String groupId;
+	private String teamId;
 
 	private String orderProviderId;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -30,16 +30,16 @@ public class GroupProvider {
 		this.id = id;
 	}
 
-	@Column(name = "groupId", length = 32, nullable = false)
-	public String getGroupId() {
-		return groupId;
+	@Column(name = "teamId", length = 36, nullable = false)
+	public String getTeamId() {
+		return teamId;
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
 	}
 
-	@Column(name = "orderProviderId", length = 32, nullable = false)
+	@Column(name = "orderProviderId", length = 36, nullable = false)
 	public String getOrderProviderId() {
 		return orderProviderId;
 	}

@@ -31,15 +31,15 @@ public class OrderProvider {
 	// ///////////////////////////
 	// 非数据库字段
 	private String provideUserName;
-	private String receiveGroups;
+	private String receiveTeams;
 
 	public static final int STATUS_OFFER = 1;
 	public static final int STATUS_END = 2;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -48,7 +48,7 @@ public class OrderProvider {
 		this.id = id;
 	}
 
-	@Column(name = "provideUserId", length = 32, nullable = false)
+	@Column(name = "provideUserId", length = 36, nullable = false)
 	public String getProvideUserId() {
 		return provideUserId;
 	}
@@ -104,11 +104,11 @@ public class OrderProvider {
 	}
 
 	@Transient
-	public String getReceiveGroups() {
-		return receiveGroups;
+	public String getReceiveTeams() {
+		return receiveTeams;
 	}
 
-	public void setReceiveGroups(String receiveGroups) {
-		this.receiveGroups = receiveGroups;
+	public void setReceiveTeams(String receiveTeams) {
+		this.receiveTeams = receiveTeams;
 	}
 }

@@ -27,3 +27,9 @@ function logout() {
 		window.location.reload();
 	});
 }
+
+function test(){
+    var url = contextPath + '/test/abcabcabc/';
+    ajaxAnywhere.getAJAX(url, 'testzone');
+    console.log('hehe')
+};

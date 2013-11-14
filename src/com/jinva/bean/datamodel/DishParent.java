@@ -18,10 +18,10 @@ public class DishParent {
 
 	private String childId;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -30,7 +30,7 @@ public class DishParent {
 		this.id = id;
 	}
 
-	@Column(name = "parentId", length = 32, nullable = false)
+	@Column(name = "parentId", length = 36, nullable = false)
 	public String getParentId() {
 		return parentId;
 	}
@@ -39,7 +39,7 @@ public class DishParent {
 		this.parentId = parentId;
 	}
 
-	@Column(name = "childId", length = 32, nullable = false)
+	@Column(name = "childId", length = 36, nullable = false)
 	public String getChildId() {
 		return childId;
 	}

@@ -15,13 +15,13 @@ import org.springframework.stereotype.Component;
 
 import com.jinva.bean.datamodel.Dish;
 import com.jinva.bean.datamodel.DishParent;
-import com.jinva.bean.datamodel.Group;
-import com.jinva.bean.datamodel.GroupProvider;
+import com.jinva.bean.datamodel.Team;
+import com.jinva.bean.datamodel.TeamProvider;
 import com.jinva.bean.datamodel.Order;
 import com.jinva.bean.datamodel.OrderProvider;
 import com.jinva.bean.datamodel.Restaurant;
 import com.jinva.bean.datamodel.User;
-import com.jinva.bean.datamodel.UserGroup;
+import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.dao.TheDao;
 import com.jinva.service.storage.IStorage;
 import com.jinva.util.CommonUtil;
@@ -113,8 +113,8 @@ public class JinvaService {
 		}
 	}
 	
-	public long getGroupMemberCount(String groupId){
-		return theDao.selectCount(UserGroup.class, new String[]{"groupId"}, new Object[]{groupId});
+	public long getTeamMemberCount(String teamId){
+		return theDao.selectCount(UserTeam.class, new String[]{"teamId"}, new Object[]{teamId});
 	}
 	
 	
@@ -123,37 +123,37 @@ public class JinvaService {
      * @return
      */
     @SuppressWarnings("unchecked")
-	public List<Group> getGroupList(int start, int size){
-    	List<Group> result = (List<Group>) theDao.find(Group.class);
+	public List<Team> getTeamList(int start, int size){
+    	List<Team> result = (List<Team>) theDao.find(Team.class);
     	Map<String, String> cache = new HashMap<String, String>();
-		parseGroupOwnerName(result, cache);
+		parseTeamOwnerName(result, cache);
     	if(size == -1){
     		return result;
     	}else{
-    		return (List<Group>) CommonUtil.fillBlankList(result, Group.class, size);
+    		return (List<Team>) CommonUtil.fillBlankList(result, Team.class, size);
     	}
     }
     
     @SuppressWarnings("unchecked")
-	public List<Group> getMyGroupList(int start, int size, String userId){
-    	String hql = "from #Group where ownerId = ?";
-    	hql = hql.replaceAll("#Group", Group.class.getName());
+	public List<Team> getMyTeamList(int start, int size, String userId){
+    	String hql = "from #Team where ownerId = ?";
+    	hql = hql.replaceAll("#Team", Team.class.getName());
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
     }
     
     @SuppressWarnings("unchecked")
-	public List<Group> getJoinedGroupList(int start, int size, String userId){
-    	String hql = "from #Group where ownerId <> ? and id in (select groupId from #UserGroup where userId = ?)";
-    	hql = hql.replaceAll("#Group", Group.class.getName());
-    	hql = hql.replaceAll("#UserGroup", UserGroup.class.getName());
+	public List<Team> getJoinedTeamList(int start, int size, String userId){
+    	String hql = "from #Team where ownerId <> ? and id in (select teamId from #UserTeam where userId = ?)";
+    	hql = hql.replaceAll("#Team", Team.class.getName());
+    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId, userId});
     }
     
     @SuppressWarnings("unchecked")
-	public List<Group> getOtherGroupList(int start, int size, String userId){
-    	String hql = "from #Group where ownerId <> ? and id not in (select groupId from #UserGroup where userId = ?)";
-    	hql = hql.replaceAll("#Group", Group.class.getName());
-    	hql = hql.replaceAll("#UserGroup", UserGroup.class.getName());
+	public List<Team> getOtherTeamList(int start, int size, String userId){
+    	String hql = "from #Team where ownerId <> ? and id not in (select teamId from #UserTeam where userId = ?)";
+    	hql = hql.replaceAll("#Team", Team.class.getName());
+    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId, userId});
     }
     
@@ -201,23 +201,23 @@ public class JinvaService {
     	}
     }
     
-    public void parseGroupOwnerName(List<Group> groupList, Map<String, String> cache){
+    public void parseTeamOwnerName(List<Team> TeamList, Map<String, String> cache){
     	if(cache == null){
     		cache = new HashMap<String, String>();
     	}
-    	for(Group group : groupList){
-    		String ownerId = group.getOwnerId();
+    	for(Team Team : TeamList){
+    		String ownerId = Team.getOwnerId();
     		if(StringUtils.isEmpty(ownerId)){
     			continue;
     		}
     		if(cache.containsKey(ownerId)){
-    			group.setOwnerName(cache.get(ownerId));
+    			Team.setOwnerName(cache.get(ownerId));
     		}else{
     			User user = theDao.getHibernateTemplate().get(User.class, ownerId);
     			if(user != null){
     				String ownerName = user.getNickname();
     				cache.put(ownerId, ownerName);
-    				group.setOwnerName(ownerName);
+    				Team.setOwnerName(ownerName);
     			}else{
     				//TODO
     			}
@@ -250,13 +250,13 @@ public class JinvaService {
     }
     
     @SuppressWarnings("unchecked")
-	public void parseOrderProviderGroup(List<OrderProvider> orderProviderList){
+	public void parseOrderProviderTeam(List<OrderProvider> orderProviderList){
     	for(OrderProvider orderProvider : orderProviderList){
-    		String hql = "select name from #Group where id in (select groupId from #GroupProvider where orderProviderId = ?)";
-    		hql = hql.replaceAll("#Group", Group.class.getName());
-    		hql = hql.replaceAll("#GroupProvider", GroupProvider.class.getName());
-    		List<String> groupNameList = theDao.getHibernateTemplate().find(hql, new Object[]{orderProvider.getId()});
-    		orderProvider.setReceiveGroups(StringUtils.join(groupNameList, ","));
+    		String hql = "select name from #Team where id in (select teamId from #TeamProvider where orderProviderId = ?)";
+    		hql = hql.replaceAll("#Team", Team.class.getName());
+    		hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
+    		List<String> TeamNameList = theDao.getHibernateTemplate().find(hql, new Object[]{orderProvider.getId()});
+    		orderProvider.setReceiveTeams(StringUtils.join(TeamNameList, ","));
     	}
     }
     
@@ -308,10 +308,10 @@ public class JinvaService {
     	return dishMap;
     }
     
-    public void parseGroupMemberCount(List<Group> groupList){
-    	for(Group group : groupList){
-    		long count = theDao.selectCount(UserGroup.class, new String[]{"groupId"}, new Object[]{group.getId()});
-    		group.setMemberCount(count);
+    public void parseTeamMemberCount(List<Team> TeamList){
+    	for(Team Team : TeamList){
+    		long count = theDao.selectCount(UserTeam.class, new String[]{"teamId"}, new Object[]{Team.getId()});
+    		Team.setMemberCount(count);
     	}
     }
     
@@ -324,15 +324,15 @@ public class JinvaService {
     
     /**
      * 
-     * @param provideGroupId
+     * @param provideteamId
      * @return
      */
     @SuppressWarnings("unchecked")
 	public List<OrderProvider> getOrderProviderList(int start, int size, String userId){
-    	String hql = "from #OrderProvider where id in (select orderProviderId from #GroupProvider where groupId in (select groupId from #UserGroup where userId = ?)) order by createDate desc";
+    	String hql = "from #OrderProvider where id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
     	hql = hql.replaceAll("#OrderProvider", OrderProvider.class.getName());
-    	hql = hql.replaceAll("#GroupProvider", GroupProvider.class.getName());
-    	hql = hql.replaceAll("#UserGroup", UserGroup.class.getName());
+    	hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
+    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
     }
     
@@ -347,19 +347,19 @@ public class JinvaService {
     	return theDao.getHibernateTemplate().findByCriteria(c);
     }
 
-	public void deleteUserGroup(String userId, String groupId) {
-		UserGroup userGroup = theDao.findOneByFields(UserGroup.class, new String[]{"userId", "groupId"}, new Object[]{userId, groupId});
-		if(userGroup != null){
-			theDao.getHibernateTemplate().delete(userGroup);
+	public void deleteUserTeam(String userId, String teamId) {
+		UserTeam userTeam = theDao.findOneByFields(UserTeam.class, new String[]{"userId", "teamId"}, new Object[]{userId, teamId});
+		if(userTeam != null){
+			theDao.getHibernateTemplate().delete(userTeam);
 		}
 	}
     
 	@SuppressWarnings("unchecked")
-	public List<User> getGroupMemberList(String groupId, String ownerId){
-		String hql = "from #User where id <> ? and id in (select userId from #UserGroup where groupId = ?)";
+	public List<User> getTeamMemberList(String teamId, String ownerId){
+		String hql = "from #User where id <> ? and id in (select userId from #UserTeam where teamId = ?)";
 		hql = hql.replaceAll("#User", User.class.getName());
-    	hql = hql.replaceAll("#UserGroup", UserGroup.class.getName());
-		return theDao.getHibernateTemplate().find(hql, new Object[]{ownerId, groupId});
+    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
+		return theDao.getHibernateTemplate().find(hql, new Object[]{ownerId, teamId});
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -412,9 +412,9 @@ public class JinvaService {
 		deleteOrder = deleteOrder.replaceAll("#Order", Order.class.getName());
 		theDao.getHibernateTemplate().bulkUpdate(deleteOrder, new Object[]{orderProviderId});
 		
-		String deleteGroupProvider = "delete from #GroupProvider where orderProviderId = ?";
-		deleteGroupProvider = deleteGroupProvider.replaceAll("#GroupProvider", GroupProvider.class.getName());
-		theDao.getHibernateTemplate().bulkUpdate(deleteGroupProvider, new Object[]{orderProviderId});
+		String deleteTeamProvider = "delete from #TeamProvider where orderProviderId = ?";
+		deleteTeamProvider = deleteTeamProvider.replaceAll("#TeamProvider", TeamProvider.class.getName());
+		theDao.getHibernateTemplate().bulkUpdate(deleteTeamProvider, new Object[]{orderProviderId});
 		
 		delete(OrderProvider.class, orderProviderId);
 	}

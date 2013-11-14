@@ -8,3 +8,16 @@
 //        });
 //    });
 //});
+function initPopover(a){
+    var popover = $(a);
+    if (!popover.attr("init")) {
+        popover.attr("init", "true");
+        popover.popover({
+            html : true,
+            delay : {
+                show : 500
+            }
+        });
+        popover.trigger("mouseover");
+    }
+}

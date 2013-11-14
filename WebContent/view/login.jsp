@@ -43,8 +43,8 @@
 		<div class="good"></div>
 			<div class="login_panel">
 				<div class="box">
-					<input class="input" type="text" id="username-login" name="username" placeholder="用户名"></input>
-					<input class="input" type="password" id="password-login" name="password" placeholder="密码"></input>
+					<input class="input" type="text" id="username-login" name="username" placeholder="用户名" value="jn"></input>
+					<input class="input" type="password" id="password-login" name="password" placeholder="密码" value="1"></input>
 				</div>
 				<div class="box">
 					<input class="btn btn-success" type="button" id="submit" value="登录"></input>
@@ -114,29 +114,5 @@
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->
 	</div> <!-- /.modal -->
-
-
-
-
-
-
-	<!-- 
-	<div class="title">
-		<c:out value="${requestScope.title}" />
-		<br/>
-		<img src="${pageContext.request.contextPath}/img?name=test&suffix=gif" />
-	</div>
-	<div class="center gradient">
-		<form action="" id="login">
-			<div class="lable">Username</div>
-			<input type="text" id="username" name="username" class="input"></input><br />
-			<div class="lable">Password</div>
-			<input type="password" id="password" name="password" class="input"></input><br />
-			<input type="button" id="register" class="btn" value="Register"></input>
-			<input type="button" id="submit" class="btn" value="Submit"></input>
-		</form>
-	</div>
-	<div class="tip"></div>
- -->
 </body>
 </html>

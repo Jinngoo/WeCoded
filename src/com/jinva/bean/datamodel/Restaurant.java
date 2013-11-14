@@ -34,10 +34,10 @@ public class Restaurant {
 
 	private List<String> telphoneList;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -55,7 +55,7 @@ public class Restaurant {
 		this.name = name;
 	}
 
-	@Column(name = "ownerId", length = 32, nullable = false)
+	@Column(name = "ownerId", length = 36, nullable = false)
 	public String getOwnerId() {
 		return ownerId;
 	}

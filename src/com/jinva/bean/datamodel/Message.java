@@ -28,10 +28,10 @@ public class Message {
 	public static final int STATUS_NEW = 1;
 	public static final int STATUS_READ = 2;
 
-	@GenericGenerator(name = "generator", strategy = "uuid")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
-	@Column(name = "id", length = 32, unique = true, nullable = false)
+	@Column(name = "id", length = 36, unique = true, nullable = false)
 	public String getId() {
 		return id;
 	}
@@ -40,7 +40,7 @@ public class Message {
 		this.id = id;
 	}
 
-	@Column(name = "receiverId", length = 32, nullable = false)
+	@Column(name = "receiverId", length = 36, nullable = false)
 	public String getReceiverId() {
 		return receiverId;
 	}

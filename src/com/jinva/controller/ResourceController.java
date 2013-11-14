@@ -1,0 +1,95 @@
+package com.jinva.controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.jinva.service.storage.IStorage;
+
+@Controller
+@RequestMapping("/")
+public class ResourceController extends BaseControllerSupport{
+    
+    public static final String UPLOAD_TYPE_USER_AVATAR = "1"; 
+    public static final String UPLOAD_TYPE_GROUP_AVATAR = "2"; 
+    public static final String UPLOAD_TYPE_RESTNURANT_AVATAR = "3"; 
+    public static final String UPLOAD_TYPE_DISH_AVATAR = "4"; 
+    
+    public static final String USER_AVATAR_PATH = "user_avatar";
+    public static final String GROUP_AVATAR_PATH = "group_avatar";
+    public static final String RESTAURANT_AVATAR_PATH = "restaurant_avatar";
+    public static final String DISH_AVATAR_PATH = "dish_avatar";
+    
+    
+
+    @Autowired
+    private IStorage storage;
+    
+    @RequestMapping(value = "getImage/{type}/{id}", method = RequestMethod.GET)
+    public void image(@PathVariable ("type") String type, @PathVariable ("id") String id, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
+        byte[] content = null;
+        String userId = getUserId(session);
+        if (UPLOAD_TYPE_USER_AVATAR.equals(type)) {
+            content = storage.read(USER_AVATAR_PATH, userId);
+        } else if (UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
+            String groupId = request.getParameter("id");
+            content = storage.read(GROUP_AVATAR_PATH, groupId);
+        } else if (UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
+            String restaurantId = request.getParameter("id");
+            content = storage.read(RESTAURANT_AVATAR_PATH, restaurantId);
+        } else if (UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
+            String dishId = request.getParameter("id");
+            content = storage.read(DISH_AVATAR_PATH, dishId);
+        }
+        if (content == null) {
+            content = defaultImg(request, type);
+        }
+        response.getOutputStream().write(content);
+    }
+    
+    private byte[] defaultImg(HttpServletRequest request, String type) {
+        ServletContext servletContext = request.getServletContext();
+        String path = null;
+        if (UPLOAD_TYPE_USER_AVATAR.equals(type)) {
+            path = servletContext.getRealPath("resource/image/default/user.jpg");
+        } else if (UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
+            path = servletContext.getRealPath("resource/image/default/group.jpg");
+        }else if (UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
+            path = servletContext.getRealPath("resource/image/default/restaurant.jpg");
+        }else if (UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
+            path = servletContext.getRealPath("resource/image/default/dish.jpg");
+        }
+        InputStream in = null;
+        ByteArrayOutputStream out = null;
+        try {
+            in = new FileInputStream(path);
+            out = new ByteArrayOutputStream();
+            IOUtils.copy(in, out);
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+            return null;
+        } catch (IOException e) {
+            logger.error(e);
+            return null;
+        } finally {
+            IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(in);
+        }
+        return out.toByteArray();
+    }
+    
+}

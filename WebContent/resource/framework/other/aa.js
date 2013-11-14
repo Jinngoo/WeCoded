@@ -196,7 +196,7 @@ AjaxAnywhere.prototype.getAJAX = function(url, zonesToRefresh) {
         url += '&aazones=' + encodeURIComponent(zonesToRefresh);
 
     this.req.open("GET", url, this.isAsynch());
-
+console.log(url)
     this.sendPreparedRequest("");
 }
 
@@ -677,7 +677,7 @@ AjaxAnywhere.prototype.getDelayTime = function () {
 * Override it if you need.
 */
 AjaxAnywhere.prototype.handleException = function(type, details) {
-    alert(details);
+    console.log(details);
 }
 /**
 *   If an HTTP Error code returned during AJAX request, it will be processed

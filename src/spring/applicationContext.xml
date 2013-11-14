@@ -25,7 +25,13 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	<mvc:resources mapping="/resource/**" location="/resource/" /> 
-	
+	<!-- interceptors --> 
+    <mvc:interceptors >     
+        <mvc:interceptor>     
+            <mvc:mapping path="/**"/>
+            <bean class="com.jinva.interceptor.SessionInterceptor"></bean>     
+        </mvc:interceptor>     
+    </mvc:interceptors> 
 	
 	
 	<context:annotation-config />
@@ -36,15 +42,16 @@
 			<value>classpath:prop/config.properties</value>
 		</property>
 	</bean>
+	<util:properties id="propertiesReader" location="classpath:prop/config.properties" /> 
 	
 	<!-- 定义国际化消息 -->  
-   <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">  
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">  
      	<property name="basename" value="prop.message"/> 
      	<property name="defaultEncoding" value="UTF-8"/>
      	<property name="useCodeAsDefaultMessage" value="true" />
-   </bean>  
+	</bean>  
     <!-- 获取本地 --> 
-   <bean id="localeResolver"  class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> 
+	<bean id="localeResolver"  class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> 
    
 	<!-- 国际化请求拦截器处理 -->
     <mvc:interceptors>  
@@ -99,30 +106,12 @@
 	<!-- hibernate sessionFactory 创建 -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-
 		<property name="dataSource" ref="dataSource" />
-		<property name="annotatedClasses">
-			<list>
-				<value>com.jinva.bean.datamodel.Dish</value>
-				<value>com.jinva.bean.datamodel.DishParent</value>
-				<value>com.jinva.bean.datamodel.Group</value>
-				<value>com.jinva.bean.datamodel.GroupProvider</value>
-				<value>com.jinva.bean.datamodel.Message</value>
-				<value>com.jinva.bean.datamodel.News</value>
-				<value>com.jinva.bean.datamodel.Order</value>
-				<value>com.jinva.bean.datamodel.OrderProvider</value>
-				<value>com.jinva.bean.datamodel.Restaurant</value>
-				<value>com.jinva.bean.datamodel.Topic</value>
-				<value>com.jinva.bean.datamodel.User</value>
-				<value>com.jinva.bean.datamodel.UserGroup</value>
-			</list>
-		</property>
-		<!--这里不使用packagesToScan智能扫描所有实体类， 因为目前 这种方法会造成hibernateTemplete.find方法参数混乱的BUG
 		<property name="packagesToScan">
 			<list>
-				<value>com.jinva.bean.datamodel.*</value>
+				<value>com.jinva.bean.datamodel</value>
 			</list>
-		</property>-->
+		</property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>

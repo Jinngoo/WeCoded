@@ -33,7 +33,7 @@ $(document).ready(function(){
 	$("#loginModal").on("shown.bs.modal", function(){
 		setTimeout(function(){
 			login();
-		}, 500);
+		}, 200);
 	});
 });
 
@@ -75,10 +75,10 @@ function validateName(callback){
 			callback.call(this);
 		}
 	}else{
-		var url = 'ajax_validateName';
+		var url = 'login/validateName';
 		var params = {"name":name};
 		$.post(url, params, function(data, textStatus, jqXHR){
-			var access = data.result["access"];
+			var access = data;
 			if(!!access){
 				$("#name-group").removeClass("error");
 				$("#name-group").addClass("success");
@@ -124,12 +124,12 @@ function signup(){
 		var password = $.md5($("#password").val());
 		var nickname = encodeURIComponent(encodeURIComponent($("#nickname").val()));
 		
-		var url = 'ajax_signup';
+		var url = 'login/signup';
 		var params = {"name":name, "password":password, "nickname":nickname};
 		$("#btn-signup").button("loading");
 		$.post(url, params, function(data, textStatus, jqXHR){
 			$("#btn-signup").button("reset");
-			var code = data.result["code"];
+			var code = data;
 			if(code == "success"){
 				$("#username-login").val($("#name").val());
 				$("#password-login").val($("#password").val());
@@ -183,13 +183,13 @@ function clearForm(id){
 }
 
 function login(){
-	var url = 'login';
+	var url = 'login/signin';
     var params = {
     		"username":$("#username-login").val(),
     		"password":$.md5($("#password-login").val())
     };
     $.post(url, params, function(data, textStatus, jqXHR){
-    	var code = data.code;
+    	var code = data;
     	if (code == "success") {
 			window.location.reload();
 		} else if (code == "nouser") {
@@ -206,54 +206,3 @@ function login(){
 }
 
 
-/*
-$(document).ready(function() {
-	init_button("register");
-	init_button("submit");
-	$("#submit").click(function(){
-		login();
-	});
-	$("#register").click(function(){
-		alert("Did not work? Yeah definately!");
-	});
-});
-
-function init_button(btnId) {
-	var btn = $("#" + btnId);
-	if (btn != null) {
-		btn.mouseover(function() {
-			btn.addClass("btn_shadow");
-		});
-		btn.mouseout(function() {
-			btn.removeClass("btn_shadow");
-		});
-	}
-}
-
-function login(){
-	var username = $("#username").val();
-	var password = $("#password").val();
-	$(".tip").html("");
-	if(Jinva.isEmptyStr(username)){
-		$(".tip").html("Username must not be null");
-		return;
-	}
-	if(Jinva.isEmptyStr(password)){
-		$(".tip").html("Password must not be null");
-		return;
-	}
-	var url = 'ajax_login';
-    var params = {
-    		"username":username,
-    		"password":password
-    };
-    $.post(url, params, function(data, textStatus, jqXHR){
-    	var user = data.result["user"];
-    	if(user == undefined){
-    		alert("error")
-    	}else{
-    		window.location.reload();
-    	}
-    });
-}
-*/
