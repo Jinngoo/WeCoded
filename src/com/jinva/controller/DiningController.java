@@ -31,6 +31,7 @@ import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.consts.JinvaConsts;
 import com.jinva.service.JinvaService;
+import com.jinva.util.CodeSupport;
 import com.jinva.util.CommonUtil;
 
 @Controller
@@ -58,6 +59,8 @@ public class DiningController extends BaseControllerSupport{
         jinvaService.parseOrderProviderTeam(orderProviderList);
         jinvaService.parseOrderProviderRestaurant(orderProviderList, new HashMap<String, String>());
         request.setAttribute("orderProviderList", orderProviderList);
+        request.setAttribute("orderProviderStatusCode", CodeSupport.getOrderProviderStatusCode(request));
+        
         return index();
     }
     

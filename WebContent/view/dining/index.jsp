@@ -250,7 +250,7 @@
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
-								<th width="30px><li class="icon-glass"></li></th>
+								<th width="50px><li class="icon-glass"></li></th>
 								<th width="80px">状态</th>
 								<th width="170px"><spring:message code="main.sboffer.createDate" /></th>
 								<th width="170px"><spring:message code="main.sboffer.provider" /></th>

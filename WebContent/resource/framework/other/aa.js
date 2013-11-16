@@ -196,7 +196,7 @@ AjaxAnywhere.prototype.getAJAX = function(url, zonesToRefresh) {
         url += '&aazones=' + encodeURIComponent(zonesToRefresh);
 
     this.req.open("GET", url, this.isAsynch());
-console.log(url)
+
     this.sendPreparedRequest("");
 }
 

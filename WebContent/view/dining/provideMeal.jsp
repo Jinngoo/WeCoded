@@ -168,7 +168,7 @@
 				</div>
 				<div class="modal-body">
 					<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
-					<button class="btn" data-dismiss="modal" id="cancelBtn">取消</button>
+					<button class="btn btn-default" data-dismiss="modal" id="cancelBtn">取消</button>
 				</div>
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->

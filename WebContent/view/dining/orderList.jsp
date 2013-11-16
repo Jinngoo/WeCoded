@@ -39,13 +39,15 @@
 	    	$("#totalPriceBody").append("<tr><td colSpan=\"6\"></td><td>" + totalPrice + "</td></tr>");
 	    }
 	    
-	    function changeStatistics(){
+	    function changeStatistics(button){
 	    	if(!statisticsChanged){
 	    		showOrderStatistics();
 	    		statisticsChanged = true;
+	    		$(button).html("逐条查看");
 	    	}else{
 	    		recoverTable();
 	    		statisticsChanged = false;
+	    		$(button).html("合并查看");
 	    	}
 	    }
 	    
@@ -220,7 +222,7 @@
 			<button class="btn btn-warning" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')">取消订餐</button>
 			<button class="btn btn-success" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')">结束订餐</button>
 		</c:if>
-		<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics()">改变统计形式</button>
+		<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics(this)">合并查看</button>
 		<hr/>
 		<div >
 		<table class="table table-bordered table-hover" id="orderList">
