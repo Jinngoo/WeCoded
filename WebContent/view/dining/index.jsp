@@ -26,6 +26,9 @@
     	.collapseTrigger{
     		cursor: pointer;
     	}
+    	.tab-pane{
+    		 padding-top:10px;
+    	}
     </style>
 </head>
 <body>
@@ -46,7 +49,7 @@
 		<div class="tab-content">
 
 			<!-- team tab content -->
-			<div class="tab-pane" id="teamList" style="padding-top:10px">
+			<div class="tab-pane" id="teamList">
 				<div id="collapseCreateGroupBtn" class="collapse in createGroup">
 					<form class="form-inline" role="search">
 						<div class="form-group"> 
@@ -148,99 +151,79 @@
 
 			<!-- restaurant tab content -->
 			<div class="tab-pane" id="restaurantList">
-				<div id="collapseCreateRestaurantBtn"
-					class="collapse in createRestaurant">
-					<form class="form-search">
+				<div id="collapseCreateRestaurantBtn" class="collapse in createRestaurant">
+					<form class="form-inline" role="search">
+						<div class="form-group"> 
+							<input type="text" class="form-control" placeholder="Search(Coming soon)">
+						</div>
 						<a class="btn btn-success" data-toggle="collapse" data-target=".createRestaurant">添加餐馆</a> 
-							<input type="text" class="search-query" placeholder="Search(Coming soon)">
 					</form>
 				</div>
-				<div id="collapseCreateRestaurant"
-					class="collapse createRestaurant">
-					<form class="form-horizontal" id="restaurant_form"
-						action="aa_saveRestaurant" method="post">
+				<div id="collapseCreateRestaurant" class="collapse createRestaurant" style="width:500px;margin-left: 300px;">
+					<form class="form-horizontal" id="restaurant_form" action="dining/saveRestaurant" method="post" role="form">
 						<input type="text" name="restaurant_id" id="restaurant_id" style="display:none">
-						<fieldset>
-							<div class="control-group" id="restaurant_name_group">
-								<label class="control-label" for="restaurant_name_group">店名</label>
-								<div class="controls">
-									<input type="text" class="input-large" id="restaurant_name" name="restaurant_name">
-									<p class="help-inline">字母，数字，汉字皆可(必填)</p>
-								</div>
+						<div class="form-group" id="restaurant_name_group">
+							<label class="col-sm-2 control-label" for="restaurant_name">店名</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="restaurant_name" name="restaurant_name">
+								<p class="help-block">字母，数字，汉字皆可(必填)</p>
 							</div>
-							<div class="control-group" id="restaurant_telphone_group">
-								<label class="control-label" for="restaurant_telphone_group">电话</label>
-								<div class="controls">
-									<input type="text" class="input-large" id="restaurant_telphone" name="restaurant_telphone">
-									<p class="help-inline">多个用空格分隔</p>
-								</div>
+						</div>
+						<div class="form-group" id="restaurant_telphone_group">
+							<label class="col-sm-2 control-label" for="restaurant_telphone">电话</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="restaurant_telphone" name="restaurant_telphone">
+								<p class="help-block">多个用空格分隔</p>
 							</div>
-							<div class="control-group" id="restaurant_introduction_group">
-								<label class="control-label" for="restaurant_introduction_group">简介</label>
-								<div class="controls">
-									<textarea rows="4" class="input-large" id="restaurant_introduction" name="restaurant_introduction"></textarea>
-								</div>
+						</div>
+						<div class="form-group" id="restaurant_introduction_group">
+							<label class="col-sm-2 control-label" for="restaurant_introduction">简介</label>
+							<div class="col-sm-10">
+								<textarea rows="4" class="form-control" id="restaurant_introduction" name="restaurant_introduction"></textarea>
 							</div>
-							<div class="control-group">
-								<div class="controls">
-									<a class="btn btn-primary" id="createRestaurantBtn">保存</a> 
-									<a class="btn btn-small offset1" data-toggle="collapse" data-target=".createRestaurant">取消</a>
-								</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<a class="btn btn-primary" id="createRestaurantBtn">保存</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="btn btn-default" data-toggle="collapse" data-target=".createRestaurant">取消</a>
 							</div>
-						</fieldset>
+						</div>
 					</form>
 				</div>
 				<aa:zone name="restaurantList">
-					<img id="restaurantListLoading" style="display:none;"
-						src="${RESOURCE}/image/common/loading.gif" />
-					<div id="restaurantListBody">
-						<div class="alert alert-error">
-							<div class="collapseTrigger" data-toggle="collapse"
-								data-target="#myRestaurantPanel">
-								<i class="icon-chevron-right" style="display:none"></i><i
-									class="icon-chevron-down"></i>
-								我创建的餐馆(${fn:length(myRestaurantList)})
+					<img id="restaurantListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
+					<div id="restaurantListBody" style="margin-top:20px">
+						<div class="alert alert-danger">
+							<div class="collapseTrigger" data-toggle="collapse" data-target="#myRestaurantPanel">
+								<i class="icon-chevron-right" style="display:none"></i>
+								<i class="icon-chevron-down"></i>我创建的餐馆(${fn:length(myRestaurantList)})
 								<hr>
 							</div>
 							<div id="myRestaurantPanel" class="collapse in">
-								<c:forEach items="${myRestaurantList }" var="restaurant"
-									varStatus="status">
-									<jinva:PopoverButton popoverTitle="[${restaurant.name}]"
-										content="${restaurant.name}"
-										popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
-										imgUrl="img?type=3&id=${restaurant.id}">
-										<i class="icon-list-alt"
-											tool="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}"
-											style="cursor:pointer;"
-											onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
-										<c:if test="${restaurant.ownerId eq sessionScope.user_id }">
-											<i class="icon-wrench" style="cursor:pointer;"
-												onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
+								<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
+									<jn:PopoverButton popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
+										imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
+										<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+										<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
+											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
 										</c:if>
-									</jinva:PopoverButton>
+									</jn:PopoverButton>
 								</c:forEach>
 							</div>
 						</div>
 						<div class="alert alert-info">
 							<div class="collapseTrigger" data-toggle="collapse"
 								data-target="#otherRestaurantPanel">
-								<i class="icon-chevron-right"></i><i class="icon-chevron-down"
-									style="display:none"></i>
-								其他餐馆(${fn:length(otherRestaurantList)})
+								<i class="icon-chevron-right"></i>
+								<i class="icon-chevron-down" style="display:none"></i>其他餐馆(${fn:length(otherRestaurantList)})
 								<hr>
 							</div>
 							<div id="otherRestaurantPanel" class="collapse">
-								<c:forEach items="${otherRestaurantList }" var="restaurant"
-									varStatus="status">
-									<jinva:PopoverButton popoverTitle="[${restaurant.name}]"
-										content="${restaurant.name}"
-										popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
-										imgUrl="img?type=3&id=${restaurant.id}">
-										<i class="icon-list-alt"
-											tool="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}"
-											style="cursor:pointer;"
-											onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
-									</jinva:PopoverButton>
+								<c:forEach items="${otherRestaurantList }" var="restaurant" varStatus="status">
+									<jn:PopoverButton popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
+										imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
+										<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+									</jn:PopoverButton>
 								</c:forEach>
 							</div>
 						</div>
@@ -249,8 +232,8 @@
 					$(function () {
 			    		$('#restaurantListBody a[rel="popover"]').popover({html:true});
 			    		setTimeout(function(){
-			    			$("i[tool='dish_menu_0_${sessionScope.user.id}']").each(function(){
-				    			J.flicker("slow", $(this), 3);
+			    			$("i[flicker='dish_menu_0_${sessionScope.user.id}']").each(function(){
+				    			J.flicker("slow", $(this), 5);
 			    			});
 			    		},1000);
 					});

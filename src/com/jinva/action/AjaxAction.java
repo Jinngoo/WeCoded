@@ -69,15 +69,7 @@ public class AjaxAction extends BaseActionSupport {
 	 * 
 	 * @return
 	 */
-	public String loadDish(){
-		setResult(new HashMap<String, Object>());
-		String id = request.getParameter("id");
-		if(id != null){
-			Dish dish = jinvaService.get(Dish.class, id);
-			result.put("dish", dish);
-		}
-		return SUCCESS;
-	}
+
 	
 	public String provideMeal(){
 		setResult(new HashMap<String, Object>());
@@ -180,56 +172,7 @@ public class AjaxAction extends BaseActionSupport {
 	 * 
 	 * @return
 	 */
-	public String copyRestaurant() {
-		setResult(new HashMap<String, Object>());
-		String restaurantId = getRequest().getParameter("id");
-		Restaurant restaurant = jinvaService.get(Restaurant.class, restaurantId);
-		if (restaurant != null) {
-			Restaurant cloneRestaurant = null;
-			try {
-				cloneRestaurant = (Restaurant) BeanUtils.cloneBean(restaurant);
-			} catch (Exception e) {
-				logger.error("Clone restaurant error", e);
-			}
-			if (cloneRestaurant == null) {
-				result.put("code", "error");
-				result.put("message", "Clone restaurant fail");
-			} else {
-				//clone success, ready to save
-				cloneRestaurant.setId(null);
-				cloneRestaurant.setOwnerId(getUserId());
-				Object newRestaurantId = jinvaService.save(cloneRestaurant);
-				if (newRestaurantId != null) {
-					//save success, begin copying restaurant image ~.~
-					jinvaService.copyFile(UploadAction.RESTAURANT_AVATAR_PATH, restaurantId, newRestaurantId.toString());
-					//copydish
-					List<Dish> dishList = jinvaService.select(Dish.class, new String[]{"restaurantId"}, new Object[]{restaurantId});
-					try {
-						for(Dish dish : dishList){
-							Dish cloneDish = (Dish) BeanUtils.cloneBean(dish);
-							cloneDish.setId(null);
-							cloneDish.setRestaurantId(newRestaurantId.toString());
-							Object newDishId = jinvaService.save(cloneDish);
-							if(newDishId != null){
-								//copy dish image ~.~
-								jinvaService.copyFile(UploadAction.DISH_AVATAR_PATH, dish.getId(), newDishId.toString());
-							}
-						}
-					} catch (Exception e) {
-						logger.error("Clone dish error", e);
-					}
-					result.put("code", "success");
-				} else {
-					result.put("code", "error");
-					result.put("message", "Save restaurant fail");
-				}
-			}
-		} else {
-			result.put("code", "error");
-			result.put("message", "Restaurant not found");
-		}
-		return SUCCESS;
-	}
+	
 	
 	
 	/**

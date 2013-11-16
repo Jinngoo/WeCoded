@@ -2,8 +2,8 @@
 	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 		<div class="container">
 			<div style="text-align:center">
-				Copyright 2013-2014 ???????.com All rights reserved.<br />
-				<br />参考 http://www.bootcss.com
+				Copyright 2013-2014 xxxxxxxx.<br />
+				<br />Jinn
 			</div>
 		</div>
 	</div>

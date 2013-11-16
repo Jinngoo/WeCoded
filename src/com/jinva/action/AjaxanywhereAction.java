@@ -59,20 +59,6 @@ public class AjaxanywhereAction extends BaseActionSupport {
 		return SUCCESS;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @throws InterruptedException
-	 */
-	public String restaurantList() throws InterruptedException{
-		String userId = getUserId();
-		List<Restaurant> myRestaurantList = jinvaService.getMyRestaurantList(0, -1, userId);
-		List<Restaurant> otherRestaurantList = jinvaService.getOtherRestaurantList(0, -1, userId);
-		request.setAttribute("myRestaurantList", myRestaurantList);
-		request.setAttribute("otherRestaurantList", otherRestaurantList);
-		setPage("jsp/main/dining");
-		return SUCCESS;
-	}
 	
 	/**
 	 * 
@@ -140,57 +126,10 @@ public class AjaxanywhereAction extends BaseActionSupport {
 		return groupList();
 	}
 	
-	/**
-	 * 
-	 * @return
-	 * @throws InterruptedException
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws InstantiationException
-	 */
-	public String saveRestaurant() throws InterruptedException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException{
-		Map<String, Object> parameterMap = getValidParameterMap("restaurant");
-		String id = toString(parameterMap.get(JinvaConsts.ID));
-		if (StringUtils.isEmpty(id)) {// insert
-			Restaurant restaurant = Restaurant.class.newInstance();
-			BeanUtils.populate(restaurant, parameterMap);
-			restaurant.setOwnerId(getUserId());
-			jinvaService.save(restaurant);
-		} else {//update
-			Restaurant restaurant = jinvaService.get(Restaurant.class, id);
-			BeanUtils.populate(restaurant, parameterMap);
-			jinvaService.update(restaurant);
-		}
-		return restaurantList();
-	}
 	
-	public String saveDish() throws InstantiationException, IllegalAccessException, InvocationTargetException, InterruptedException{
-		Map<String, Object> parameterMap = getValidParameterMap("dish");
-		String id = toString(parameterMap.get(JinvaConsts.ID));
-		Dish dish = null;
-		if (StringUtils.isEmpty(id)) {// insert
-			dish = Dish.class.newInstance();
-			BeanUtils.populate(dish, parameterMap);
-			jinvaService.save(dish);
-		} else {//update
-			dish = jinvaService.get(Dish.class, id);
-			BeanUtils.populate(dish, parameterMap);
-			jinvaService.update(dish);
-		}
-		return dishList(dish.getRestaurantId());
-	}
+
 	
-	public String deleteDish() throws InterruptedException{
-		String id = request.getParameter("id");
-		Dish dish = jinvaService.get(Dish.class, id);
-		String restaurantId = null;
-		if(dish != null){
-			restaurantId = dish.getRestaurantId();
-			jinvaService.delete(dish);
-		}
-		return dishList(restaurantId);
-	}
+
 	
 	public String joinGroup() throws InterruptedException{
 		String groupId = request.getParameter("groupId");

@@ -21,6 +21,13 @@ function initPopover(a){
         popover.trigger("mouseover");
     }
 }
+function hidePopover(trigger){
+    if($(trigger).attr('rel') == 'popover'){
+        $(trigger).popover('hide');
+    }else{
+        destroyPopover($(trigger).parent());
+    }
+}
 function destroyPopover(trigger){
     if($(trigger).attr('rel') == 'popover'){
         $(trigger).popover('destroy');

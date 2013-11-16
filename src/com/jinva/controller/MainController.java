@@ -2,7 +2,6 @@ package com.jinva.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.jinva.bean.datamodel.Team;
 import com.jinva.bean.datamodel.User;
 import com.jinva.consts.JinvaConsts;
 import com.jinva.service.JinvaService;
@@ -102,16 +100,4 @@ public class MainController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = {"main/teamMember/{teamId}/{backUrl}"})
-    public String teamMember(@PathVariable("teamId") String teamId, @PathVariable("backUrl") String backUrl, HttpSession session, HttpServletRequest request){
-        Team team = jinvaService.get(Team.class, teamId);
-        team.setOwnerName(jinvaService.getUserName(team.getOwnerId()));
-        team.setMemberCount(jinvaService.getTeamMemberCount(teamId));
-        List<User> memberList = jinvaService.getTeamMemberList(teamId, team.getOwnerId());
-        request.setAttribute("team", team);
-        request.setAttribute("memberList", memberList);
-        request.setAttribute("backUrl", backUrl);
-        return "main/teamMember";
-    }
-    
 }

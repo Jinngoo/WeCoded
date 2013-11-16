@@ -250,18 +250,17 @@ function editRestaurant(restaurantId) {
 	});
 }
 
-//TODO
 function showRestaurantMenu(restaurantId) {
-	var url = contextPath + "/main_dish";
-	url += "?back=" + encodeURIComponent("main_dining?active=restaurant");
-	url += "&restaurantId=" + restaurantId;
+	var url = contextPath + "/dining/restaurantMenu";
+	url += "/" + restaurantId;
+    url += "/" + encodeURIComponent(encodeURIComponent(contextPath + "/dining/restaurant"));
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
 	});
 }
 
 function showTeamMember(teamId) {
-	var url = contextPath + "/main/teamMember";
+	var url = contextPath + "/dining/teamMember";
 	url += "/" + teamId;
 	url += "/" + encodeURIComponent(encodeURIComponent(contextPath + "/dining/team"));
 	$("#mainContent").slideUp("fast", function() {
@@ -269,6 +268,7 @@ function showTeamMember(teamId) {
 	});
 }
 
+//TODO
 function provideMeal() {
 	var url = contextPath + "/main_provideMeal";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
@@ -277,6 +277,7 @@ function provideMeal() {
 	});
 }
 
+//TODO
 function joinProvideMeal(orderProviderId) {
 	var url = contextPath + "/main_order";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
@@ -286,6 +287,7 @@ function joinProvideMeal(orderProviderId) {
 	});
 }
 
+//TODO
 function showOrderList(orderProviderId) {
 	var url = contextPath + "/main_orderList";
 	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
