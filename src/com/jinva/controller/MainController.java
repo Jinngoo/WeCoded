@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,26 +19,14 @@ import com.jinva.service.JinvaService;
 
 @Controller
 @RequestMapping("/")
-public class MainController {
+public class MainController extends BaseControllerSupport{
 
     @Autowired
     private JinvaService jinvaService;
-    
-    @RequestMapping(value = "test/{id}/")
-    public String test(@PathVariable ("id") String id, HttpServletRequest request){
-        System.out.println(id);
-        request.setAttribute("test", id);
-        return "main";
-    }
-    
-    @RequestMapping(value = { "", "/" })
-    public String index(HttpSession session, HttpServletRequest request) {
-        String serverInfo = request.getServletContext().getServerInfo();
-        request.setAttribute("serverInfo", serverInfo);
-        request.setAttribute("test", "123");
 
-        User user = (User) session.getAttribute(JinvaConsts.USER);
-        return user == null ? "redirect:/login" : "main";
+    @RequestMapping(value = { "", "/" })
+    public String index(HttpSession session) {
+        return getUser(session) == null ? "redirect:/login" : "redirect:/dining";
     }
     
     @RequestMapping(value = "login", method = RequestMethod.GET)

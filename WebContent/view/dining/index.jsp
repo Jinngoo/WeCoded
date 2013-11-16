@@ -242,54 +242,43 @@
 			</div>
 
 			<!-- offer tab content -->
-			<div class="tab-pane" id="orderProviderList">
-				<a class="btn btn-success" onclick="provideMeal()">发起订餐</a>
+			<div class="tab-pane" id="orderProviderList" style="max-width:1300px; min-width:1000px;">
+				<a class="btn btn-success" onclick="provideMealPage()">发起订餐</a>
 				<hr />
 				<aa:zone name="orderProviderList">
-					<img id="orderProviderListLoading" style="display:none;"
-						src="${RESOURCE}/image/common/loading.gif" />
+					<img id="orderProviderListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
-								<th><li class="icon-glass"></li></th>
-								<th>状态</th>
-								<th><spring:message code="main.sboffer.createDate" /></th>
-								<th><spring:message code="main.sboffer.provide" /></th>
-								<th><spring:message code="main.sboffer.receiveGroups" /></th>
+								<th width="30px><li class="icon-glass"></li></th>
+								<th width="80px">状态</th>
+								<th width="170px"><spring:message code="main.sboffer.createDate" /></th>
+								<th width="170px"><spring:message code="main.sboffer.provider" /></th>
+								<th><spring:message code="main.sboffer.receiveTeams" /></th>
 								<th><spring:message code="main.sboffer.restaurants" /></th>
-								<th></th>
+								<th width="300px"></th>
 							</tr>
 						</thead>
 						<tbody id="orderProviderListBody">
-							<c:forEach items="${orderProviderList }" var="orderProvider"
-								varStatus="status">
-								<tr class="success">
+							<c:forEach items="${orderProviderList }" var="orderProvider" varStatus="status">
+								<tr>
 									<td>${status.index+1}</td>
 									<td>${orderProviderStatusCode[orderProvider.status] }</td>
-									<td style="width:80px;text-align:center"><fmt:formatDate
-											value="${orderProvider.createDate}" type="date"
-											pattern="yyyy-MM-dd HH:mm" /></td>
+									<td style="width:80px;text-align:center">
+										<fmt:formatDate value="${orderProvider.createDate}" type="date" pattern="yyyy-MM-dd HH:mm" />
+									</td>
 									<td>${orderProvider.provideUserName}</td>
-									<td class="script_br">${orderProvider.receiveGroups}</td>
+									<td class="script_br">${orderProvider.receiveTeams}</td>
 									<td class="script_br">${orderProvider.restaurants}</td>
-									<td style="text-align:center"><c:if
-											test="${orderProvider.status eq 1 }">
-											<!-- TODO -->
-											<button class="btn"
-												onclick="joinProvideMeal('${orderProvider.id}')">
-												<spring:message code="main.sboffer.chooseProvide" />
-											</button>
+									<td style="text-align:center">
+										<c:if test="${orderProvider.status eq 1 }"> <!-- TODO -->
+											<button class="btn btn-default" onclick="joinProvideMeal('${orderProvider.id}')"><spring:message code="main.sboffer.chooseProvide" /></button>
 										</c:if>
-										<button class="btn"
-											onclick="showOrderList('${orderProvider.id}')">查看订单</button>
-										<c:if
-											test="${orderProvider.provideUserId eq sessionScope.user_id && orderProvider.status eq 1}">
-											<!-- TODO -->
-											<button class="btn"
-												onclick="cancelProvide('${orderProvider.id}')">
-												<spring:message code="main.sboffer.cancelProvide" />
-											</button>
-										</c:if></td>
+										<button class="btn btn-default" onclick="showOrderList('${orderProvider.id}')">查看订单</button>
+										<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
+											<button class="btn btn-default" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></button>
+										</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -302,8 +291,8 @@
 							$(this).html($(this).html().replaceAll(",", "<br/>"));
 						});
 					</script>
-					</aa:zone>
-				</div>
+				</aa:zone>
+			</div>
 		</div>
 	</div>
 		

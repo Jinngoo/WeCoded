@@ -19,8 +19,6 @@ public class User {
 
 	private String nickname;
 
-	private Integer level;
-
 	public User() {
 	}
 
@@ -69,13 +67,5 @@ public class User {
 		this.nickname = nickname;
 	}
 
-	@Column(name = "level")
-	public Integer getLevel() {
-		return level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
-	}
 
 }

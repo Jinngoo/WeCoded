@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.jinva.action.UploadAction;
 import com.jinva.bean.datamodel.Dish;
+import com.jinva.bean.datamodel.OrderForm;
 import com.jinva.bean.datamodel.OrderProvider;
 import com.jinva.bean.datamodel.Restaurant;
 import com.jinva.bean.datamodel.Team;
+import com.jinva.bean.datamodel.TeamProvider;
 import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
+import com.jinva.consts.JinvaConsts;
 import com.jinva.service.JinvaService;
 import com.jinva.util.CommonUtil;
 
@@ -100,12 +102,6 @@ public class DiningController extends BaseControllerSupport{
         jinvaService.delete(Team.class, id);
         jinvaService.delete(UserTeam.class, new String[]{"teamId"}, new Object[]{id});
         return teamList(request, session);
-    }
-
-    @RequestMapping(value = "cancelProvide/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> cancelProvide(@PathVariable ("id") String id, HttpServletRequest request){
-        jinvaService.cancelProvide(id);
-        return new ResponseEntity<String>("success", HttpStatus.OK);
     }
     
     @RequestMapping(value = "loadRestaurant/{id}", method = RequestMethod.GET)
@@ -249,7 +245,7 @@ public class DiningController extends BaseControllerSupport{
                 Object newRestaurantId = jinvaService.save(cloneRestaurant);
                 if (newRestaurantId != null) {
                     //save success, begin copying restaurant image ~.~
-                    jinvaService.copyFile(UploadAction.RESTAURANT_AVATAR_PATH, restaurantId, newRestaurantId.toString());
+                    jinvaService.copyFile(JinvaConsts.RESTAURANT_AVATAR_PATH, restaurantId, newRestaurantId.toString());
                     //copydish
                     List<Dish> dishList = jinvaService.select(Dish.class, new String[]{"restaurantId"}, new Object[]{restaurantId});
                     try {
@@ -260,7 +256,7 @@ public class DiningController extends BaseControllerSupport{
                             Object newDishId = jinvaService.save(cloneDish);
                             if(newDishId != null){
                                 //copy dish image ~.~
-                                jinvaService.copyFile(UploadAction.DISH_AVATAR_PATH, dish.getId(), newDishId.toString());
+                                jinvaService.copyFile(JinvaConsts.DISH_AVATAR_PATH, dish.getId(), newDishId.toString());
                             }
                         }
                     } catch (Exception e) {
@@ -279,4 +275,125 @@ public class DiningController extends BaseControllerSupport{
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
     
+    @RequestMapping(value = "provideMealPage/{backUrl}")
+    public String provideMealPage(HttpSession session, HttpServletRequest request, @PathVariable("backUrl") String backUrl){
+        String userId = getUserId(session);
+        List<Team> myTeamList = jinvaService.getMyTeamList(0, -1, userId);
+        List<Team> joinedTeamList = jinvaService.getJoinedTeamList(0, -1, userId);
+        Map<String, String> cache = new HashMap<String, String>();
+        jinvaService.parseTeamOwnerName(myTeamList, cache);
+        jinvaService.parseTeamOwnerName(joinedTeamList, cache);
+        jinvaService.parseTeamMemberCount(myTeamList);
+        jinvaService.parseTeamMemberCount(joinedTeamList);
+        
+        List<Restaurant> myRestaurantList = jinvaService.getMyRestaurantList(0, -1, userId);
+        jinvaService.parseRestaurantOwnerName(myRestaurantList, new HashMap<String, String>());
+        
+        request.setAttribute("myTeamList", myTeamList);
+        request.setAttribute("joinedTeamList", joinedTeamList);
+        request.setAttribute("myRestaurantList", myRestaurantList);
+        request.setAttribute("backUrl", backUrl);
+        
+        return "dining/provideMeal";
+    }
+    
+    @RequestMapping(value = "provideMeal")
+    public ResponseEntity<JSONObject> provideMeal(HttpServletRequest request, HttpSession session) {
+        String choosenTeams = request.getParameter("choosenTeams");
+        String choosenRestaurants = request.getParameter("choosenRestaurants");
+
+        OrderProvider orderProvider = new OrderProvider();
+        orderProvider.setCreateDate(new Date());
+        orderProvider.setProvideUserId(getUserId(session));
+        // orderProvider.setReceiveGroups(choosenGroups);
+        orderProvider.setRestaurants(choosenRestaurants);
+        orderProvider.setStatus(OrderProvider.STATUS_OFFER);
+
+        String orderProviderId = (String) jinvaService.save(orderProvider);
+        for (String teamId : choosenTeams.split(",")) {
+            TeamProvider teamProvider = new TeamProvider();
+            teamProvider.setTeamId(teamId);
+            teamProvider.setOrderProviderId(orderProviderId);
+            jinvaService.save(teamProvider);
+        }
+
+        JSONObject result = new JSONObject();
+        if (orderProviderId != null) {
+            // messageService.sendMessage(orderProvider, new
+            // String[]{getUserId()});
+            result.put("code", "success");
+        } else {
+            result.put("code", "error");
+        }
+
+        return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "joinOrder/{orderProviderId}/{backUrl}")
+    public String joinOrder(HttpServletRequest request, HttpSession session, @PathVariable("orderProviderId") String orderProviderId, @PathVariable("backUrl") String backUrl){
+        List<Restaurant> restaurantList = jinvaService.getProvideRestaurant(orderProviderId);
+        Map<String, List<Dish>> restaurantDishMap = new HashMap<String, List<Dish>>();
+        Map<String, Restaurant> restaurantMap = new HashMap<String, Restaurant>();
+        for(Restaurant restaurant : restaurantList){
+            List<Dish> dishList = jinvaService.getDishList(0, -1, restaurant.getId());
+            restaurantDishMap.put(restaurant.getId(), dishList);
+            restaurantMap.put(restaurant.getId(), restaurant);
+        }
+        List<OrderForm> orderList = jinvaService.getOrderList(orderProviderId, getUserId(session));
+        
+        request.setAttribute("orderProviderId", orderProviderId);
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("restaurantMap", restaurantMap);
+        request.setAttribute("restaurantDishMap", restaurantDishMap);
+        request.setAttribute("backUrl", backUrl);
+        return "dining/order";
+    }
+
+    @RequestMapping(value = "orderList/{orderProviderId}/{backUrl}")
+    public String orderList(HttpServletRequest request, HttpSession session, @PathVariable("orderProviderId") String orderProviderId, @PathVariable("backUrl") String backUrl){
+        List<OrderForm> orderList = jinvaService.getOrderList(orderProviderId, null);
+        jinvaService.parseOrderList(orderList);
+        OrderProvider orderProvider = jinvaService.get(OrderProvider.class, orderProviderId);
+        request.setAttribute("orderList", orderList);
+        request.setAttribute("orderProvider", orderProvider);
+        request.setAttribute("backUrl", backUrl);
+        return "dining/orderList";
+    }
+    
+    @RequestMapping(value = "submitOrder", method = RequestMethod.POST)
+    public ResponseEntity<String> submitOrder(HttpServletRequest request, HttpSession session) {
+        String orderProviderId = request.getParameter("orderProviderId");
+        String dishJsonStr = request.getParameter("dishJson");
+        String userId = getUserId(session);
+        jinvaService.delete(OrderForm.class, new String[] { "userId", "providerId" }, new Object[] { userId, orderProviderId });
+        for (String dishStr : dishJsonStr.split("&")) {
+            String dishId = dishStr.split("=")[0];
+            String dishCount = dishStr.split("=")[1];
+            if ("0".equals(dishCount)) {
+                continue;
+            }
+            OrderForm order = new OrderForm();
+            order.setDishId(dishId);
+            order.setDishNum(Integer.valueOf(dishCount));
+            order.setProviderId(orderProviderId);
+            order.setUserId(userId);
+            jinvaService.save(order);
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "cancelProvide/{orderProviderId}", method = RequestMethod.POST)
+    public ResponseEntity<String> cancelProvide(HttpServletRequest request, HttpSession session, @PathVariable("orderProviderId") String orderProviderId) {
+        jinvaService.cancelProvide(orderProviderId);
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "finishProvide/{orderProviderId}", method = RequestMethod.POST)
+    public ResponseEntity<String> finishProvide(HttpServletRequest request, HttpSession session, @PathVariable("orderProviderId") String orderProviderId) {
+        OrderProvider orderProvider = jinvaService.get(OrderProvider.class, orderProviderId);
+        orderProvider.setStatus(OrderProvider.STATUS_END);
+        jinvaService.update(orderProvider);
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+
 }

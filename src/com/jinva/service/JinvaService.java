@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 
 import com.jinva.bean.datamodel.Dish;
 import com.jinva.bean.datamodel.DishParent;
-import com.jinva.bean.datamodel.Team;
-import com.jinva.bean.datamodel.TeamProvider;
-import com.jinva.bean.datamodel.Order;
+import com.jinva.bean.datamodel.OrderForm;
 import com.jinva.bean.datamodel.OrderProvider;
 import com.jinva.bean.datamodel.Restaurant;
+import com.jinva.bean.datamodel.Team;
+import com.jinva.bean.datamodel.TeamProvider;
 import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.dao.TheDao;
@@ -376,8 +376,8 @@ public class JinvaService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Order> getOrderList(String providerId, String userId){
-		DetachedCriteria c = DetachedCriteria.forClass(Order.class);
+	public List<OrderForm> getOrderList(String providerId, String userId){
+		DetachedCriteria c = DetachedCriteria.forClass(OrderForm.class);
 		c.add(Restrictions.eq("providerId", providerId));
 		if(userId != null){
 			c.add(Restrictions.eq("userId", userId));
@@ -385,9 +385,9 @@ public class JinvaService {
 		return theDao.getHibernateTemplate().findByCriteria(c);
 	}
 	
-	public void parseOrderList(List<Order> orderList){
+	public void parseOrderList(List<OrderForm> orderList){
 		//cache
-		for(Order order : orderList){
+		for(OrderForm order : orderList){
 			String userId = order.getUserId();
 			String dishId = order.getDishId();
 			User user = theDao.getHibernateTemplate().get(User.class, userId);
@@ -408,8 +408,8 @@ public class JinvaService {
 	}
 	
 	public void cancelProvide(String orderProviderId){
-		String deleteOrder = "delete from #Order where providerId = ?";
-		deleteOrder = deleteOrder.replaceAll("#Order", Order.class.getName());
+		String deleteOrder = "delete from #OrderForm where providerId = ?";
+		deleteOrder = deleteOrder.replaceAll("#OrderForm", OrderForm.class.getName());
 		theDao.getHibernateTemplate().bulkUpdate(deleteOrder, new Object[]{orderProviderId});
 		
 		String deleteTeamProvider = "delete from #TeamProvider where orderProviderId = ?";

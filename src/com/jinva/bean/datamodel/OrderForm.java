@@ -10,8 +10,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "Order")
-public class Order {
+@Table(name = "OrderForm")
+public class OrderForm {
 
 	private String id;
 

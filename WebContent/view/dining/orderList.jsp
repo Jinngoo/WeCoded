@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
-<%@ include file="../../base.jsp"%>
+<%@ include file="../base.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Dish</title>
-    <link rel="stylesheet" type="text/css" href="${BOOTSTRAP_CSS}" />
-    <script type="text/javascript" src="${JQUERY}"></script>
-    <script type="text/javascript" src="${AJAXANYWHERE}"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/util/jinva.js"></script>
-    <script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
+    <%@ include file="../head.jsp"%>  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css -->
+	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
+	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
+	
+	<!-- Js -->
+	<script type="text/javascript" src="${JQUERY}"></script>
+	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
+	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	
+	<script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
+	
     <script type="text/javascript">
     	var statisticsChanged = false;
 	    $(document).ready(function(){
@@ -142,18 +150,20 @@
              return pos_;
 		}
 
-	    function goback(){
+	    function goback(backUrl){
+	        if(!backUrl){
+	            backUrl = $("#goBack").attr("backUrl");
+	        }
     		$("#mainContent").slideUp("fast", function(){
-	    		window.location.href="${param.back}";
+	    		window.location.href = decodeURIComponent(backUrl);
     		});
     	}
 	    function cancelProvide(orderProviderId, isConfirm){
 	    	$("#confirmBtn").unbind("click");
    			if(isConfirm){
-		    	var url = "ajax_cancelProvide";
-		    	var params = {"orderProviderId":orderProviderId};
-	    		$.post(url, params, function(data, textStatus, jqXHR){
-	    			var code = data.result["code"];
+		    	var url = contextPath + "/dining/cancelProvide/" + orderProviderId;
+	    		$.post(url, {}, function(data, textStatus, jqXHR){
+	    			var code = data;
 					if(code == "success"){
 						goback();
 					}else if(code == "error"){
@@ -173,10 +183,9 @@
 	    function finishProvide(orderProviderId, isConfirm){
 	    	$("#confirmBtn").unbind("click");
    			if(isConfirm){
-		    	var url = "ajax_finishProvide";
-		    	var params = {"orderProviderId":orderProviderId};
-	    		$.post(url, params, function(data, textStatus, jqXHR){
-	    			var code = data.result["code"];
+		    	var url = contextPath + "/dining/finishProvide/" + orderProviderId;
+	    		$.post(url, {}, function(data, textStatus, jqXHR){
+	    			var code = data;
 					if(code == "success"){
 						goback();
 					}else if(code == "error"){
@@ -204,9 +213,10 @@
     </style>
 </head>
 <body>
+	<%@ include file="../nav_top.jsp" %>
 	<div id="mainContent" style="display:none;margin-left:20px;">
-		<button class="btn btn-danger" style="margin-left:10px;" onclick="goback()">&lt;&lt;&nbsp;返回</button>
-		<c:if test="${orderProvider.provideUserId eq sessionScope.user_id &&  orderProvider.status eq 1}"><!-- TODO -->
+		<button class="btn btn-danger" style="margin-left:10px;" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
+		<c:if test="${orderProvider.provideUserId eq sessionScope.user.id &&  orderProvider.status eq 1}"><!-- TODO -->
 			<button class="btn btn-warning" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')">取消订餐</button>
 			<button class="btn btn-success" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')">结束订餐</button>
 		</c:if>
@@ -245,15 +255,19 @@
 	</div>
 	
 	<div class="modal fade" id="confirmModal">
-		<div class="modal-header">
-			<a class="close" data-dismiss="modal">×</a>
-			<h5 id="confirmTip"></h5>
-		</div>
-		<div class="modal-body">
-			<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
-			<button class="btn" data-dismiss="modal" id="cancelBtn">取消</button>
-		</div>
-	</div>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a>
+					<h5 id="confirmTip"></h5>
+				</div>
+				<div class="modal-body">
+					<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
+					<button class="btn btn-default" data-dismiss="modal" id="cancelBtn">取消</button>
+				</div>
+			</div> <!-- /.modal-content -->
+		</div> <!-- /.modal-dialog -->
+	</div> <!-- /.modal -->
 	
 </body>
 </html>

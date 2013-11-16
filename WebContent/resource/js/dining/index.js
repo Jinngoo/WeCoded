@@ -213,29 +213,6 @@ function deleteTeam(teamId, memberCount, isConfirm) {
 	}
 }
 
-function cancelProvide(orderProviderId, isConfirm) {
-	$("#confirmBtn").unbind("click");
-	if (isConfirm) {
-		var url = contextPath + "/dining/cancelProvide/" + orderProviderId;
-		$.post(url, params, function(data, textStatus, jqXHR) {
-			var code = data;
-			if (code == "success") {
-				window.location.reload();// TODO aa?
-			} else if (code == "error") {
-				alert("An error occured");
-			} else {
-				alert("Unknown error occured");
-			}
-		});
-	} else {
-		$("#confirmTip").html("确定取消么?");
-		$("#confirmModal").modal("show");
-		$("#confirmBtn").click(function() {
-			cancelProvide(orderProviderId, true);
-		});
-	}
-}
-
 function editRestaurant(restaurantId) {
 	var url = contextPath + '/dining/loadRestaurant/' + restaurantId;
 	$.get(url, {}, function(data, textStatus, jqXHR) {
@@ -260,39 +237,56 @@ function showRestaurantMenu(restaurantId) {
 }
 
 function showTeamMember(teamId) {
-	var url = contextPath + "/dining/teamMember";
-	url += "/" + teamId;
-	url += "/" + encodeURIComponent(encodeURIComponent(contextPath + "/dining/team"));
+    var backUrl = encodeURIComponent(encodeURIComponent(contextPath + "/dining/team"));
+	var url = contextPath + "/dining/teamMember/" + teamId + "/" + backUrl;
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
 	});
 }
 
-//TODO
-function provideMeal() {
-	var url = contextPath + "/main_provideMeal";
-	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
+function provideMealPage() {
+    var backUrl = encodeURIComponent(encodeURIComponent(contextPath + "/dining/orderProvider"));
+	var url = contextPath + "/dining/provideMealPage/" + backUrl;
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
 	});
 }
 
-//TODO
 function joinProvideMeal(orderProviderId) {
-	var url = contextPath + "/main_order";
-	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
-	url += "&orderProviderId=" + orderProviderId;
+    var backUrl = encodeURIComponent(encodeURIComponent(contextPath + "/dining/orderProvider"));
+	var url = contextPath + "/dining/joinOrder/" + orderProviderId + "/" + backUrl;
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
 	});
 }
 
-//TODO
 function showOrderList(orderProviderId) {
-	var url = contextPath + "/main_orderList";
-	url += "?back=" + encodeURIComponent("main_dining?active=orderProvider");
-	url += "&orderProviderId=" + orderProviderId;
-	$("#mainContent").slideUp("fast", function() {
-		window.location.href = url;
-	});
+    var backUrl = encodeURIComponent(encodeURIComponent(contextPath + "/dining/orderProvider"));
+    var url = contextPath + "/dining/orderList/" + orderProviderId + "/" + backUrl;
+    $("#mainContent").slideUp("fast", function() {
+        window.location.href = url;
+    });
+}
+
+function cancelProvide(orderProviderId, isConfirm) {
+    $("#confirmBtn").unbind("click");
+    if (isConfirm) {
+        var url = contextPath + "/dining/cancelProvide/" + orderProviderId;
+        $.post(url, params, function(data, textStatus, jqXHR) {
+            var code = data;
+            if (code == "success") {
+                window.location.reload();// TODO aa?
+            } else if (code == "error") {
+                alert("An error occured");
+            } else {
+                alert("Unknown error occured");
+            }
+        });
+    } else {
+        $("#confirmTip").html("确定取消么?");
+        $("#confirmModal").modal("show");
+        $("#confirmBtn").click(function() {
+            cancelProvide(orderProviderId, true);
+        });
+    }
 }

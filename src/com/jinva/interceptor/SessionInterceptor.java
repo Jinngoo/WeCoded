@@ -1,6 +1,5 @@
 package com.jinva.interceptor;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

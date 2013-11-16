@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
-<%@ include file="../../base.jsp"%>
+<%@ include file="../base.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Message</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css" />
-    <script type="text/javascript" src="${JQUERY}"></script>
-    <script type="text/javascript" src="${JQUERY_COOKIE}"></script>  
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/util/jinva.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
+    <%@ include file="../head.jsp"%>  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Css -->
+	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
+	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
+	<link href="${FONT_AWESOME_CSS}" rel="stylesheet" media="screen">
+	
+	<!-- Js -->
+	<script type="text/javascript" src="${JQUERY}"></script>
+	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
+	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	
+	<script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
     <script type="text/javascript">
 	    $(document).ready(function(){
 			$("#mainContent").slideDown("fast");
@@ -17,7 +25,7 @@
     </script>
 </head>
 <body>
-
+	<%@ include file="../nav_top.jsp" %>
 	<div id="mainContent" style="display:none;margin-left:20px;">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#aa" data-toggle="tab">啊是</a></li>

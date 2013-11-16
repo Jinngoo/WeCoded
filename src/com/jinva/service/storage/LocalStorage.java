@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jinva.util.InitListener;
 
@@ -66,6 +67,27 @@ public class LocalStorage implements IStorage {
 		}
 		logger.info("Upload done : " + path + " - " + filename);
 		return true;
+	}
+	
+	public boolean write(String path, String filename, MultipartFile file){
+	    InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = file.getInputStream();
+            out = new FileOutputStream(getStoragePath(path) + filename);
+            IOUtils.copy(in, out);
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+            return false;
+        } catch (IOException e) {
+            logger.error(e);
+            return false;
+        } finally {
+            IOUtils.closeQuietly(out);
+            IOUtils.closeQuietly(in);
+        }
+        logger.info("Upload done : " + path + " - " + filename);
+        return true;
 	}
 
 	@Override

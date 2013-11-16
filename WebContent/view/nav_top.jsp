@@ -5,10 +5,10 @@
 				<a class="navbar-brand" href="#">定要子系统</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="javascript:content('main_news');">首页</a></li>
-				<li><a href="javascript:content('main_dining');">吃的</a></li>
-				<li><a href="javascript:content('main_message');">消息(x)</a></li>
-				<li><a href="javascript:content('main_setting');">设置</a></li>
+				<li><a href="${CONTEXT_PATH}/news">首页</a></li>
+				<li><a href="${CONTEXT_PATH}/dining">吃的</a></li>
+				<li><a href="${CONTEXT_PATH}/message">消息(x)</a></li>
+				<li><a href="${CONTEXT_PATH}/setting">设置</a></li>
 			</ul>
 			<form class="navbar-form navbar-left" role="search">
 				<div class="form-group">
@@ -17,7 +17,7 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<p class="navbar-text">${sessionScope.user.name}</p>
+				<p class="navbar-text"><span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})</p>
 				<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
 			</ul>
 		</div>

@@ -18,21 +18,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jinva.consts.JinvaConsts;
 import com.jinva.service.storage.IStorage;
 
 @Controller
 @RequestMapping("/")
 public class ResourceController extends BaseControllerSupport{
     
-    public static final String UPLOAD_TYPE_USER_AVATAR = "1"; 
-    public static final String UPLOAD_TYPE_GROUP_AVATAR = "2"; 
-    public static final String UPLOAD_TYPE_RESTNURANT_AVATAR = "3"; 
-    public static final String UPLOAD_TYPE_DISH_AVATAR = "4"; 
-    
-    public static final String USER_AVATAR_PATH = "user_avatar";
-    public static final String GROUP_AVATAR_PATH = "group_avatar";
-    public static final String RESTAURANT_AVATAR_PATH = "restaurant_avatar";
-    public static final String DISH_AVATAR_PATH = "dish_avatar";
+//    public static final String UPLOAD_TYPE_USER_AVATAR = "1"; 
+//    public static final String UPLOAD_TYPE_GROUP_AVATAR = "2"; 
+//    public static final String UPLOAD_TYPE_RESTNURANT_AVATAR = "3"; 
+//    public static final String UPLOAD_TYPE_DISH_AVATAR = "4"; 
+//    
+//    public static final String USER_AVATAR_PATH = "user_avatar";
+//    public static final String GROUP_AVATAR_PATH = "group_avatar";
+//    public static final String RESTAURANT_AVATAR_PATH = "restaurant_avatar";
+//    public static final String DISH_AVATAR_PATH = "dish_avatar";
     
     
 
@@ -41,19 +42,25 @@ public class ResourceController extends BaseControllerSupport{
     
     @RequestMapping(value = "getImage/{type}/{id}", method = RequestMethod.GET)
     public void image(@PathVariable ("type") String type, @PathVariable ("id") String id, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
+        returnImage(session, response, request, type, id);
+    }
+    
+    @RequestMapping(value = "getImage/{type}", method = RequestMethod.GET)
+    public void image(@PathVariable ("type") String type, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
+        returnImage(session, response, request, type, null);
+    }
+    
+    private void returnImage(HttpSession session, HttpServletResponse response, HttpServletRequest request, String type, String id) throws IOException{
         byte[] content = null;
         String userId = getUserId(session);
-        if (UPLOAD_TYPE_USER_AVATAR.equals(type)) {
-            content = storage.read(USER_AVATAR_PATH, userId);
-        } else if (UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
-            String groupId = request.getParameter("id");
-            content = storage.read(GROUP_AVATAR_PATH, groupId);
-        } else if (UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
-            String restaurantId = request.getParameter("id");
-            content = storage.read(RESTAURANT_AVATAR_PATH, restaurantId);
-        } else if (UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
-            String dishId = request.getParameter("id");
-            content = storage.read(DISH_AVATAR_PATH, dishId);
+        if (JinvaConsts.UPLOAD_TYPE_USER_AVATAR.equals(type)) {
+            content = storage.read(JinvaConsts.USER_AVATAR_PATH, userId);
+        } else if (JinvaConsts.UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
+            content = storage.read(JinvaConsts.GROUP_AVATAR_PATH, id);
+        } else if (JinvaConsts.UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
+            content = storage.read(JinvaConsts.RESTAURANT_AVATAR_PATH, id);
+        } else if (JinvaConsts.UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
+            content = storage.read(JinvaConsts.DISH_AVATAR_PATH, id);
         }
         if (content == null) {
             content = defaultImg(request, type);
@@ -64,13 +71,13 @@ public class ResourceController extends BaseControllerSupport{
     private byte[] defaultImg(HttpServletRequest request, String type) {
         ServletContext servletContext = request.getServletContext();
         String path = null;
-        if (UPLOAD_TYPE_USER_AVATAR.equals(type)) {
+        if (JinvaConsts.UPLOAD_TYPE_USER_AVATAR.equals(type)) {
             path = servletContext.getRealPath("resource/image/default/user.jpg");
-        } else if (UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
+        } else if (JinvaConsts.UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
             path = servletContext.getRealPath("resource/image/default/group.jpg");
-        }else if (UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
+        }else if (JinvaConsts.UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
             path = servletContext.getRealPath("resource/image/default/restaurant.jpg");
-        }else if (UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
+        }else if (JinvaConsts.UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
             path = servletContext.getRealPath("resource/image/default/dish.jpg");
         }
         InputStream in = null;
