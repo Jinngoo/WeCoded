@@ -18,7 +18,7 @@
 			</form>
 			<ul class="nav navbar-nav navbar-right">
 				<p class="navbar-text">${sessionScope.user.name}</p>
-				<li><a href="#">Logout</a></li>
+				<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
 			</ul>
 		</div>
 	</nav>

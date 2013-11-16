@@ -33,9 +33,15 @@ public class DiningController extends BaseControllerSupport{
     @Autowired
     private JinvaService jinvaService;
     
-    @RequestMapping(value = { "", "/" })
+    @RequestMapping(value = "")
     public String index() {
-        return "dining/dining";
+        return "dining/index";
+    }
+    
+    @RequestMapping(value = "/{tab}")
+    public String index(@PathVariable("tab") String tab, HttpServletRequest request) {
+        request.setAttribute("tab", tab);
+        return "dining/index";
     }
 
     public String orderProviderList(HttpServletRequest request, HttpSession session) {
@@ -103,8 +109,8 @@ public class DiningController extends BaseControllerSupport{
         return teamList(request, session);
     }
     
-    @RequestMapping(value = "quitGroup/{id}", method = RequestMethod.GET)
-    public String quitGroup(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
+    @RequestMapping(value = "quitTeam/{id}", method = RequestMethod.GET)
+    public String quitTeam(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
         jinvaService.deleteUserTeam(getUserId(session), id);
         return teamList(request, session);
     }

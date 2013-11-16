@@ -21,7 +21,7 @@
 	
     <script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
     <script type="text/javascript" src="${RESOURCE}/js/custom/popoverButton.js"></script>
-	<script type="text/javascript" src="${RESOURCE}/js/dining/dining.js"></script>
+	<script type="text/javascript" src="${RESOURCE}/js/dining/index.js"></script>
     <style type="text/css">
     	.collapseTrigger{
     		cursor: pointer;
@@ -37,9 +37,9 @@
 
 			
 		<!-- tabs -->
-		<ul class="nav nav-tabs">
+		<ul id="tabs" class="nav nav-tabs" activeTab="${requestScope.tab }">
 			<li id="orderProviderTab"><a href="#orderProviderList" data-toggle="tab"><spring:message code="main.sboffer" /></a></li>
-			<li id="groupTab"><a href="#teamList" data-toggle="tab"><spring:message code="main.group" /></a></li>
+			<li id="teamTab"><a href="#teamList" data-toggle="tab"><spring:message code="main.group" /></a></li>
 			<li id="restaurantTab"><a href="#restaurantList" data-toggle="tab"><spring:message code="main.restaurant" /></a></li>
 		</ul>
 
@@ -91,7 +91,7 @@
 					<img id="teamListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
 					<div id="teamListBody" style="margin-top:20px">
 						<div class="alert alert-danger">
-							<div class="collapseTrigger" data-toggle="collapse" data-target="#myTeamPanel">
+							<div class="collapseTrigger" data-toggle="collapse" data-target="#myTeamPanel" onclick="toggleArrow(this)">
 								<i class="icon-chevron-right" style="display:none"></i>
 								<i class="icon-chevron-down"></i> 我创建的小组 (${fn:length(myTeamList)})
 								<hr>
@@ -101,7 +101,7 @@
 									<!-- Team button -->
 									<jn:PopoverButton popoverTitle="[${team.name}]" content="${team.name}"
 										popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
-										imgUrl="getImage/2/${team.id}">
+										imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
 										<i class="icon-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
 										<i class="icon-wrench" style="cursor:pointer;" onclick="editTeam('${team.id}')" title="编辑"></i>
 										<i class="icon-trash" style="cursor:pointer;" onclick="deleteTeam('${team.id}',${team.memberCount}, false)" title="删除"></i>
@@ -110,8 +110,7 @@
 							</div>
 						</div>
 						<div class="alert alert-success">
-							<div class="collapseTrigger" data-toggle="collapse"
-								data-target="#joinedTeamPanel">
+							<div class="collapseTrigger" data-toggle="collapse" data-target="#joinedTeamPanel" onclick="toggleArrow(this)">
 								<i class="icon-chevron-right" style="display:none"></i>
 								<i class="icon-chevron-down"></i> 我加入的小组 (${fn:length(joinedTeamList)})
 								<hr>
@@ -120,33 +119,30 @@
 								<c:forEach items="${joinedTeamList }" var="team" varStatus="status">
 									<jn:PopoverButton popoverTitle="[${team.name}]" content="${team.name}"
 										popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
-										imgUrl="img?type=2&id=${team.id}">
+										imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
 										<i class="icon-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
-										<i class="icon-ban-circle" style="cursor:pointer;" onclick="quitTeam('${team.id}', false)" title="退出"></i>
+										<i class="icon-ban-circle" style="cursor:pointer;" onclick="quitTeam('${team.id}', false, this)" title="退出"></i>
 									</jn:PopoverButton>
 								</c:forEach>
 							</div>
 						</div>
 						<div class="alert alert-info">
-							<div class="collapseTrigger" data-toggle="collapse" data-target="#otherTeamPanel">
-								<i class="icon-chevron-right"></i>
-								<i class="icon-chevron-down" style="display:none"></i> 其他的小组 (${fn:length(otherTeamList)})
+							<div class="collapseTrigger" data-toggle="collapse" data-target="#otherTeamPanel" onclick="toggleArrow(this)">
+								<i class="icon-chevron-right" style="display:none"></i>
+								<i class="icon-chevron-down"></i> 其他的小组 (${fn:length(otherTeamList)})
 								<hr>
 							</div>
-							<div id="otherTeamPanel" class="collapse">
+							<div id="otherTeamPanel" class="collapse in">
 								<c:forEach items="${otherTeamList }" var="team" varStatus="status">
 									<jn:PopoverButton popoverTitle="[${team.name}]" content="${team.name}"
 										popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
-										imgUrl="img?type=2&id=${team.id}">
-										<i class="icon-plus" style="cursor:pointer;" onclick="joinTeam('${team.id}', '${team.password}')" title="加入"></i>
+										imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
+										<i class="icon-plus" style="cursor:pointer;" onclick="joinTeam('${team.id}', '${team.password}', this)" title="加入"></i>
 									</jn:PopoverButton>
 								</c:forEach>
 							</div>
 						</div>
 					</div>
-					<script>
-						bindCollapseTrigger();
-					</script>
 				</aa:zone>
 			</div>
 
@@ -253,12 +249,11 @@
 					$(function () {
 			    		$('#restaurantListBody a[rel="popover"]').popover({html:true});
 			    		setTimeout(function(){
-			    			$("i[tool='dish_menu_0_${sessionScope.user_id}']").each(function(){
+			    			$("i[tool='dish_menu_0_${sessionScope.user.id}']").each(function(){
 				    			J.flicker("slow", $(this), 3);
 			    			});
 			    		},1000);
 					});
-					bindCollapseTrigger();
 				</script>
 				</aa:zone>
 			</div>

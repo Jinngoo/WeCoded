@@ -3,13 +3,11 @@
  $(document).ready(function(){
     bindAll();
     $("#mainContent").slideDown("fast");
-//    var activeTab = "${param.active}";
-    var activeTab = "group";
+    var activeTab = $('#tabs').attr('activeTab');
     if (!$.trim(activeTab)) {
         activeTab = "orderProvider";
     }
     $("#" + activeTab + "Tab").children('a[data-toggle="tab"]').tab('show');
-//    $("#" + activeTab + "Tab").addClass("active");
     $("#" + activeTab + "List").addClass("active");
 });
 function bindAll(){
@@ -23,10 +21,6 @@ function bindAll(){
 			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
-//		    setTimeout(function(){
-//		        $('a[rel=popover]').popover({html:true,delay:{show:500}});
-//		        console.log($('a[rel=popover]').length);
-//		    }, 2000)
 		};
 		var url = contextPath + '/dining/' + targetZone;//springmvc restful ajaxanywhere
 		ajaxAnywhere.getAJAX(url, targetZone);
@@ -102,6 +96,10 @@ function bindAll(){
 	///////////////////////////////////////////////
 }
 
+function toggleArrow(trigger){
+    $(trigger).children("i").toggle();
+}
+
 function bindCollapseTrigger(){
 	$(".collapseTrigger").mouseover(function(){
     	$(this).css("text-decoration", "underline");
@@ -131,7 +129,7 @@ function editTeam(teamId) {
 	});
 }
 
-function joinTeam(teamId, password) {
+function joinTeam(teamId, password, trigger) {
 	if (J.isNotEmpty(password)) {
 		$("#toJoinGroupId").val(teamId);
 		$("#toJoinGroupPassword").val(password);
@@ -149,6 +147,7 @@ function joinTeam(teamId, password) {
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
+		    destroyPopover(trigger);
 		};
 		ajaxAnywhere.getAJAX(url);
 	}
@@ -165,7 +164,7 @@ function confirmPassword() {
 	}
 }
 
-function quitTeam(teamId, isConfirm) {
+function quitTeam(teamId, isConfirm, trigger) {
 	$("#confirmBtn").unbind("click");
 	if (isConfirm) {
 		var url = contextPath + "/dining/quitTeam/" + teamId;
@@ -176,13 +175,14 @@ function quitTeam(teamId, isConfirm) {
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
+		    destroyPopover(trigger);
 		};
 		ajaxAnywhere.getAJAX(url);
 	} else {
 		$("#confirmTip").html("确定退出么?");
 		$("#confirmModal").modal("show");
 		$("#confirmBtn").click(function() {
-			quitTeam(teamId, true);
+			quitTeam(teamId, true, trigger);
 		});
 	}
 }
@@ -260,10 +260,10 @@ function showRestaurantMenu(restaurantId) {
 	});
 }
 
-function showGroupMember(groupId) {
-	var url = contextPath + "/main_member";
-	url += "?back=" + encodeURIComponent("main_dining?active=group");
-	url += "&groupId=" + groupId;
+function showTeamMember(teamId) {
+	var url = contextPath + "/main/teamMember";
+	url += "/" + teamId;
+	url += "/" + encodeURIComponent(encodeURIComponent(contextPath + "/dining/team"));
 	$("#mainContent").slideUp("fast", function() {
 		window.location.href = url;
 	});
