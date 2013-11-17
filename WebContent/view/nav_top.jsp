@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+	<script>
+		function reloadUserAvatar(){
+		    $("#userAvatar").attr("src", $("#userAvatar").attr("src"));
+		}
+	</script>
 	<nav class="navbar navbar-default navbar-inverse" role="navigation">
 		<div class="container" style="width: 1200px;">
 			<div class="navbar-header">
@@ -17,8 +22,15 @@
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<p class="navbar-text"><span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})</p>
+				<p class="navbar-text">
+					<span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})
+				</p>
 				<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<a href="${CONTEXT_PATH}/tool/uploadImage/1/${sessionScope.user.id}" target="_blank">
+					<img id="userAvatar" src="${CONTEXT_PATH}/getImage/1/${sessionScope.user.id}" style="width:50px; height:50px; cursor: pointer" title="换头像" />
+				</a>
 			</ul>
 		</div>
 	</nav>

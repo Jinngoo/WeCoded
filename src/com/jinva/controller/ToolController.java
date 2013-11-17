@@ -28,15 +28,15 @@ public class ToolController extends BaseControllerSupport{
         return redirectIndex();
     }
     
-    @RequestMapping(value = "uploadImg/{type}/{name}", method = RequestMethod.GET)
-    public String uploadImg(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("name") String name){
+    @RequestMapping(value = "uploadImage/{type}/{name}", method = RequestMethod.GET)
+    public String uploadImage(HttpServletRequest request, @PathVariable("type") String type, @PathVariable("name") String name){
         request.setAttribute("type", type);
         request.setAttribute("name", name);
-        return "tool/uploadImg";
+        return "tool/uploadImage";
     }
     
-    @RequestMapping(value = "uploadImg", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadImg(HttpServletRequest request) throws IOException{
+    @RequestMapping(value = "uploadImage", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadImage(HttpServletRequest request) throws IOException{
         String uploadData = request.getParameter("uploadData");
         String uploadName = request.getParameter("uploadName");
         String uploadType = request.getParameter("uploadType");

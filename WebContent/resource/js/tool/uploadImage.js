@@ -2,7 +2,6 @@ var jcrop_api = null;
 var scaling = null;
 
 $(document).ready(function(){
-    console.log('hehe')
     
     $("#fileChooser").change(function(){
         fileChoosen();
@@ -14,7 +13,7 @@ function chooseImg(){
     $("#fileChooser").click();
 }
 
-function copyImg(){
+function saveImg(){
     //截取的大小、位置，有缩放因素
     var select = jcrop_api.tellSelect();
     var x = select.x/scaling;
@@ -41,7 +40,11 @@ function copyImg(){
     xhr.done(function() {
         var result = xhr.responseText;
         if(result == "success"){
-            alert('success');
+            $('.error').html('保存成功').show();
+            reloadUserAvatar();
+            if (opener && opener.reloadUserAvatar) {
+                opener.reloadUserAvatar();
+            }
         }else{
             alert('error');
         }

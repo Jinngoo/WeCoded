@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="${JQUERY_JCROP_JS}"></script>
 	<script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
 	
-	<script type="text/javascript" src="${RESOURCE}/js/tool/uploadImg.js"></script>
+	<script type="text/javascript" src="${RESOURCE}/js/tool/uploadImage.js"></script>
 	
 	<style type="text/css">
     </style>
@@ -36,7 +36,7 @@
 		<h1>Hehe</h1>
 		<input type="file" id="fileChooser" style="display:none">
 		<button onclick="chooseImg()">选择图片</button>
-		<button onclick="copyImg()">截取图片</button>
+		<button onclick="saveImg()">保存</button>
 		<div class="error"></div>
 		
 		<table>
@@ -53,7 +53,7 @@
 		</table>
 	</div>
 	
-	<form id="uploadForm" action="${CONTEXT_PATH}/tool/uploadImg" method="post" enctype="multipart/form-data">
+	<form id="uploadForm" action="${CONTEXT_PATH}/tool/uploadImage" method="post" enctype="multipart/form-data">
 		<input id="uploadData" name="uploadData" type="hidden">
 		<input id="uploadName" name="uploadName" type="hidden" value="${name}">
 		<input id="uploadType" name="uploadType" type="hidden" value="${type}">
