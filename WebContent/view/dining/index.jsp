@@ -67,11 +67,11 @@
 					</div>
 					<div id="collapseCreateGroup" class="collapse createGroup" style="position:relative;">
 						<!-- team avatar -->
-						<a href="#" style="position:absolute;top:50px;left:0px;" title="更换小组形象" target="_blank">
+						<a href="#" style="position:absolute;top:50px;left:0px;display:none" title="更换小组形象" target="_blank">
 							<img id="teamAvatar" avatar="" class="avatar shadow" src="" />
 						</a>
 						<!-- team form -->
-						<form class="form-horizontal" id="group_form" action="dining/saveTeam" method="post" role="form" style="max-width:500px; margin-left: 240px">
+						<form class="form-horizontal" id="group_form" action="${CONTEXT_PATH}/dining/saveTeam" method="post" role="form" style="max-width:500px; margin-left: 240px">
 							<input type="text" name="group_id" id="group_id" style="display:none">
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="group_name">组名</label>
@@ -173,11 +173,11 @@
 					</div>
 					<div id="collapseCreateRestaurant" class="collapse createRestaurant" style="position:relative;">
 						<!-- Restaurant avatar -->
-						<a href="#" style="position:absolute;top:50px;left:0px;" title="更换餐馆形象" target="_blank">
+						<a href="#" style="position:absolute;top:50px;left:0px;display:none" title="更换餐馆形象" target="_blank">
 							<img id="restaurantAvatar" avatar="" class="avatar shadow" src="" />
 						</a>
 						<!-- Restaurant form -->
-						<form class="form-horizontal" id="restaurant_form" action="dining/saveRestaurant" method="post" role="form" style="max-width:500px; margin-left: 240px">
+						<form class="form-horizontal" id="restaurant_form" action="${CONTEXT_PATH}/dining/saveRestaurant" method="post" role="form" style="max-width:500px; margin-left: 240px">
 							<input type="text" name="restaurant_id" id="restaurant_id" style="display:none">
 							<div class="form-group" id="restaurant_name_group">
 								<label class="col-sm-2 control-label" for="restaurant_name">店名</label>

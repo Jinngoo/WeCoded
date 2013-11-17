@@ -40,7 +40,7 @@ function bindAll(){
 			return "teamList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
-			$("#createGroupBtn").button("loading");
+			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
 			$("#createGroupBtn").button("reset");
@@ -68,7 +68,7 @@ function bindAll(){
 			return "restaurantList";
 		}
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
-			$("#createRestaurantBtn").button("loading");
+			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
 			$("#createRestaurantBtn").button("reset");

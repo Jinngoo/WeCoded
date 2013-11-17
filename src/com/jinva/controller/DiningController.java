@@ -1,6 +1,7 @@
 package com.jinva.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -360,6 +361,17 @@ public class DiningController extends BaseControllerSupport{
         request.setAttribute("orderList", orderList);
         request.setAttribute("orderProvider", orderProvider);
         request.setAttribute("backUrl", backUrl);
+        
+        String restaurants = orderProvider.getRestaurants();
+        if(StringUtils.isNotBlank(restaurants)){
+            List<Restaurant> restaurantList = new ArrayList<Restaurant>();
+            for(String id : restaurants.split(",")){
+                Restaurant res = jinvaService.get(Restaurant.class, id); //TODO 改成in
+                restaurantList.add(res);
+            }
+            request.setAttribute("restaurantList", restaurantList);
+        }
+        
         return "dining/orderList";
     }
     

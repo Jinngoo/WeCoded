@@ -46,35 +46,41 @@
 			</c:if>
 			<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics(this)">合并查看</button>
 			<hr/>
+			<div class="alert alert-success">
+				<div>订餐电话</div>
+				<c:forEach items="${restaurantList}" var="restaurant">
+					<div>${restaurant.name} ( ${restaurant.telphone} )</div>
+				</c:forEach>
+			</div>
 			<div >
-			<table class="table table-bordered table-hover" id="orderList">
-				<thead>
-				<tr id="headTr">
-					<th width="8%"><li class="icon-glass"></li></th>
-					<th width="20%">订餐人</th>
-					<th width="20%">餐馆</th>
-					<th width="20%">餐品</th>
-					<th width="8%">数量</th>
-					<th width="12%">单价(元)</th>
-					<th width="12%">总价(元)</th>
-				</tr>
-				</thead>
-				<tbody id="orderListBody">
-					<c:forEach items="${orderList }" var="order" varStatus="status">
-					<tr class="success orginTr">
-						<td>${status.index+1}</td>
-						<td>${order.userName}</td>
-						<td>${order.restaurantName}<span style="display:none">${order.restaurantId}</span></td>
-						<td>${order.dishName}<span style="display:none">${order.dishId}</span></td>
-						<td>${order.dishNum}</td>
-						<td>${order.dishPrice}</td>
-						<td class="totalPrice"><fmt:formatNumber value="${order.dishPrice * order.dishNum }" pattern="#.##" minFractionDigits="2" /></td>
+				<table class="table table-bordered table-hover" id="orderList">
+					<thead>
+					<tr id="headTr">
+						<th width="8%"><li class="icon-glass"></li></th>
+						<th width="20%">订餐人</th>
+						<th width="20%">餐馆</th>
+						<th width="20%">餐品</th>
+						<th width="8%">数量</th>
+						<th width="12%">单价(元)</th>
+						<th width="12%">总价(元)</th>
 					</tr>
-					</c:forEach>
-				</tbody>
-				<tbody id="totalPriceBody">
-				</tbody>
-			</table>
+					</thead>
+					<tbody id="orderListBody">
+						<c:forEach items="${orderList }" var="order" varStatus="status">
+						<tr class="success orginTr">
+							<td>${status.index+1}</td>
+							<td>${order.userName}</td>
+							<td>${order.restaurantName}<span style="display:none">${order.restaurantId}</span></td>
+							<td>${order.dishName}<span style="display:none">${order.dishId}</span></td>
+							<td>${order.dishNum}</td>
+							<td>${order.dishPrice}</td>
+							<td class="totalPrice"><fmt:formatNumber value="${order.dishPrice * order.dishNum }" pattern="#.##" minFractionDigits="2" /></td>
+						</tr>
+						</c:forEach>
+					</tbody>
+					<tbody id="totalPriceBody">
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

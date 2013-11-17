@@ -11,6 +11,7 @@
 	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
 	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
 	<link href="${FONT_AWESOME_CSS}" rel="stylesheet" media="screen">
+	<link href="${RESOURCE}/css/common.css" rel="stylesheet" media="screen">
 	
 	<!-- Js -->
 	<script type="text/javascript" src="${JQUERY}"></script>
@@ -39,12 +40,13 @@
 		<div id="mainContent" style="display:none;margin-left:20px;">
 			<div class="well">
 				<div style="float:left">
-					<img src="${CONTEXT_PATH}/getImage/3/${restaurant.id}" style="width:100px;height:100px" />
+					<img class="shadow" src="${CONTEXT_PATH}/getImage/3/${restaurant.id}" style="width:100px;height:100px" />
 				</div>
 				<div style="float:left;margin-left:20px;">
-					&nbsp;&nbsp;&nbsp;&nbsp;店名:&nbsp;<c:out value="${restaurant.name }"/><br/>
-					创建者:&nbsp;<c:out value="${restaurant.ownerName }"/><br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;简介:&nbsp;<c:out value="${restaurant.introduction }"/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;店名：&nbsp;<c:out value="${restaurant.name }"/><br/>
+					创建者：&nbsp;<c:out value="${restaurant.ownerName }"/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;<c:out value="${restaurant.telphone }"/><br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;简介：&nbsp;<c:out value="${restaurant.introduction }"/><br/>
 				</div>
 				<div style="clear:both"></div>
 			</div>
