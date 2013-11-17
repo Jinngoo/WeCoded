@@ -43,12 +43,12 @@
 		<div class="good"></div>
 			<div class="login_panel">
 				<div class="box">
-					<input class="input" type="text" id="username-login" name="username" placeholder="用户名" value="jn"></input>
-					<input class="input" type="password" id="password-login" name="password" placeholder="密码" value="1"></input>
+					<input class="input form-control" type="text" id="username-login" name="username" placeholder="用户名" value="jn"/>
+					<input class="input form-control" type="password" id="password-login" name="password" placeholder="密码" value="1"/>
 				</div>
 				<div class="box">
-					<input class="btn btn-success" type="button" id="submit" value="登录"></input>
-					<input class="btn btn-success" type="button" value="注册" data-toggle="modal" data-target="#signupModal"></input>
+					<input class="btn btn-success" type="button" id="submit" value="登录"/>
+					<input class="btn btn-primary" type="button" value="注册" data-toggle="modal" data-target="#signupModal"/>
 				</div>
 			</div>
 		</div>
@@ -108,8 +108,12 @@
 	<div class="modal fade" id="loginModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a>
+					<h4 id="modal-tip"></h4>
+				</div>
 				<div class="modal-body">
-					<h4 id="login-tip"></h4>
+					<button id="hide-modal" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->

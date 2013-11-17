@@ -211,7 +211,7 @@
 						<img id="restaurantListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
 						<div id="restaurantListBody" style="margin-top:20px">
 							<div class="alert alert-danger">
-								<div class="collapseTrigger" data-toggle="collapse" data-target="#myRestaurantPanel">
+								<div class="collapseTrigger" data-toggle="collapse" data-target="#myRestaurantPanel" onclick="toggleArrow(this)">
 									<i class="icon-chevron-right" style="display:none"></i>
 									<i class="icon-chevron-down"></i>我创建的餐馆(${fn:length(myRestaurantList)})
 									<hr>
@@ -221,16 +221,14 @@
 										<jn:PopoverButton id="${restaurant.id}" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
 											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
-											<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
-												<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
-											</c:if>
+											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
+											<i class="icon-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
 							</div>
 							<div class="alert alert-info">
-								<div class="collapseTrigger" data-toggle="collapse"
-									data-target="#otherRestaurantPanel">
+								<div class="collapseTrigger" data-toggle="collapse" data-target="#otherRestaurantPanel" onclick="toggleArrow(this)">
 									<i class="icon-chevron-right"></i>
 									<i class="icon-chevron-down" style="display:none"></i>其他餐馆(${fn:length(otherRestaurantList)})
 									<hr>

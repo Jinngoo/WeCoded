@@ -16,4 +16,6 @@ public interface IStorage {
 	
 	byte[] read(String path, String filename);
 	
+	boolean delete(String path, String filename);
+	
 }

@@ -12,8 +12,9 @@ $(document).ready(function(){
 		if(!$.trim(password)){
 			return;
 		}
-		$("#login-tip").html("登录中...");
+		$("#modal-tip").html("登录中...");
 		$("#loginModal").modal("show");
+        $("#hide-modal").hide();
 	});
 	$("#btn-signup").click(function(){
 		signup();
@@ -135,14 +136,20 @@ function signup(){
 				$("#password-login").val($("#password").val());
 				$('#signupModal').modal('hide');
 				clearForm("signup-form");
-				$("#login-tip").html("注册成功!<br/>登录中...");
+				$("#modal-tip").html("注册成功!<br/>登录中...");
 				$("#loginModal").modal("show");
 			}else if(code == "duplicate"){
-				alert("There is duplicate name");
+				$("#modal-tip").html("There is duplicate name");
+	            $("#hide-modal").show();
+	            $("#loginModal").modal("show");
 			}else if(code == "error"){
-				alert("A database error occured");
+			    $("#modal-tip").html("A database error occured");
+			    $("#hide-modal").show();
+			    $("#loginModal").modal("show");
 			}else{
-				alert("Unknown error occured on signup");
+			    $("#modal-tip").html("Unknown error occured on signup");
+			    $("#hide-modal").show();
+			    $("#loginModal").modal("show");
 			}
 		});
 	};
@@ -193,14 +200,14 @@ function login(){
     	if (code == "success") {
 			window.location.reload();
 		} else if (code == "nouser") {
-			alert("User not found");
-			$("#loginModal").modal("hide");
+		    $("#modal-tip").html("User not found");
+		    $("#hide-modal").show();
 		} else if (code == "wrongpass") {
-			alert("Wrong password");
-			$("#loginModal").modal("hide");
+		    $("#modal-tip").html("Wrong password");
+            $("#hide-modal").show();
 		} else {
-			alert("Unknown error occured on login");
-			$("#loginModal").modal("hide");
+		    $("#modal-tip").html("Unknown error occured on sign in");
+		    $("#hide-modal").show();
 		}
     });
 }

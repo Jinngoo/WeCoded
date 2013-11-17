@@ -32,8 +32,10 @@ import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.consts.JinvaConsts;
 import com.jinva.service.JinvaService;
+import com.jinva.service.storage.IStorage;
 import com.jinva.util.CodeSupport;
 import com.jinva.util.CommonUtil;
+import com.jinva.util.StorageUtil;
 
 @Controller
 @RequestMapping("/dining")
@@ -41,6 +43,9 @@ public class DiningController extends BaseControllerSupport{
 
     @Autowired
     private JinvaService jinvaService;
+    
+    @Autowired
+    private IStorage storage;
     
     @RequestMapping(value = "")
     public String index() {
@@ -106,6 +111,23 @@ public class DiningController extends BaseControllerSupport{
         jinvaService.delete(Team.class, id);
         jinvaService.delete(UserTeam.class, new String[]{"teamId"}, new Object[]{id});
         return teamList(request, session);
+    }
+    
+    @RequestMapping(value = "deleteRestaurant/{id}", method = RequestMethod.GET)
+    public String deleteRestaurant(@PathVariable ("id") String id, HttpServletRequest request, HttpSession session) throws InterruptedException{
+        //delete dish
+        List<Dish> dishList = jinvaService.select(Dish.class, new String[] { "restaurantId" }, new Object[] { id });
+        String dishPath = StorageUtil.getPathByType(JinvaConsts.UPLOAD_TYPE_DISH_AVATAR);
+        for (Dish dish : dishList) {
+            storage.delete(dishPath, dish.getId());
+            jinvaService.delete(dish);
+        }
+        //delete restaurant
+        String restaurantPath = StorageUtil.getPathByType(JinvaConsts.UPLOAD_TYPE_RESTNURANT_AVATAR);
+        storage.delete(restaurantPath, id);
+        jinvaService.delete(Restaurant.class, id);
+        //TODO delete OrderProvider
+        return restaurantList(request, session);
     }
     
     @RequestMapping(value = "loadRestaurant/{id}", method = RequestMethod.GET)
@@ -223,12 +245,14 @@ public class DiningController extends BaseControllerSupport{
         String restaurantId = null;
         if (dish != null) {
             restaurantId = dish.getRestaurantId();
+            String dishPath = StorageUtil.getPathByType(JinvaConsts.UPLOAD_TYPE_DISH_AVATAR);
+            storage.delete(dishPath, id);
             jinvaService.delete(dish);
         }
         return restaurantMenu(restaurantId, null, session, request);
     }
     
-    @RequestMapping(value = "copyRestaurant/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "copyRestaurant/{restaurantId}", method = RequestMethod.POST)
     public ResponseEntity<JSONObject> copyRestaurant(@PathVariable("restaurantId") String restaurantId, HttpSession session) {
         Restaurant restaurant = jinvaService.get(Restaurant.class, restaurantId);
         JSONObject result = new JSONObject();

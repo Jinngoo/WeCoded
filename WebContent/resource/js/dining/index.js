@@ -227,6 +227,27 @@ function deleteTeam(teamId, memberCount, isConfirm) {
 	}
 }
 
+function deleteRestaurant(restaurantId, isConfirm){
+    $("#confirmBtn").unbind("click");
+    if (isConfirm) {
+        var url = contextPath + "/dining/deleteRestaurant/" + restaurantId;
+        ajaxAnywhere.formName = "";
+        AjaxAnywhere.prototype.getZonesToReaload = function() {
+            return "restaurantList";
+        }
+        AjaxAnywhere.prototype.showLoadingMessage = function() {
+        };
+        AjaxAnywhere.prototype.hideLoadingMessage = function() {
+        };
+        ajaxAnywhere.getAJAX(url);
+    } else {
+        $("#confirmTip").html("确定删除么?");
+        $("#confirmModal").modal("show");
+        $("#confirmBtn").click(function() {
+            deleteRestaurant(restaurantId, true);
+        });
+    }
+}
 function editRestaurant(restaurantId) {
 	var url = contextPath + '/dining/loadRestaurant/' + restaurantId;
 	$.get(url, {}, function(data, textStatus, jqXHR) {

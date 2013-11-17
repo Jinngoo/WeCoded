@@ -117,6 +117,18 @@ public class LocalStorage implements IStorage {
         }
         return out.toByteArray();
     }
+    
+    @Override
+    public boolean delete(String path, String filename) {
+        File file = new File(getStoragePath(path) + filename);
+        if(!file.exists()){
+            return true;
+        }
+        if(!file.canRead()) {
+            return false;
+        }
+        return file.delete();
+    }
 
     private String getStoragePath(String subdir) {
         String uploadPath = null;
@@ -156,5 +168,7 @@ public class LocalStorage implements IStorage {
     public void setLocalStoragePath(String localStoragePath) {
         this.localStoragePath = localStoragePath;
     }
+
+  
 
 }

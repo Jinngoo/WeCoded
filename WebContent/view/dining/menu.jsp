@@ -53,7 +53,7 @@
 			
 			<!-- Toolbar -->
 			<div id="collapseTool" class="collapse in collapseDish">
-				<button id="goBack" class="btn btn-danger" style="margin-left:10px;" backUrl="${requestScope.backUrl}" onclick="goback('${requestScope.backUrl}')">&lt;&lt;&nbsp;返回</button>
+				<button id="goBack" class="btn btn-danger" style="margin-left:10px;" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
 				<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
 					<button class="btn btn-success" style="margin-left:20px;" data-toggle="collapse" data-target=".collapseDish">添加菜单</button>
 				</c:if>

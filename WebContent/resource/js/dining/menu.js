@@ -35,8 +35,8 @@ $(document).ready(function(){
 function goback(backUrl){
     if(!backUrl){
         backUrl = $("#goBack").attr("backUrl");
-}
-$("#mainContent").slideUp("fast", function(){
+    }
+    $("#mainContent").slideUp("fast", function(){
         window.location.href = decodeURIComponent(backUrl);
     });
 }
@@ -125,14 +125,14 @@ if(obj.value.length > 0 && obj.value.indexOf(".") != -1){
 }
 function copy(restaurantId){
     var url = contextPath + "/dining/copyRestaurant/" + restaurantId;
-$.get(url, {}, function(data, textStatus, jqXHR){
-    var code = data;
-    if(code == "success"){
-        goback();
-    }else if(code == "error"){
-        alert(data.result["message"]);
-    }else{
-        alert("Copy fail");
+    $.post(url, {}, function(data, textStatus, jqXHR){
+        var code = data.code;
+        if(code == "success"){
+            goback();
+        }else if(code == "error"){
+            alert(data.result["message"]);
+        }else{
+            alert("Copy fail");
         }
     });
 }
