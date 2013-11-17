@@ -11,12 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.jinva.bean.datamodel.User;
-import com.jinva.consts.JinvaConsts;
 import com.jinva.service.JinvaService;
 import com.jinva.service.storage.IStorage;
 
@@ -60,6 +56,7 @@ public class SettingController extends BaseControllerSupport {
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
 
+    /*
     @RequestMapping(value = "uploadSingle", method = RequestMethod.POST)
     public ResponseEntity<JSONObject> uploadSingle(@RequestParam("file") CommonsMultipartFile file, @RequestParam("type") String type, HttpSession session, HttpServletRequest request){
         JSONObject result = new JSONObject();
@@ -95,6 +92,7 @@ public class SettingController extends BaseControllerSupport {
         String filename = request.getParameter("dishId");
         return storage.write(JinvaConsts.DISH_AVATAR_PATH, filename, file);
     }
+    */
     
     /*
     public void uploadMulti(HttpServletRequest request) throws IllegalStateException, IOException {

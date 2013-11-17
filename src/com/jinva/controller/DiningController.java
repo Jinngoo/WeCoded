@@ -190,7 +190,7 @@ public class DiningController extends BaseControllerSupport{
         request.setAttribute("restaurant", restaurant);
         request.setAttribute("dishList", dishList);
         request.setAttribute("backUrl", backUrl);
-        return "dining/dish";
+        return "dining/menu";
     }
     
     @RequestMapping(value = "saveDish", method = RequestMethod.POST)

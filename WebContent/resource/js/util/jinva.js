@@ -67,6 +67,7 @@ Jinva.prototype.plus = function(){
  * @param count 闪烁次数
  */
 Jinva.prototype.flicker = function(speed, j, count){
+    //TODO 改造成给dom加attr，不要递归传count
 	if(count == 0){
 		if(j.css("display")=="none"){
 			j.fadeIn(speed);
@@ -81,6 +82,14 @@ Jinva.prototype.flicker = function(speed, j, count){
 Jinva.prototype.getRandom = function(min, max) {
     return parseInt(Math.random() * (max - min + 1) + min);
 };
+
+Jinva.prototype.getUrlParam = function(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null)
+        return unescape(r[2]);
+    return null;
+}
 
 var J = new Jinva();
 //(function(window) {

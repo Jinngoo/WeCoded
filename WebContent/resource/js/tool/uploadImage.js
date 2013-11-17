@@ -14,6 +14,10 @@ function chooseImg(){
 }
 
 function saveImg(){
+    if(jcrop_api == null){
+        onError("请选择一张图片啊");
+        return;
+    }
     //截取的大小、位置，有缩放因素
     var select = jcrop_api.tellSelect();
     var x = select.x/scaling;
@@ -41,9 +45,25 @@ function saveImg(){
         var result = xhr.responseText;
         if(result == "success"){
             $('.error').html('保存成功').show();
-            reloadUserAvatar();
-            if (opener && opener.reloadUserAvatar) {
-                opener.reloadUserAvatar();
+            
+            var callback = J.getUrlParam('callback');
+            if(callback && opener){
+                opener[callback].call();
+            }
+            
+            //这个要在callback后面，否则都出不来~
+            var uploadType = $("#uploadType").val();
+            if(uploadType == "1"){
+                reloadUserAvatar();
+                if (opener && opener.reloadUserAvatar) {
+                    opener.reloadUserAvatar();
+                }
+            }
+            
+            var close = J.getUrlParam('close');
+            if(close){
+                window.opener = null;   
+                window.close(); 
             }
         }else{
             alert('error');
@@ -65,6 +85,17 @@ function showPreview(coords, realWidth, realHeight) {
     });
 }
 
+function onError(msg){
+    $('.error').html(msg).show();
+    J.flicker(1000, $('.error'), 3);
+    $("#jcropTarget").attr("src", "").width(1).height(1);
+    $("#preview").children("img").attr("src", "");
+    if (jcrop_api != null) {
+        jcrop_api.destroy();
+        jcrop_api = null;
+    }
+}
+
 function fileChoosen() {
     // get selected file
     var oFile = $('#fileChooser')[0].files[0];
@@ -73,13 +104,13 @@ function fileChoosen() {
     // check for image type (jpg and png are allowed)
     var rFilter = /^(image\/jpeg|image\/png)$/i;
     if (! rFilter.test(oFile.type)) {
-        $('.error').html('请选择图像文件').show();
+        onError("请选择jpg、png类型图像文件");
         return;
     }
 
     // check for file size
-    if (oFile.size > 500 * 1024) {
-        $('.error').html('文件太大，请选择一张稍小点的图片').show();
+    if (oFile.size > 1024 * 1024) {
+        onError("文件超过1MB，请选择一张稍小点的图片");
         return;
     }
 

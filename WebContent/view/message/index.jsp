@@ -26,27 +26,21 @@
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
-	<div id="mainContent" style="display:none;margin-left:20px;">
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#aa" data-toggle="tab">啊是</a></li>
-			<li><a href="#bb" data-toggle="tab">哦飞</a></li>
-			<li><a href="#cc" data-toggle="tab">饿一</a></li>
-		</ul>
-		
-		<div class="tab-content">
-			<div class="tab-pane active" id="aa">阿大的撒</div>
-			<div class="tab-pane" id="bb">个归属感</div>
-			<div class="tab-pane" id="cc">效果桑德菲杰风格</div>
+	<div class="container">
+		<div id="mainContent" style="display:none;margin-left:20px;">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#aa" data-toggle="tab">啊是</a></li>
+				<li><a href="#bb" data-toggle="tab">哦飞</a></li>
+				<li><a href="#cc" data-toggle="tab">饿一</a></li>
+			</ul>
+			
+			<div class="tab-content">
+				<div class="tab-pane active" id="aa">阿大的撒</div>
+				<div class="tab-pane" id="bb">个归属感</div>
+				<div class="tab-pane" id="cc">效果桑德菲杰风格</div>
+			</div>
 		</div>
-		
-		
-		
-		
-		
-		
-		
 	</div>
-
 
 
 

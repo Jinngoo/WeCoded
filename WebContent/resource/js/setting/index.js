@@ -67,11 +67,7 @@ function validatePassword() {
     $("#repassword").get(0).setCustomValidity('');
     return true;
 }
-
-function uploadPhoto() {
-    var form = $('#photoForm').ajaxSubmit({});
-    var xhr = form.data('jqxhr');
-    xhr.done(function() {
-        $("#photo").attr("src", $("#photo").attr("src"));
-    });
+function reloadAvatar(){
+    $("#avator").attr("src", $("#avator").attr("src"));
 }
+

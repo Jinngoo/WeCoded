@@ -5,8 +5,8 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     
-    <link href="${RESOURCE}/image/favicon.ico" type="image/vnd.microsoft.icon" rel="shortcut icon" />
-    <link href="${RESOURCE}/image/favicon.ico" type="image/vnd.microsoft.icon" rel="icon" />
+    <link href="${RESOURCE}/image/common/favicon.ico" type="image/vnd.microsoft.icon" rel="shortcut icon" />
+    <link href="${RESOURCE}/image/common/favicon.ico" type="image/vnd.microsoft.icon" rel="icon" />
     
     <script type="text/javascript">
         (function() {

@@ -9,7 +9,6 @@ import java.io.InputStream;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,20 +40,14 @@ public class ResourceController extends BaseControllerSupport{
     private IStorage storage;
     
     @RequestMapping(value = "getImage/{type}/{id}", method = RequestMethod.GET)
-    public void image(@PathVariable ("type") String type, @PathVariable ("id") String id, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
-        returnImage(session, response, request, type, id);
+    public void image(@PathVariable ("type") String type, @PathVariable ("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        returnImage(response, request, type, id);
     }
     
-    @RequestMapping(value = "getImage/{type}", method = RequestMethod.GET)
-    public void image(@PathVariable ("type") String type, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException{
-        returnImage(session, response, request, type, null);
-    }
-    
-    private void returnImage(HttpSession session, HttpServletResponse response, HttpServletRequest request, String type, String id) throws IOException{
+    private void returnImage(HttpServletResponse response, HttpServletRequest request, String type, String id) throws IOException{
         byte[] content = null;
-        String userId = getUserId(session);
         if (JinvaConsts.UPLOAD_TYPE_USER_AVATAR.equals(type)) {
-            content = storage.read(JinvaConsts.USER_AVATAR_PATH, userId);
+            content = storage.read(JinvaConsts.USER_AVATAR_PATH, id);
         } else if (JinvaConsts.UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
             content = storage.read(JinvaConsts.GROUP_AVATAR_PATH, id);
         } else if (JinvaConsts.UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {

@@ -8,8 +8,8 @@
 //        });
 //    });
 //});
-function initPopover(a){
-    var popover = $(a);
+function initPopover(trigger){
+    var popover = $(trigger);
     if (!popover.attr("init")) {
         popover.attr("init", "true");
         popover.popover({

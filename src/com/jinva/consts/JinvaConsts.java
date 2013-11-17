@@ -15,7 +15,7 @@ public interface JinvaConsts {
 //	String ID = "id";
 	
 	public static final String UPLOAD_TYPE_USER_AVATAR = "1"; 
-    public static final String UPLOAD_TYPE_GROUP_AVATAR = "2"; 
+    public static final String UPLOAD_TYPE_GROUP_AVATAR = "2"; //TODO
     public static final String UPLOAD_TYPE_RESTNURANT_AVATAR = "3"; 
     public static final String UPLOAD_TYPE_DISH_AVATAR = "4"; 
     

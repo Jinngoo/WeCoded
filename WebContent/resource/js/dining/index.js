@@ -52,11 +52,12 @@ function bindAll(){
 	$("#group_name").blur(function() {
 		$("#group_name_group").removeClass("error");
 	});
-	$("#collapseCreateGroup").on('hidden', function() {
+	$("#collapseCreateGroup").on('hidden.bs.collapse', function() {
 		J.clearForm("group_form");
+		$("#teamAvatar").parent().hide();
 	});
 	// ///////////////// restaurant /////////////////
-	// create group submit
+	// create restaurant submit
 	$("#createRestaurantBtn").click(function() {
 		if (!$.trim($("#restaurant_name").val())) {// null validate
 			$("#restaurant_name_group").addClass("error");
@@ -79,11 +80,12 @@ function bindAll(){
 	$("#restaurant_name").blur(function() {
 		$("#restaurant_name_group").removeClass("error");
 	});
-	$("#collapseCreateRestaurant").on('hidden', function() {
+	$("#collapseCreateRestaurant").on('hidden.bs.collapse', function() {
 		J.clearForm("restaurant_form");
+		$("#restaurantAvatar").parent().hide();
 	});
 	// //////////////////////////////////////////
-	$("#passwordModal").on("hidden", function() {
+	$("#passwordModal").on("hidden.bs.collapse", function() {
 		$("#inputGroupPassword").val("");
 		$("#toJoinGroupPassword").val("");
 		$("#toJoinGroupId").val("");
@@ -111,7 +113,16 @@ function bindCollapseTrigger(){
     	$(this).children("i").toggle();
     });
 }
-
+var toReloadAvatarId = null;
+function reloadAvatar(){
+    if(toReloadAvatarId){
+        var img = $('img[avatar=' + toReloadAvatarId + ']');
+        img.attr("src", img.attr("src"));
+        img = $("#img_" + toReloadAvatarId);
+        img.attr("src", img.attr("src"));
+        toReloadAvatarId = null;
+    }
+}
 function editTeam(teamId) {
 	var url = contextPath + '/dining/loadTeam';
 	var params = {
@@ -122,6 +133,9 @@ function editTeam(teamId) {
 		if (team == null) {
 			alert("Team not exist");
 		} else {
+		    toReloadAvatarId = team.id;
+		    $("#teamAvatar").attr("src", contextPath + "/getImage/2/" + team.id).attr("avatar", team.id);
+		    $("#teamAvatar").parent().show().attr("href", contextPath + "/tool/uploadImage/2/" + team.id + "?callback=reloadAvatar&close=1");
 			J.fillForm(team, "group");
 			$("#collapseCreateGroupBtn").collapse('toggle');
 			$("#collapseCreateGroup").collapse('toggle');
@@ -220,6 +234,9 @@ function editRestaurant(restaurantId) {
 		if (restaurant == null) {
 			alert("Restaurant not exist");
 		} else {
+		    toReloadAvatarId = restaurantId;
+            $("#restaurantAvatar").attr("src", contextPath + "/getImage/3/" + restaurantId).attr("avatar", restaurantId);
+            $("#restaurantAvatar").parent().show().attr("href", contextPath + "/tool/uploadImage/3/" + restaurantId + "?callback=reloadAvatar&close=1");
 			J.fillForm(restaurant, "restaurant");
 			$("#collapseCreateRestaurantBtn").collapse('toggle');
 			$("#collapseCreateRestaurant").collapse('toggle');

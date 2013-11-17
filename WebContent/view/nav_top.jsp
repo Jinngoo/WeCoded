@@ -4,10 +4,13 @@
 		    $("#userAvatar").attr("src", $("#userAvatar").attr("src"));
 		}
 	</script>
-	<nav class="navbar navbar-default navbar-inverse" role="navigation">
-		<div class="container" style="width: 1200px;">
+	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container" style="max-width: 1300px;">
+			<ul class="nav navbar-nav navbar-left">
+			<img src="${RESOURCE}/image/common/favicon.ico" style="width:32px;height:32px;margin-top:9px" />
+			</ul>
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">定要子系统</a>
+				<a class="navbar-brand" href="#"><spring:message code="main.title" /></a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="${CONTEXT_PATH}/news">首页</a></li>
@@ -34,4 +37,5 @@
 			</ul>
 		</div>
 	</nav>
+	<div style="height:80px"></div>
 

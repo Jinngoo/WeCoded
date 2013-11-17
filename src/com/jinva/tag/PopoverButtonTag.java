@@ -64,7 +64,7 @@ public class PopoverButtonTag extends BodyTagSupport  {
         buff.append(" rel=\"popover\" data-container=\"body\" >");
 
         buff.append("<div class=\"jinva_popover_btn_body\">");
-        buff.append("<img class=\"jinva_popover_btn_body_img\" src=\"").append(imgUrl).append("\" />");
+        buff.append("<img class=\"jinva_popover_btn_body_img\" id=\"img_").append(id).append("\" src=\"").append(imgUrl).append("\" />");
         buff.append("<div class=\"jinva_popover_btn_body_content\">").append(content).append("</div>");
         buff.append("<div class=\"jinva_popover_btn_body_toolbar\">");
 

@@ -17,6 +17,12 @@
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	
+	filter: progid:  DXImageTransform.Microsoft.Shadow(  color=  #666666,
+		direction=  20, strength=  1 ); /*ie*/
+	-moz-box-shadow: 1px 1px 4px #666666; /*firefox*/
+	-webkit-box-shadow: 1px 1px 4px #666666; /*safari或chrome*/
+	box-shadow: 1px 1px 4px #666666; /*opera或ie9*/
 }
 
 .jinva_popover_btn_body_content {

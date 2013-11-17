@@ -160,56 +160,58 @@
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
-	<div id="mainContent" style="display:none;margin-left:20px;">
-	
-		<button class="btn btn-danger" style="margin-left:10px;" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
-		<button class="btn btn-success" style="margin-left:20px;" onclick="submitOrder()">
-			<c:choose>
-				<c:when test="${empty orderList }">oye下单!</c:when>
-				<c:otherwise>修改订单</c:otherwise>
-			</c:choose>
-		</button>
-		<hr/>
-		<div id="iChoosed" class="alert alert-success" style="height:0px">
-			
-		</div>
-	
-		<c:forEach items="${restaurantDishMap }" var="entry" varStatus="status">
-			<div class="well">
-				<div>&nbsp;&nbsp;&nbsp;店名：${restaurantMap[entry.key].name }</div>
-				<c:forEach items="${entry.value }" var="dish" varStatus="statusDish">
-					<a id="dish_${dish.id}" class="btn btn-warning" style="padding:5px;margin-left:7px;margin-top:5px;cursor:default;position:relative">
-						<input type="text" id="dishName_${dish.id}" value="${dish.name}" style="display:none">
-						<input type="text" id="dishPrice_${dish.id}" value="${dish.price}" style="display:none">
-						<div class="count_bar opacityBar">
-							x&nbsp;<span></span>
-						</div>
-						<div class="tool_bar opacityBar">
-							<i class="icon-minus icon-white tool_img" title="减一份" onclick="minusDish('${dish.id}', 1, true)" style="display:none"></i>
-							<i class="icon-plus icon-white tool_img" title="订一份" onclick="plusDish('${dish.id}', 1, true)"></i>
-						</div>
-						<div style="width:130px;height:130px">
-							<img src="${CONTEXT_PATH}/getImage/4/${dish.id}" style="width:130px;height:130px" />
-						</div>
-						<div style="width:130px;height:20px;font-size:12px;background-color:#cc2222">
-							<c:out value="${dish.price }"/>元
-						</div>
-						<div style="width:130px;height:20px;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="${dish.name }">
-							<c:out value="${dish.name }"/>
-						</div>
-					</a>
-				</c:forEach>
+	<div class="container">
+		<div id="mainContent" style="display:none;margin-left:20px;">
+		
+			<button class="btn btn-danger" style="margin-left:10px;" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
+			<button class="btn btn-success" style="margin-left:20px;" onclick="submitOrder()">
+				<c:choose>
+					<c:when test="${empty orderList }">oye下单!</c:when>
+					<c:otherwise>修改订单</c:otherwise>
+				</c:choose>
+			</button>
+			<hr/>
+			<div id="iChoosed" class="alert alert-success" style="height:0px">
+				
 			</div>
-		</c:forEach>
-		<script>
-			$("a.btn-warning").mouseover(function(){
-	    		$(this).find("div.tool_bar").show();
-			});
-			$("a.btn-warning").mouseout(function(){
-	    		$(this).find("div.tool_bar").hide();
-			});
-		</script>
-	
+		
+			<c:forEach items="${restaurantDishMap }" var="entry" varStatus="status">
+				<div class="well">
+					<div>&nbsp;&nbsp;&nbsp;店名：${restaurantMap[entry.key].name }</div>
+					<c:forEach items="${entry.value }" var="dish" varStatus="statusDish">
+						<a id="dish_${dish.id}" class="btn btn-warning" style="padding:5px;margin-left:7px;margin-top:5px;cursor:default;position:relative">
+							<input type="text" id="dishName_${dish.id}" value="${dish.name}" style="display:none">
+							<input type="text" id="dishPrice_${dish.id}" value="${dish.price}" style="display:none">
+							<div class="count_bar opacityBar">
+								x&nbsp;<span></span>
+							</div>
+							<div class="tool_bar opacityBar">
+								<i class="icon-minus icon-white tool_img" title="减一份" onclick="minusDish('${dish.id}', 1, true)" style="display:none"></i>
+								<i class="icon-plus icon-white tool_img" title="订一份" onclick="plusDish('${dish.id}', 1, true)"></i>
+							</div>
+							<div style="width:130px;height:130px">
+								<img src="${CONTEXT_PATH}/getImage/4/${dish.id}" style="width:130px;height:130px" />
+							</div>
+							<div style="width:130px;height:20px;font-size:12px;background-color:#cc2222">
+								<c:out value="${dish.price }"/>元
+							</div>
+							<div style="width:130px;height:20px;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="${dish.name }">
+								<c:out value="${dish.name }"/>
+							</div>
+						</a>
+					</c:forEach>
+				</div>
+			</c:forEach>
+			<script>
+				$("a.btn-warning").mouseover(function(){
+		    		$(this).find("div.tool_bar").show();
+				});
+				$("a.btn-warning").mouseout(function(){
+		    		$(this).find("div.tool_bar").hide();
+				});
+			</script>
+		
+		</div>
 	</div>
 	
 	<div class="modal fade" id="tipModal">

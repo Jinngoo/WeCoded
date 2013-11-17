@@ -115,48 +115,48 @@
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
-	
-	<div id="mainContent" style="display:none;margin-left:20px;">
-		
-		<button class="btn btn-danger" style="margin-left:10px;" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;取消</button>
-		<button class="btn btn-success" style="margin-left:20px;" onclick="confirmOffer(false)">确认发起</button>
-		
-		<!-- choose group -->
-		<div>
-			<hr/>
-			<div>已选择&nbsp;<span id="groupCount">0</span>&nbsp;个小组</div>
-			<div style="margin-left:10px;margin-top:20px;">
-				<c:forEach items="${myTeamList }" var="team" varStatus="status">
-					<!-- Group button -->
-					<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
-						<i class="icon-ok" title="已经选择" style="display:none"></i>
-					</jn:PopoverButton>
-				</c:forEach>
-				<c:forEach items="${joinedTeamList }" var="team" varStatus="status">
-					<!-- Group button -->
-					<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
-						<i class="icon-ok" title="已经选择" style="display:none"></i>
-					</jn:PopoverButton>
-				</c:forEach>
+	<div class="container">
+		<div id="mainContent" style="display:none;margin-left:20px;">
+			
+			<button class="btn btn-danger" style="margin-left:10px;" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;取消</button>
+			<button class="btn btn-success" style="margin-left:20px;" onclick="confirmOffer(false)">确认发起</button>
+			
+			<!-- choose group -->
+			<div>
+				<hr/>
+				<div>已选择&nbsp;<span id="groupCount">0</span>&nbsp;个小组</div>
+				<div style="margin-left:10px;margin-top:20px;">
+					<c:forEach items="${myTeamList }" var="team" varStatus="status">
+						<!-- Group button -->
+						<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
+							<i class="icon-ok" title="已经选择" style="display:none"></i>
+						</jn:PopoverButton>
+					</c:forEach>
+					<c:forEach items="${joinedTeamList }" var="team" varStatus="status">
+						<!-- Group button -->
+						<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
+							<i class="icon-ok" title="已经选择" style="display:none"></i>
+						</jn:PopoverButton>
+					</c:forEach>
+				</div>
 			</div>
-		</div>
-		<!-- choose restaurant -->
-		<div>
-			<hr/>
-			<div>已选择&nbsp;<span id="restaurantCount">0</span>&nbsp;个餐馆</div>
-			<div style="margin-left:10px;margin-top:20px;">
-				<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
-					<!-- Group button -->
-					<jn:PopoverButton id="restaurant_${restaurant.id}" style="cursor:pointer;"  popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}" imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}" >
-						<i class="icon-ok" title="已经选择" style="display:none"></i>
-					</jn:PopoverButton>
-				</c:forEach>
+			<!-- choose restaurant -->
+			<div>
+				<hr/>
+				<div>已选择&nbsp;<span id="restaurantCount">0</span>&nbsp;个餐馆</div>
+				<div style="margin-left:10px;margin-top:20px;">
+					<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
+						<!-- Group button -->
+						<jn:PopoverButton id="restaurant_${restaurant.id}" style="cursor:pointer;"  popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}" imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}" >
+							<i class="icon-ok" title="已经选择" style="display:none"></i>
+						</jn:PopoverButton>
+					</c:forEach>
+				</div>
 			</div>
+			
+			<hr/>
+			<button class="btn btn-success" style="margin-top:20px;margin-left:104px;" onclick="confirmOffer(false)">确认发起</button>
 		</div>
-		
-		<hr/>
-		<button class="btn btn-success" style="margin-top:20px;margin-left:104px;" onclick="confirmOffer(false)">确认发起</button>
-		
 	</div>
 	
 	<div class="modal fade" id="confirmModal">
