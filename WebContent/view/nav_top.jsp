@@ -7,7 +7,7 @@
 	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container" style="max-width: 1300px;">
 			<ul class="nav navbar-nav navbar-left">
-			<img src="${RESOURCE}/image/common/favicon.ico" style="width:32px;height:32px;margin-top:9px" />
+			<img src="${RESOURCE}/image/common/favicon.ico" style="width: 32px; height: 32px; margin-top: 9px; margin-left: 3px; margin-right: 7px" />
 			</ul>
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"><spring:message code="main.title" /></a>
@@ -31,7 +31,7 @@
 				<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<a href="${CONTEXT_PATH}/tool/uploadImage/1/${sessionScope.user.id}" target="_blank">
+				<a href="${CONTEXT_PATH}/tool/uploadImage/1/${sessionScope.user.id}?close=1" target="_blank">
 					<img id="userAvatar" src="${CONTEXT_PATH}/getImage/1/${sessionScope.user.id}" style="width:50px; height:50px; cursor: pointer" title="换头像" />
 				</a>
 			</ul>

@@ -13,11 +13,12 @@ function chooseImg(){
     $("#fileChooser").click();
 }
 
-function saveImg(){
+function saveImg(btn){
     if(jcrop_api == null){
         onError("请选择一张图片啊");
         return;
     }
+    $(btn).button("loading");
     //截取的大小、位置，有缩放因素
     var select = jcrop_api.tellSelect();
     var x = select.x/scaling;
@@ -51,7 +52,6 @@ function saveImg(){
                 opener[callback].call();
             }
             
-            //这个要在callback后面，否则都出不来~
             var uploadType = $("#uploadType").val();
             if(uploadType == "1"){
                 reloadUserAvatar();
@@ -60,11 +60,15 @@ function saveImg(){
                 }
             }
             
-            var close = J.getUrlParam('close');
-            if(close){
-                window.opener = null;   
-                window.close(); 
-            }
+            setTimeout(function(){
+                var close = J.getUrlParam('close');
+                if (close) {
+                    window.opener = null;
+                    window.close();
+                } else {
+                    $(btn).button('reset')
+                }
+            }, 500);
         }else{
             alert('error');
         }

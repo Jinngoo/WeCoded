@@ -289,11 +289,11 @@
 										<td class="script_br">${orderProvider.restaurants}</td>
 										<td style="text-align:center">
 											<c:if test="${orderProvider.status eq 1 }"> <!-- TODO -->
-												<button class="btn btn-default" onclick="joinProvideMeal('${orderProvider.id}')"><spring:message code="main.sboffer.chooseProvide" /></button>
+												<button class="btn btn-success" onclick="joinProvideMeal('${orderProvider.id}')"><spring:message code="main.sboffer.chooseProvide" /></button>
 											</c:if>
-											<button class="btn btn-default" onclick="showOrderList('${orderProvider.id}')">查看订单</button>
+											<button class="btn btn-primary" onclick="showOrderList('${orderProvider.id}')">查看订单</button>
 											<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
-												<button class="btn btn-default" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></button>
+												<button class="btn btn-danger" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></button>
 											</c:if>
 										</td>
 									</tr>

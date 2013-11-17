@@ -49,7 +49,7 @@
 						<img style="display: inline; ">
 					</div>
 					<button class="btn btn-primary" onclick="chooseImg()" style="margin-left:50px">选择图片</button>
-					<button class="btn btn-success" onclick="saveImg()">保存</button>
+					<button class="btn btn-success" onclick="saveImg(this)">保存</button>
 				</td>
 			</tr>
 		</table>
