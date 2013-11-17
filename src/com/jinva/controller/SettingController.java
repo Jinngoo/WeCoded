@@ -34,6 +34,7 @@ public class SettingController extends BaseControllerSupport {
     public String index() {
         return "setting/index";
     }
+    
 
     @RequestMapping(value = "updateBasicInfo")
     public ResponseEntity<JSONObject> updateBasicInfo(HttpSession session, HttpServletRequest request) {

@@ -9,6 +9,7 @@
 <c:set var="JN_UTIL" value="${RESOURCE}/framework/jinn/jnUtil.js" />
 <c:set var="AJAXANYWHERE" value="${RESOURCE}/framework/other/aa.js" />
 <c:set var="JQUERY" value="${RESOURCE}/framework/jquery/jquery-2.0.3.min.js" />
+
 <c:set var="BOOTSTRAP_CSS" value="${RESOURCE}/framework/bootstrap/css/bootstrap.min.css" />
 <c:set var="BOOTSTRAP_THEME_CSS" value="${RESOURCE}/framework/bootstrap/css/bootstrap-theme.min.css" />
 <c:set var="BOOTSTRAP_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap.min.js" />
@@ -19,8 +20,12 @@
 <c:set var="BOOTSTRAP_BUTTONS_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap-buttons.js" />
 <c:set var="DATETIMEPICKER_CSS" value="${RESOURCE}/framework/bootstrap/css/datetimepicker.css" />
 <c:set var="BOOTSTRAP_DATETIMEPICKER_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap-datetimepicker.min.js" />
+
 <c:set var="CHART_JS" value="${RESOURCE}/framework/chart/Chart.min.js" />
 <c:set var="JQUERY_MD5" value="${RESOURCE}/framework/jquery/jquery.md5.js" />
+
+<c:set var="JQUERY_JCROP_JS" value="${RESOURCE}/framework/jcrop/js/jquery.Jcrop.min.js" />
+<c:set var="JQUERY_JCROP_CSS" value="${RESOURCE}/framework/jcrop/css/jquery.Jcrop.min.css" />
 
 <c:set var="JQUERY_COOKIE" value="${RESOURCE}/js/util/jquery.cookie.js" />
 <c:set var="JQUERY_FORM" value="${RESOURCE}/js/util/jquery.form.js" />

@@ -17,6 +17,10 @@ public class BaseControllerSupport {
 
     protected Log logger = LogFactory.getLog(getClass());
 
+    protected String redirectIndex(){
+        return "redirect:/";
+    }
+    
     protected User getUser(HttpSession session) {
         return (User) session.getAttribute(JinvaConsts.USER);
     }

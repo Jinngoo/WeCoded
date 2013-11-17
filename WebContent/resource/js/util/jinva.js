@@ -78,6 +78,9 @@ Jinva.prototype.flicker = function(speed, j, count){
 		_self.flicker(speed, j, --count);
 	});
 }
+Jinva.prototype.getRandom = function(min, max) {
+    return parseInt(Math.random() * (max - min + 1) + min);
+};
 
 var J = new Jinva();
 //(function(window) {

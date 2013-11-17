@@ -26,6 +26,11 @@ public class MainController extends BaseControllerSupport{
     @Autowired
     private JinvaService jinvaService;
 
+    @RequestMapping(value="test2")
+    public String test2(HttpServletRequest request){
+        return "test2";
+    }
+    
     @RequestMapping(value="test")
     public String test(HttpServletRequest request){
         
@@ -68,7 +73,7 @@ public class MainController extends BaseControllerSupport{
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String login(HttpSession session){
         User user = (User) session.getAttribute(JinvaConsts.USER);
-        return user == null ? "login" : "redirect:/";
+        return user == null ? "login" : redirectIndex();
     }
     
     @RequestMapping(value = "login/validateName", method = RequestMethod.POST)
