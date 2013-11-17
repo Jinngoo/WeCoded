@@ -3,6 +3,8 @@ package com.jinva.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+
 public class CommonUtil {
 
     public static String toString(Object obj) {

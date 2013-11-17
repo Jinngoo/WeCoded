@@ -2,6 +2,8 @@ package com.jinva.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +26,40 @@ public class MainController extends BaseControllerSupport{
     @Autowired
     private JinvaService jinvaService;
 
+    @RequestMapping(value="test")
+    public String test(HttpServletRequest request){
+        
+        Integer pageSize = getInteger(request, "pageSize", 3);
+        Integer pageNum = getInteger(request, "pageNum", 1);
+        
+        int fromIndex = (pageNum - 1) * pageSize;
+        int toIndex = pageNum * pageSize;
+
+        List<String> result = new ArrayList<String>();
+        result.add("abc001");
+        result.add("abc002");
+        result.add("abc003");
+        result.add("abc004");
+        result.add("abc005");
+        result.add("abc006");
+        result.add("abc007");
+        result.add("abc008");
+        result.add("abc009");
+        result.add("abc010");
+        
+        if(toIndex > result.size()){
+            toIndex = result.size();
+        }
+        
+        List<String> data = result.subList(fromIndex, toIndex);
+        
+        request.setAttribute("result", data);
+        request.setAttribute("pageSize", pageSize);
+        request.setAttribute("pageNum", pageNum);
+        request.setAttribute("totalCount", result.size());
+        return "main";
+    }
+    
     @RequestMapping(value = { "", "/" })
     public String index(HttpSession session) {
         return getUser(session) == null ? "redirect:/login" : "redirect:/dining";

@@ -22,10 +22,7 @@
     <script type="text/javascript">
 	    $(document).ready(function(){
 	    	$("#mainContent").slideDown("fast");
-	    	$('#newsCarousel').carousel({
-				interval: 5000,
- 			 	pause : ''
- 			});
+	 
 	    	$("#public_btn").click(function(){
 	    		$("#public_topic").html("不支持啊不支持");
 	    	});

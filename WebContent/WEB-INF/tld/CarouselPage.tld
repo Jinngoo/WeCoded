@@ -3,15 +3,16 @@
 <taglib>
 	<tlib-version>2.2.3</tlib-version>
 	<jsp-version>1.2</jsp-version>
-	<short-name>PopoverButton</short-name>
+	<short-name>CarouselPage</short-name>
 	<uri>/jn</uri>
-	<display-name>PopoverButton</display-name>
+	<display-name>CarouselPage</display-name>
 	<tag>
-		<name>PopoverButton</name>
-		<tag-class>com.jinva.tag.PopoverButtonTag</tag-class>
-		<body-content>jsp</body-content>
+		<name>CarouselPage</name>
+		<tag-class>com.jinva.tag.CarouselPageTag</tag-class>
+		<body-content>empty</body-content>
 		<attribute>
 			<name>id</name>
+			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
@@ -19,31 +20,32 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>popoverTitle</name>
+			<name>aaZone</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>popoverContent</name>
+			<name>pageDataProvider</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>popoverTrigger</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>popoverPlacement</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
-			<name>imgUrl</name>
+			<name>pageInfoProvider</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
-			<name>content</name>
+			<name>url</name>
 			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pageSize</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>pageNum</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>

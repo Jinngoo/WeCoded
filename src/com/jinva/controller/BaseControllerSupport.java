@@ -42,6 +42,17 @@ public class BaseControllerSupport {
         return validParams;
     }
 
-
+    protected String getString(HttpServletRequest request, String name){
+        return request.getParameter(name);
+    }
+    
+    protected Integer getInteger(HttpServletRequest request, String name){
+        return getInteger(request, name, null);
+    }
+    
+    protected Integer getInteger(HttpServletRequest request, String name, Integer defaultValue){
+        String value = request.getParameter(name);
+        return value == null ? defaultValue : Integer.valueOf(value);
+    }
         
 }

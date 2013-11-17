@@ -18,44 +18,51 @@
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	
-    <script type="text/javascript" src="${RESOURCE}/js/main.js"></script>
+    <script type="text/javascript" src="${RESOURCE}/js/custom/carouselPage.js"></script>
 </head>
 <body>
 
 	<%@ include file="nav_top.jsp" %>
-
-
 	<div class="container">
 	
-	<h1>Jinn</h1>
-	<h3>${requestScope.serverInfo }</h3>
-	<h4>${requestScope.test }</h4>
-	<button onclick="test()">abc</button>
-	<aa:zone name="testzone">
-		${requestScope.test }
-	</aa:zone>
-	
-		<a href="${CONTEXT_PATH}/dining" target="_self"><h2>dining &lt;==</h2></a>
-	
-<%-- 		<iframe id="content_frame" src="${CONTEXT_PATH}/dining" style="width:1000px;height:100%" style="border:none;" frameborder="no"></iframe> --%>
+		<button class="btn btn-default" onclick="test()">test</button>
 
-		<%--
-		<!-- rihgt -->
-		<div class="span2 well pricehover pull-right">
-			<img id="photo" class="photo" alt="" src="img?type=1">
-			<div id="user_name">
-				<c:out value="${sessionScope.user_nickname }"></c:out>
+		<aa:zone name="testZone">
+			<div id="pageInfo" pageSize="${pageSize}" pageNum="${pageNum}" totalCount="${totalCount}"></div>
+			<div id="result">
+				<h3 style="color:green">
+				<c:forEach items="${result }" var="item">
+					${item}
+				</c:forEach>
+				</h3>
+				<h2>sdsdsdsdsdsdsddsdsd</h2>
 			</div>
-			<ul class="nav nav-pills nav-stacked">
-				<li class="active"><a href="#" data-toggle="pill">menu 1</a></li>
-				<li><a href="#" data-toggle="pill">menu two</a></li>
-				<li><a href="#" data-toggle="pill">menu 三</a></li>
-			</ul>
+		</aa:zone>
+		<div class='well'>
+		<jn:CarouselPage id="newsCarousel" style="width:870px;height:300px;" url="${CONTEXT_PATH}/test" aaZone="testZone" pageDataProvider="result" pageInfoProvider="pageInfo" pageSize="3"/>
 		</div>
-		 --%>
+<%--
+		<div id="newsCarousel" class="carousel slide" style="width:870px">
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+				<div class="item active">
+					<img src="${RESOURCE}/image/02.jpg"/>
+					<div class="carousel-caption"></div>
+				</div>
+				<div class="item">
+					<img src="${RESOURCE}/image/02.jpg"/>
+					<div class="carousel-caption"></div>
+				</div>
+			</div>
+			<!-- Carousel nav -->
+			<a id="prePage" class="carousel-control left" href="#" onclick="prev('prePageReal')"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<a id="nextPage" class="carousel-control right" href="#" onclick="next('nextPageReal')"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			<a id="prePageReal" class="carousel-control left" href="#newsCarousel" data-slide="prev" style="display:none"></a>
+			<a id="nextPageReal" class="carousel-control right" href="#newsCarousel" data-slide="next" style="display:none"></a>
+		</div>
+ --%>
+ 
 	</div>
-
-
 	<%@ include file="nav_bottom.jsp" %>
 </body>
 </html>

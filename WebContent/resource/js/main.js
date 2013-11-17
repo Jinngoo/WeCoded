@@ -1,35 +1,47 @@
-//function Logout(){
-//	if(!!$.cookie("jinva")){
-//		$.cookie("jinva", null);
-//	}
-//	$("#pass").val(null);
-//	$("#logged").slideUp(function(){
-//		$("#login").slideDown();
-//	});
-//}
 
-//AjaxAnywhere.prototype.showLoadingMessage = function() {}
-//AjaxAnywhere.prototype.hideLoadingMessage = function() {}
-window.onbeforeunload = function() {
-	$(document).scrollTop(0);
-};
-$(document).ready(function() {
-	$("#logout").click(function() {
-		logout();
-	});
+
+$(document).ready(function(){
+    $("#newsCarousel").find("div.active").children(".carousel-caption").append($("#result"));
+    $("#newsCarousel").on("slid.bs.carousel", function(){
+        $(this).carousel('pause')
+    });
 });
-function content(src) {
-	$("#content_frame").attr("src", src);
+function flip(pageSize, pageNum, buttonId){
+    AjaxAnywhere.prototype.showLoadingMessage = function() {
+    };
+    AjaxAnywhere.prototype.hideLoadingMessage = function() {
+    };
+    AjaxAnywhere.prototype.onAfterResponseProcessing = function () {
+        $("#newsCarousel").find("div.item").each(function(){
+            if(!$(this).hasClass("active")){
+                $(this).children(".carousel-caption").empty().append($("#result"));
+            }
+        });
+        $("#"+buttonId).click();
+    };
+    var url = contextPath + '/test?pageSize=' + pageSize + '&pageNum=' + pageNum;
+    console.log(url)
+    ajaxAnywhere.getAJAX(url, "testZone");
 }
-function logout() {
-	var url = 'ajax_logout';
-	$.post(url, {}, function(data, textStatus, jqXHR) {
-		window.location.reload();
-	});
+function prev(buttonId){
+    var pageSize = parseInt($("#pageInfo").attr("pageSize"), 10);
+    var pageNum = parseInt($("#pageInfo").attr("pageNum"), 10);
+    var totalCount = parseInt($("#pageInfo").attr("totalCount"), 10);
+    if(pageNum == 1){
+        pageNum = Math.ceil(totalCount / pageSize);
+    }else{
+        pageNum -= 1;
+    }
+    flip(pageSize, pageNum, buttonId);
 }
-
-function test(){
-    var url = contextPath + '/test/abcabcabc/';
-    ajaxAnywhere.getAJAX(url, 'testzone');
-    console.log('hehe')
-};
+function next(buttonId){
+    var pageSize = parseInt($("#pageInfo").attr("pageSize"), 10);
+    var pageNum = parseInt($("#pageInfo").attr("pageNum"), 10);
+    var totalCount = parseInt($("#pageInfo").attr("totalCount"), 10);
+    if(pageNum == Math.ceil(totalCount / pageSize)){
+        pageNum = 1;
+    }else{
+        pageNum += 1;
+    }
+    flip(pageSize, pageNum, buttonId);
+}

@@ -72,7 +72,6 @@ public class PopoverButtonTag extends BodyTagSupport  {
         if(StringUtils.isNotBlank(body)){
             buff.append(body);
         }
-
         buff.append("</div></div></a>");
 
         try {
