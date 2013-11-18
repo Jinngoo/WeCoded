@@ -77,7 +77,7 @@
 
 	<error-page>
 		<error-code>404</error-code>
-		<location>/view/404.jsp</location>
+		<location>/view/error/404.jsp</location>
 	</error-page>
 	
  	<listener>
