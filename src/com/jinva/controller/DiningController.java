@@ -93,8 +93,10 @@ public class DiningController extends BaseControllerSupport{
     public String restaurantList(HttpServletRequest request, HttpSession session) throws InterruptedException{
         String userId = getUserId(session);
         List<Restaurant> myRestaurantList = jinvaService.getMyRestaurantList(0, -1, userId);
+        List<Restaurant> publicRestaurantList = jinvaService.getPublicRestaurantList(0, -1, userId);
         List<Restaurant> otherRestaurantList = jinvaService.getOtherRestaurantList(0, -1, userId);
         request.setAttribute("myRestaurantList", myRestaurantList);
+        request.setAttribute("publicRestaurantList", publicRestaurantList);
         request.setAttribute("otherRestaurantList", otherRestaurantList);
         return index();
     }
@@ -306,20 +308,18 @@ public class DiningController extends BaseControllerSupport{
     @RequestMapping(value = "provideMealPage/{backUrl}")
     public String provideMealPage(HttpSession session, HttpServletRequest request, @PathVariable("backUrl") String backUrl){
         String userId = getUserId(session);
-        List<Team> myTeamList = jinvaService.getMyTeamList(0, -1, userId);
-        List<Team> joinedTeamList = jinvaService.getJoinedTeamList(0, -1, userId);
-        Map<String, String> cache = new HashMap<String, String>();
-        jinvaService.parseTeamOwnerName(myTeamList, cache);
-        jinvaService.parseTeamOwnerName(joinedTeamList, cache);
-        jinvaService.parseTeamMemberCount(myTeamList);
-        jinvaService.parseTeamMemberCount(joinedTeamList);
         
-        List<Restaurant> myRestaurantList = jinvaService.getMyRestaurantList(0, -1, userId);
-        jinvaService.parseRestaurantOwnerName(myRestaurantList, new HashMap<String, String>());
+        List<Team> teamList = jinvaService.getOptionalTeamList(0, -1, userId);
         
-        request.setAttribute("myTeamList", myTeamList);
-        request.setAttribute("joinedTeamList", joinedTeamList);
-        request.setAttribute("myRestaurantList", myRestaurantList);
+        jinvaService.parseTeamOwnerName(teamList, new HashMap<String, String>());
+        jinvaService.parseTeamMemberCount(teamList);
+        
+        List<Restaurant> restaurantList = jinvaService.getOptionalRestaurantList(0, -1, userId);
+        jinvaService.parseRestaurantOwnerName(restaurantList, new HashMap<String, String>());
+        
+        
+        request.setAttribute("teamList", teamList);
+        request.setAttribute("restaurantList", restaurantList);
         request.setAttribute("backUrl", backUrl);
         
         return "dining/provideMeal";

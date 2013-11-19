@@ -38,6 +38,7 @@
 	<%@ include file="../nav_top.jsp" %>
 	<div class="container">
 		<div id="mainContent" style="display:none;margin-left:20px;">
+			<c:set var="canEdit" value="${restaurant.ownerId eq sessionScope.user.id or restaurant.belong eq 2 }"/>
 			<div class="well">
 				<div style="float:left">
 					<img class="shadow" src="${CONTEXT_PATH}/getImage/3/${restaurant.id}" style="width:100px;height:100px" />
@@ -54,11 +55,11 @@
 			<!-- Toolbar -->
 			<div id="collapseTool" class="collapse in collapseDish">
 				<button id="goBack" class="btn btn-danger" style="margin-left:10px;" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
-				<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
+				<c:if test="${canEdit }">
 					<button class="btn btn-success" style="margin-left:20px;" data-toggle="collapse" data-target=".collapseDish">添加菜单</button>
 				</c:if>
 				<c:if test="${restaurant.ownerId ne sessionScope.user.id }">
-					<button class="btn btn-primary" style="margin-left:20px;" onclick="copy('${restaurant.id}')">给我拷一份</button>
+					<button class="btn btn-primary" style="margin-left:20px;" onclick="copy('${restaurant.id}')" title="复制一份当前餐馆到&lt;我的餐馆&gt;">给我拷一份</button>
 				</c:if>
 			</div>
 			<!-- Edit form -->
@@ -106,7 +107,7 @@
 							data-content="(${restaurant.name})<br>" data-trigger="hover" data-title="${dish.name }" data-placement="bottom" rel="popover"
 							onmouseover="showToolBar(this);initPopover(this)" onmouseout="hideToolBar(this)" >
 						<div class="tool_bar">
-							<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
+							<c:if test="${canEdit}">
 								<a href="${CONTEXT_PATH}/tool/uploadImage/4/${dish.id}?callback=reloadImage&close=1" target="_blank" style="color:white;text-decoration:none;">
 									<i class="icon-picture icon-white tool_img" title="更改图片" onmousedown="markDish('${dish.id}')"></i>
 								</a>

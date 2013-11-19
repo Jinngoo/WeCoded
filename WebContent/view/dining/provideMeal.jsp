@@ -126,13 +126,7 @@
 				<hr/>
 				<div>已选择&nbsp;<span id="groupCount">0</span>&nbsp;个小组</div>
 				<div style="margin-left:10px;margin-top:20px;">
-					<c:forEach items="${myTeamList }" var="team" varStatus="status">
-						<!-- Group button -->
-						<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
-							<i class="icon-ok" title="已经选择" style="display:none"></i>
-						</jn:PopoverButton>
-					</c:forEach>
-					<c:forEach items="${joinedTeamList }" var="team" varStatus="status">
+					<c:forEach items="${teamList }" var="team" varStatus="status">
 						<!-- Group button -->
 						<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
 							<i class="icon-ok" title="已经选择" style="display:none"></i>
@@ -145,7 +139,7 @@
 				<hr/>
 				<div>已选择&nbsp;<span id="restaurantCount">0</span>&nbsp;个餐馆</div>
 				<div style="margin-left:10px;margin-top:20px;">
-					<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
+					<c:forEach items="${restaurantList }" var="restaurant" varStatus="status">
 						<!-- Group button -->
 						<jn:PopoverButton id="restaurant_${restaurant.id}" style="cursor:pointer;"  popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}" imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}" >
 							<i class="icon-ok" title="已经选择" style="display:none"></i>

@@ -47,7 +47,7 @@
 			<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics(this)">合并查看</button>
 			<hr/>
 			<div class="alert alert-success">
-				<div>订餐电话</div>
+				<div><b>餐馆信息</b></div>
 				<c:forEach items="${restaurantList}" var="restaurant">
 					<div>${restaurant.name} ( ${restaurant.telphone} )</div>
 				</c:forEach>

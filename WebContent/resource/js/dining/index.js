@@ -43,7 +43,6 @@ function bindAll(){
 			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
-			$("#createGroupBtn").button("reset");
 			$("#collapseCreateGroupBtn").collapse('toggle');
 			$("#collapseCreateGroup").collapse('toggle');
 		};
@@ -63,6 +62,9 @@ function bindAll(){
 			$("#restaurant_name_group").addClass("error");
 			return;
 		}
+		var belong = $("#restaurant_belong_checkbox").get(0).checked ? 2 : 1;
+		$("#restaurant_belong").val(belong);
+		
 		ajaxAnywhere.formName = "restaurant_form";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "restaurantList";
@@ -71,7 +73,6 @@ function bindAll(){
 			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
-			$("#createRestaurantBtn").button("reset");
 			$("#collapseCreateRestaurantBtn").collapse('toggle');
 			$("#collapseCreateRestaurant").collapse('toggle');
 		};
@@ -83,6 +84,9 @@ function bindAll(){
 	$("#collapseCreateRestaurant").on('hidden.bs.collapse', function() {
 		J.clearForm("restaurant_form");
 		$("#restaurantAvatar").parent().hide();
+		//默认是private
+		updateBelongSwitch(false);
+		$("#restaurant_belong").val(1);
 	});
 	// //////////////////////////////////////////
 	$("#passwordModal").on("hidden.bs.collapse", function() {
@@ -118,7 +122,9 @@ function reloadAvatar(){
     if(toReloadAvatarId){
         var img = $('img[avatar=' + toReloadAvatarId + ']');
         img.attr("src", img.attr("src"));
-        img = $("#img_" + toReloadAvatarId);
+        
+//        img = $("#img_" + toReloadAvatarId);
+        img = $("img[id^=img_" + toReloadAvatarId + "]")
         img.attr("src", img.attr("src"));
         toReloadAvatarId = null;
     }
@@ -259,12 +265,25 @@ function editRestaurant(restaurantId) {
             $("#restaurantAvatar").attr("src", contextPath + "/getImage/3/" + restaurantId).attr("avatar", restaurantId);
             $("#restaurantAvatar").parent().show().attr("href", contextPath + "/tool/uploadImage/3/" + restaurantId + "?callback=reloadAvatar&close=1");
 			J.fillForm(restaurant, "restaurant");
+			
+			var isPublic = restaurant.belong == 2;
+			updateBelongSwitch(isPublic);
+			
+			
 			$("#collapseCreateRestaurantBtn").collapse('toggle');
 			$("#collapseCreateRestaurant").collapse('toggle');
 		}
 	});
 }
-
+function updateBelongSwitch(isPublic){
+    var belongCheck = $("#restaurant_belong_checkbox");
+    belongCheck.get(0).checked = isPublic;
+    if(isPublic){
+        belongCheck.parent().removeClass("switch-off").addClass("switch-on");
+    }else{
+        belongCheck.parent().removeClass("switch-on").addClass("switch-off");
+    }
+}
 function showRestaurantMenu(restaurantId) {
 	var url = contextPath + "/dining/restaurantMenu";
 	url += "/" + restaurantId;

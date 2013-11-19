@@ -24,6 +24,8 @@ public class Restaurant {
 	private String address;
 
 	private String telphone;
+	
+	private Integer belong; 
 
 	private String introduction;
 
@@ -31,6 +33,9 @@ public class Restaurant {
 	//非数据库字段
 	private String ownerName;
 	private Long dishCount;
+	
+	public static final int BELONG_PRIVATE = 1;
+    public static final int BELONG_PUBLIC = 2;
 
 	private List<String> telphoneList;
 
@@ -82,6 +87,15 @@ public class Restaurant {
 		this.telphone = telphone;
 	}
 
+	@Column(name = "belong")
+    public Integer getBelong() {
+        return belong;
+    }
+
+    public void setBelong(Integer belong) {
+        this.belong = belong;
+    }
+    
 	@Column(name = "introduction", length = 600)
 	public String getIntroduction() {
 		return introduction;
@@ -117,5 +131,6 @@ public class Restaurant {
 	public void setDishCount(Long dishCount) {
 		this.dishCount = dishCount;
 	}
+
 
 }

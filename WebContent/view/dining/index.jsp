@@ -11,6 +11,8 @@
 	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
 	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
 	<link href="${FONT_AWESOME_CSS}" rel="stylesheet" media="screen">
+	<link href="${BOOTSTRAP_SWITCH_CSS}" rel="stylesheet" media="screen">
+	<link href="${BOOTSTRAP_BUTTONS_CSS}" rel="stylesheet" media="screen">
 	
 	<link href="${RESOURCE}/css/common.css" rel="stylesheet" media="screen">
 	<link href="${RESOURCE}/css/custom/popoverButton.css" rel="stylesheet" media="screen">
@@ -19,6 +21,8 @@
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	<script type="text/javascript" src="${BOOTSTRAP_SWITCH_JS}"></script>
+	<script type="text/javascript" src="${BOOTSTRAP_BUTTONS_JS}"></script>
 	
     <script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
     <script type="text/javascript" src="${RESOURCE}/js/custom/popoverButton.js"></script>
@@ -35,6 +39,25 @@
     		 width: 200px; 
     		 height: 200px;
     		 margin-left: 10px;
+    	}
+    	.input-group-addon .label {
+    		width: 80px;
+    		display: block;
+    		color: rgb(85, 85, 85);
+    		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			font-size: 14px;
+			font-weight: normal;
+    	}
+    	.no-border{
+    		border-bottom-width: 0px;
+    		border-right-width: 0px;
+    		border-top-width: 0px;
+    		-webkit-box-shadow:none;
+    		box-shadow:none;
+    	}
+    	a.button{
+    		cursor: pointer;
+    		text-decoration: none;
     	}
     </style>
 </head>
@@ -173,36 +196,44 @@
 					</div>
 					<div id="collapseCreateRestaurant" class="collapse createRestaurant" style="position:relative;">
 						<!-- Restaurant avatar -->
-						<a href="#" style="position:absolute;top:50px;left:0px;display:none" title="更换餐馆形象" target="_blank">
+						<a href="#" style="position:absolute;top:20px;left:0px;display:none" title="更换餐馆形象" target="_blank">
 							<img id="restaurantAvatar" avatar="" class="avatar shadow" src="" />
 						</a>
 						<!-- Restaurant form -->
-						<form class="form-horizontal" id="restaurant_form" action="${CONTEXT_PATH}/dining/saveRestaurant" method="post" role="form" style="max-width:500px; margin-left: 240px">
+						<form class="form-horizontal" id="restaurant_form" action="${CONTEXT_PATH}/dining/saveRestaurant" method="post" role="form" style="width:500px; margin-left: 250px">
 							<input type="text" name="restaurant_id" id="restaurant_id" style="display:none">
-							<div class="form-group" id="restaurant_name_group">
-								<label class="col-sm-2 control-label" for="restaurant_name">店名</label>
-								<div class="col-sm-10">
+							<input type="text" name="restaurant_belong" id="restaurant_belong" style="display:none" value="1">
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-addon"><div class="label">店名</div></span>
 									<input type="text" class="form-control" id="restaurant_name" name="restaurant_name">
-									<p class="help-block">字母，数字，汉字皆可(必填)</p>
 								</div>
+								<p class="help-block">字母，数字，汉字皆可(必填)</p>
 							</div>
-							<div class="form-group" id="restaurant_telphone_group">
-								<label class="col-sm-2 control-label" for="restaurant_telphone">电话</label>
-								<div class="col-sm-10">
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-addon"><div class="label">电话</div></span>
 									<input type="text" class="form-control" id="restaurant_telphone" name="restaurant_telphone">
-									<p class="help-block">多个用空格分隔</p>
 								</div>
+								<p class="help-block">多个用空格分隔</p>
 							</div>
-							<div class="form-group" id="restaurant_introduction_group">
-								<label class="col-sm-2 control-label" for="restaurant_introduction">简介</label>
-								<div class="col-sm-10">
+							<div class="form-group">
+								<div class="input-group">
+									<span class="input-group-addon"><div class="label">简介</div></span>
 									<textarea rows="4" class="form-control" id="restaurant_introduction" name="restaurant_introduction"></textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<a class="btn btn-primary" id="createRestaurantBtn">保存</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<a class="btn btn-default" data-toggle="collapse" data-target=".createRestaurant">取消</a>
+								<div class="input-group">
+									<span class="input-group-addon"><div class="label">公开</div></span>
+									<div class="form-control no-border">
+										<div class="make-switch" data-on-label="是" data-off-label="否">
+											<input type="checkbox" id="restaurant_belong_checkbox">
+										</div>
+										<a data-toggle="collapse" data-target=".createRestaurant" class="button glow button-rounded button-flat button-small" style="float: right">取消</a>
+										<div style="float:right;width:30px;">&nbsp;</div>
+										<a id="createRestaurantBtn" class="button glow button-rounded button-flat-primary button-small" style="float: right"><span style="color:white">保存</span></a>
+									</div>
 								</div>
 							</div>
 						</form>
@@ -210,15 +241,36 @@
 					<aa:zone name="restaurantList">
 						<img id="restaurantListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
 						<div id="restaurantListBody" style="margin-top:20px">
+							<!-- 大家的餐馆 -->
+							<div class="alert alert-success">
+								<div class="collapseTrigger" data-toggle="collapse" data-target="#publicRestaurantPanel" onclick="toggleArrow(this)">
+									<i class="icon-chevron-right" style="display:none"></i>
+									<i class="icon-chevron-down"></i>大家的餐馆(${fn:length(publicRestaurantList)})
+									<hr>
+								</div>
+								<div id="publicRestaurantPanel" class="collapse in">
+									<c:forEach items="${publicRestaurantList }" var="restaurant" varStatus="status">
+										<jn:PopoverButton id="${restaurant.id}_public" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
+											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
+											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
+											<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
+												<i class="icon-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
+											</c:if>
+										</jn:PopoverButton>
+									</c:forEach>
+								</div>
+							</div>
+							<!-- 我的餐馆 -->
 							<div class="alert alert-danger">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#myRestaurantPanel" onclick="toggleArrow(this)">
 									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i>我创建的餐馆(${fn:length(myRestaurantList)})
+									<i class="icon-chevron-down"></i>我的餐馆(${fn:length(myRestaurantList)})
 									<hr>
 								</div>
 								<div id="myRestaurantPanel" class="collapse in">
 									<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
-										<jn:PopoverButton id="${restaurant.id}" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
+										<jn:PopoverButton id="${restaurant.id}_mine" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
 											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
 											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
@@ -227,15 +279,16 @@
 									</c:forEach>
 								</div>
 							</div>
+							<!-- 其他餐馆 -->
 							<div class="alert alert-info">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#otherRestaurantPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right"></i>
-									<i class="icon-chevron-down" style="display:none"></i>其他餐馆(${fn:length(otherRestaurantList)})
+									<i class="icon-chevron-right" style="display:none"></i>
+									<i class="icon-chevron-down"></i>其他餐馆(${fn:length(otherRestaurantList)})
 									<hr>
 								</div>
-								<div id="otherRestaurantPanel" class="collapse">
+								<div id="otherRestaurantPanel" class="collapse in">
 									<c:forEach items="${otherRestaurantList }" var="restaurant" varStatus="status">
-										<jn:PopoverButton id="${restaurant.id}" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
+										<jn:PopoverButton id="${restaurant.id}_other" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
 											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
 										</jn:PopoverButton>

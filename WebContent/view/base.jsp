@@ -16,10 +16,11 @@
 <c:set var="FONT_AWESOME_CSS" value="${RESOURCE}/framework/bootstrap/css/font-awesome.min.css" />
 <c:set var="BOOTSTRAP_SWITCH_CSS" value="${RESOURCE}/framework/bootstrap/css/bootstrap-switch.css" />
 <c:set var="BOOTSTRAP_SWITCH_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap-switch.min.js" />
-<c:set var="BOOTSTRAP_BUTTONS_CSS" value="${RESOURCE}/framework/bootstrap/css/bootstrap-buttons.css" />
-<c:set var="BOOTSTRAP_BUTTONS_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap-buttons.js" />
 <c:set var="DATETIMEPICKER_CSS" value="${RESOURCE}/framework/bootstrap/css/datetimepicker.css" />
 <c:set var="BOOTSTRAP_DATETIMEPICKER_JS" value="${RESOURCE}/framework/bootstrap/js/bootstrap-datetimepicker.min.js" />
+
+<c:set var="BOOTSTRAP_BUTTONS_CSS" value="${RESOURCE}/framework/bootstrap-buttons/css/buttons.css" />
+<c:set var="BOOTSTRAP_BUTTONS_JS" value="${RESOURCE}/framework/bootstrap-buttons/js/buttons.js" />
 
 <c:set var="CHART_JS" value="${RESOURCE}/framework/chart/Chart.min.js" />
 <c:set var="JQUERY_MD5" value="${RESOURCE}/framework/jquery/jquery.md5.js" />

@@ -54,7 +54,7 @@
 		<div id="mainContent" style="display:none;">
 			<div class="well">
 				<div style="float:left">
-					<img src="${CONTEXT_PATH}/getImage/2/${team.id}" style="width:100px;height:100px" />
+					<img class="shadow" src="${CONTEXT_PATH}/getImage/2/${team.id}" style="width:100px;height:100px" />
 				</div>
 				<div style="float:left;margin-left:20px;">
 					&nbsp;&nbsp;&nbsp;&nbsp;小组名:&nbsp;<c:out value="${team.name }"/><br/>

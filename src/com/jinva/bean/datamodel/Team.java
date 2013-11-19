@@ -21,8 +21,6 @@ public class Team {
 
 	private String ownerId;
 
-	private Integer level;
-
 	private String introduction;
 
 	/////////////////////////////
@@ -80,15 +78,6 @@ public class Team {
 
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
-	}
-
-	@Column(name = "level")
-	public Integer getLevel() {
-		return level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
 	}
 
 	@Column(name = "introduction", length = 300)

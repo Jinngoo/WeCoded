@@ -157,6 +157,38 @@ public class JinvaService {
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId, userId});
     }
     
+    /**
+     * 获得可选参加订餐的小组，包含我创建和我参加
+     * @param start
+     * @param size
+     * @param userId
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public List<Team> getOptionalTeamList(int start, int size, String userId){
+        String hql = "from #Team where id in (select teamId from #UserTeam where userId = ?)";
+        hql = hql.replaceAll("#Team", Team.class.getName());
+        hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
+        return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
+    }
+    
+    /**
+     * 获得可选为订餐的餐馆，包含我创建和公共的
+     * @param start
+     * @param size
+     * @param userId
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public List<Restaurant> getOptionalRestaurantList(int start, int size, String userId){
+        String hql = "from #Restaurant where ownerId = ? or belong = ?";
+        hql = hql.replaceAll("#Restaurant", Restaurant.class.getName());
+        List<Restaurant> restaurantList = theDao.getHibernateTemplate().find(hql, new Object[]{userId, Restaurant.BELONG_PUBLIC});
+        this.parseRestaurantOwnerName(restaurantList, new HashMap<String, String>());
+        this.parseRestaurantDishCount(restaurantList);
+        return restaurantList;
+    }
+    
     @SuppressWarnings("unchecked")
 	public List<Restaurant> getMyRestaurantList(int start, int size, String userId){
     	String hql = "from #Restaurant where ownerId = ?";
@@ -168,13 +200,23 @@ public class JinvaService {
     }
     
     @SuppressWarnings("unchecked")
-    public List<Restaurant> getOtherRestaurantList(int start, int size, String userId){
-    	String hql = "from #Restaurant where ownerId <> ?";
+    public List<Restaurant> getPublicRestaurantList(int start, int size, String userId){
+    	String hql = "from #Restaurant where belong = ?";
     	hql = hql.replaceAll("#Restaurant", Restaurant.class.getName());
-    	List<Restaurant> myRestaurantList = theDao.getHibernateTemplate().find(hql, new Object[]{userId});
+    	List<Restaurant> myRestaurantList = theDao.getHibernateTemplate().find(hql, new Object[]{Restaurant.BELONG_PUBLIC});
     	this.parseRestaurantOwnerName(myRestaurantList, new HashMap<String, String>());
     	this.parseRestaurantDishCount(myRestaurantList);
     	return myRestaurantList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Restaurant> getOtherRestaurantList(int start, int size, String userId){
+        String hql = "from #Restaurant where ownerId <> ? and belong = ?";
+        hql = hql.replaceAll("#Restaurant", Restaurant.class.getName());
+        List<Restaurant> myRestaurantList = theDao.getHibernateTemplate().find(hql, new Object[]{userId, Restaurant.BELONG_PRIVATE});
+        this.parseRestaurantOwnerName(myRestaurantList, new HashMap<String, String>());
+        this.parseRestaurantDishCount(myRestaurantList);
+        return myRestaurantList;
     }
     
     public void parseRestaurantOwnerName(List<Restaurant> restaurantList, Map<String, String> cache){
