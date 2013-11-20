@@ -26,7 +26,19 @@
     
     <style type="text/css">
 	    .tool_bar{
-	    	position:absolute;right:0px;top:0px;background-color:#777777;opacity:0.6;-moz-opacity:0.6;filter:alpha(Opacity=60);padding-left:5px;padding-right:5px;margin-top:5px;margin-right:5px;cursor:pointer;display:none;
+	    	position:absolute;
+	    	right:0px;
+	    	top:0px;
+	    	background-color:#00CC66;
+	    	opacity:0.6;
+	    	-moz-opacity:0.6;
+	    	filter:alpha(Opacity=60);
+	    	padding-left:5px;
+	    	padding-right:5px;
+	    	margin-top:5px;
+	    	margin-right:5px;
+	    	cursor:pointer;
+	    	display:none;
 	    }
     	.tool_img{
     		margin-left: 1px;

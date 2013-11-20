@@ -314,20 +314,23 @@
 	
 				<!-- offer tab content -->
 				<div class="tab-pane" id="orderProviderList" style="max-width:1300px; min-width:1000px;">
-					<a class="btn btn-success" onclick="provideMealPage()">发起订餐</a>
+					<br/>
+					<a class="button glow button-rounded button-flat-highlight" onclick="provideMealPage()">
+						<span style="color:white">发起订餐</span>
+					</a>
 					<hr />
 					<aa:zone name="orderProviderList">
 						<img id="orderProviderListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
-						<table class="table table-bordered table-hover">
+						<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
 							<thead>
 								<tr>
 									<th width="50px" class="nowrap"><li class="icon-glass"></li></th>
-									<th width="80px" class="nowrap">状态</th>
-									<th width="170px" class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
+									<th width="70px" class="nowrap">状态</th>
+									<th width="150px" class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
 									<th class="nowrap"><spring:message code="main.sboffer.provider" /></th>
 									<th width="100px" class="nowrap"><spring:message code="main.sboffer.receiveTeams" /></th>
 									<th class="nowrap"><spring:message code="main.sboffer.restaurants" /></th>
-									<th width="300px" class="nowrap"></th>
+									<th width="310px" class="nowrap"></th>
 								</tr>
 							</thead>
 							<tbody id="orderProviderListBody">
@@ -342,12 +345,14 @@
 										<td class="script_br">${orderProvider.receiveTeams}</td>
 										<td class="script_br">${orderProvider.restaurants}</td>
 										<td style="text-align:center">
-											<c:if test="${orderProvider.status eq 1 }"> <!-- TODO -->
-												<button class="btn btn-success" onclick="joinProvideMeal('${orderProvider.id}')"><spring:message code="main.sboffer.chooseProvide" /></button>
+											<c:if test="${orderProvider.status eq 1 }">
+												<a class="button glow button-rounded button-flat-action button-small" onclick="joinProvideMeal('${orderProvider.id}')">
+													<span style="color:white"><spring:message code="main.sboffer.chooseProvide" /></span>
+												</a>
 											</c:if>
-											<button class="btn btn-primary" onclick="showOrderList('${orderProvider.id}')">查看订单</button>
+											<a class="button button-rounded button-flat-primary button-small" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
 											<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
-												<button class="btn btn-danger" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></button>
+												<a class="button button-rounded button-flat-caution button-small" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></a>
 											</c:if>
 										</td>
 									</tr>

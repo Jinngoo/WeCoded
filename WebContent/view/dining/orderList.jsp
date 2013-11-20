@@ -52,7 +52,7 @@
 				</c:forEach>
 			</div>
 			<div >
-				<table class="table table-bordered table-hover" id="orderList">
+				<table class="table table-bordered table-hover" id="orderList" style="font-family: 微软雅黑">
 					<thead>
 					<tr id="headTr">
 						<th width="8%"><li class="icon-glass"></li></th>
