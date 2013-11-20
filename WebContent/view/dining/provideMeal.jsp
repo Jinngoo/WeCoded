@@ -19,16 +19,9 @@
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	
-	<script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
+	<script type="text/javascript" src="${JN_UTIL}"></script>
 	<script type="text/javascript" src="${RESOURCE}/js/custom/popoverButton.js"></script>
 	
-<!--     <link rel="stylesheet" type="text/css" href="${BOOTSTRAP_CSS}" /> -->
-<!--     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/popoverButton.css" /> -->
-<!--     <script type="text/javascript" src="${JQUERY}"></script> -->
-<!--     <script type="text/javascript" src="${JQUERY_COOKIE}"></script>   -->
-<!--     <script type="text/javascript" src="${AJAXANYWHERE}"></script> -->
-<!--     <script type="text/javascript" src="${pageContext.request.contextPath}/js/util/jinva.js"></script> -->
-<!--     <script type="text/javascript" src="${BOOTSTRAP_JS}"></script> -->
     <script type="text/javascript">
     	var choosenTeams = new Array();
     	var choosenRestaurants = new Array();
@@ -146,6 +139,7 @@
 						</jn:PopoverButton>
 					</c:forEach>
 				</div>
+				<div>//TODO 加入其它的餐馆</div>
 			</div>
 			
 			<hr/>

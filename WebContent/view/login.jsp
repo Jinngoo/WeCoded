@@ -20,18 +20,6 @@
 	
 	<script type="text/javascript" src="${RESOURCE}/js/login.js"></script>
 	
-	<%--
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><s:text name="main.title"></s:text></title>
-    <link rel="stylesheet" type="text/css" href="css/login.css" />
-    <link rel="stylesheet" type="text/css" href="${BOOTSTRAP_CSS}" />
-    <script type="text/javascript" src="${JQUERY}"></script>
-    <script type="text/javascript" src="${JQUERY_COOKIE}"></script>  
-    <script type="text/javascript" src="${JQUERY_MD5}"></script>  
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/util/jinva.js"></script>
-    <script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/login.js"></script>
-     --%>
 </head>
 <body>
 

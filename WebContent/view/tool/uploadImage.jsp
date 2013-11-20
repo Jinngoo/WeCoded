@@ -20,8 +20,8 @@
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	<script type="text/javascript" src="${JQUERY_FORM}"></script>
 	<script type="text/javascript" src="${JQUERY_JCROP_JS}"></script>
-	<script type="text/javascript" src="${RESOURCE}/js/util/jinva.js"></script>
 	
+	<script type="text/javascript" src="${JN_UTIL}"></script>
 	<script type="text/javascript" src="${RESOURCE}/js/tool/uploadImage.js"></script>
 	
 	<style type="text/css">
