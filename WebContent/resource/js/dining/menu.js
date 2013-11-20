@@ -142,3 +142,6 @@ function showToolBar(popover){
 function hideToolBar(popover){
     $(popover).children("div.tool_bar").hide();
 }
+function reloadAvatar(){
+    $("#restaurantAvatar").attr("src", $("#restaurantAvatar").attr("src"));
+}

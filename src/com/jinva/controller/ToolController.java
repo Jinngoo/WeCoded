@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jinva.service.InitSqlDataService;
 import com.jinva.service.storage.IStorage;
 import com.jinva.util.StorageUtil;
 
@@ -22,6 +23,9 @@ public class ToolController extends BaseControllerSupport{
 
     @Autowired
     private IStorage storage;
+    
+    @Autowired
+    private InitSqlDataService initSqlDataService;
     
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String index(){
@@ -46,4 +50,20 @@ public class ToolController extends BaseControllerSupport{
         
         return new ResponseEntity<String>("success", HttpStatus.OK); 
     }    
+    
+    @RequestMapping(value = "initSqlData")
+    public String initSqlData(){
+        return "tool/initSqlData";
+    }
+    
+    @RequestMapping(value = "initSqlData/do")
+    public ResponseEntity<String> initSqlData_do(){
+        try {
+            initSqlDataService.initSqlData();
+        } catch (Exception e) {
+            logger.error(e);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.OK); 
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK); 
+    }
 }

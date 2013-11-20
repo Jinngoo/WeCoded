@@ -36,12 +36,16 @@
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
+	<c:set var="iamOwner" value="${restaurant.ownerId eq sessionScope.user.id }" />
+	<c:set var="canEdit" value="${iamOwner or restaurant.belong eq 2 }"/>
+	
 	<div class="container">
 		<div id="mainContent" style="display:none;margin-left:20px;">
-			<c:set var="canEdit" value="${restaurant.ownerId eq sessionScope.user.id or restaurant.belong eq 2 }"/>
 			<div class="well">
 				<div style="float:left">
-					<img class="shadow" src="${CONTEXT_PATH}/getImage/3/${restaurant.id}" style="width:100px;height:100px" />
+					<c:if test="${canEdit}"><a href="${CONTEXT_PATH}/tool/uploadImage/3/${restaurant.id}?callback=reloadAvatar&close=1" target="_blank" title="换头像"></c:if>
+						<img id="restaurantAvatar" class="shadow" src="${CONTEXT_PATH}/getImage/3/${restaurant.id}" style="width:100px;height:100px" />
+					<c:if test="${canEdit}"></a></c:if>
 				</div>
 				<div style="float:left;margin-left:20px;">
 					&nbsp;&nbsp;&nbsp;&nbsp;店名：&nbsp;<c:out value="${restaurant.name }"/><br/>
@@ -58,7 +62,7 @@
 				<c:if test="${canEdit }">
 					<button class="btn btn-success" style="margin-left:20px;" data-toggle="collapse" data-target=".collapseDish">添加菜单</button>
 				</c:if>
-				<c:if test="${restaurant.ownerId ne sessionScope.user.id }">
+				<c:if test="${iamOwner }">
 					<button class="btn btn-primary" style="margin-left:20px;" onclick="copy('${restaurant.id}')" title="复制一份当前餐馆到&lt;我的餐馆&gt;">给我拷一份</button>
 				</c:if>
 			</div>

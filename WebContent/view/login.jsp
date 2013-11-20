@@ -17,6 +17,7 @@
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${JQUERY_MD5}"></script>
+	<script type="text/javascript" src="${JQUERY_COOKIE}"></script>
 	
 	<script type="text/javascript" src="${RESOURCE}/js/login.js"></script>
 	
@@ -31,8 +32,8 @@
 		<div class="good"></div>
 			<div class="login_panel">
 				<div class="box">
-					<input class="input form-control" type="text" id="username-login" name="username" placeholder="用户名" value="jn"/>
-					<input class="input form-control" type="password" id="password-login" name="password" placeholder="密码" value="1"/>
+					<input class="input form-control" type="text" id="username-login" name="username" placeholder="用户名"/>
+					<input class="input form-control" type="password" id="password-login" name="password" placeholder="密码"/>
 				</div>
 				<div class="box">
 					<input class="btn btn-success" type="button" id="submit" value="登录"/>

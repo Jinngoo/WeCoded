@@ -105,6 +105,9 @@ public class JinvaService {
 	}
 	
 	public String getUserName(String id){
+	    if(id == null){
+	        return null;
+	    }
 		User user = theDao.getHibernateTemplate().get(User.class, id);
 		if(user != null){
 			return user.getNickname();
@@ -398,7 +401,7 @@ public class JinvaService {
     
 	@SuppressWarnings("unchecked")
 	public List<User> getTeamMemberList(String teamId, String ownerId){
-		String hql = "from #User where id <> ? and id in (select userId from #UserTeam where teamId = ?)";
+		String hql = "from #User where id in (select userId from #UserTeam where userId <> ? and teamId = ?)";
 		hql = hql.replaceAll("#User", User.class.getName());
     	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
 		return theDao.getHibernateTemplate().find(hql, new Object[]{ownerId, teamId});

@@ -38,6 +38,9 @@
     	function deleteUser(userId){
     		alert('暂不支持啊不支持')
     	}
+    	function reloadAvatar(){
+    	    $("#teamAvatar").attr("src", $("#teamAvatar").attr("src"));
+    	}
     </script>
     <style type="text/css">
     	.avatar{
@@ -54,7 +57,9 @@
 		<div id="mainContent" style="display:none;">
 			<div class="well">
 				<div style="float:left">
-					<img class="shadow" src="${CONTEXT_PATH}/getImage/2/${team.id}" style="width:100px;height:100px" />
+					<c:if test="${iamOwner}"><a href="${CONTEXT_PATH}/tool/uploadImage/2/${team.id}?callback=reloadAvatar&close=1" target="_blank" title="换头像"></c:if>
+						<img id="teamAvatar" class="shadow" src="${CONTEXT_PATH}/getImage/2/${team.id}" style="width:100px;height:100px" />
+					<c:if test="${iamOwner}"></a></c:if>
 				</div>
 				<div style="float:left;margin-left:20px;">
 					&nbsp;&nbsp;&nbsp;&nbsp;小组名:&nbsp;<c:out value="${team.name }"/><br/>
@@ -92,7 +97,6 @@
 								<i class="icon-ban-circle" style="padding-right:5px;" title="移除成员" onclick="deleteUser('${user.id}')"></i>
 							</c:if>
 						</div>
-						<hr/>
 					</div>
 				</c:forEach>
 			</div>

@@ -1,42 +1,69 @@
 var valid_name = false;
 var valid_password = false;
 var valid_nickname = false;
+var cookie_username = "jinn_wecoded_username";
 
 $(document).ready(function(){
-	$("#submit").click(function(){
-		var username = $("#username-login").val();
-		var password = $("#password-login").val();
-		if(!$.trim(username)){
-			return;
-		}
-		if(!$.trim(password)){
-			return;
-		}
-		$("#modal-tip").html("登录中...");
-		$("#loginModal").modal("show");
-        $("#hide-modal").hide();
-	});
-	$("#btn-signup").click(function(){
-		signup();
-	});
-	$("#name").blur(function(){
-		validateName();
-	});
-	$("#password").blur(function(){
-		validatePassword(true);
-	});
-	$("#repassword").blur(function(){
-		validatePassword(false);
-	});
-	$("#nickname").blur(function(){
-		validateNickname();
-	});
-	$("#loginModal").on("shown.bs.modal", function(){
-		setTimeout(function(){
-			login();
-		}, 200);
-	});
+    bindEvent();
+    cookieControl();
 });
+
+function cookieControl(){
+    var username = $.cookie(cookie_username);
+    if (!!username) {
+        $("#username-login").val(username);
+    }
+}
+function setCookie(){
+    $.cookie(cookie_username, $("#username-login").val(), {expires: 7});
+}
+
+function bindEvent(){
+    $("#submit").click(function(){
+        var username = $("#username-login").val();
+        var password = $("#password-login").val();
+        if(!$.trim(username)){
+            return;
+        }
+        if(!$.trim(password)){
+            return;
+        }
+        $("#modal-tip").html("登录中...");
+        $("#loginModal").modal("show");
+        $("#hide-modal").hide();
+    });
+    $("#btn-signup").click(function(){
+        signup();
+    });
+    $("#name").blur(function(){
+        validateName();
+    });
+    $("#password").blur(function(){
+        validatePassword(true);
+    });
+    $("#repassword").blur(function(){
+        validatePassword(false);
+    });
+    $("#nickname").blur(function(){
+        validateNickname();
+    });
+    $("#loginModal").on("shown.bs.modal", function(){
+        setTimeout(function(){
+            login();
+        }, 200);
+    });
+    $("#username-login").keydown(function(event){
+        if(event.keyCode == "13"){
+            $("#password-login").select();
+        }
+    });
+    $("#password-login").keydown(function(event){
+        if(event.keyCode == "13"){
+            $("#submit").click();
+        }
+    });
+}
+
 
 function validateInput(input){
     var value = $(input).val();
@@ -198,6 +225,7 @@ function login(){
     $.post(url, params, function(data, textStatus, jqXHR){
     	var code = data;
     	if (code == "success") {
+    	    setCookie();
 			window.location.reload();
 		} else if (code == "nouser") {
 		    $("#modal-tip").html("User not found");

@@ -170,6 +170,7 @@
 					<c:otherwise>修改订单</c:otherwise>
 				</c:choose>
 			</button>
+			//TODO 分页，top按钮，收缩各店
 			<hr/>
 			<div id="iChoosed" class="alert alert-success" style="height:0px">
 				

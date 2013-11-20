@@ -59,6 +59,9 @@
     		cursor: pointer;
     		text-decoration: none;
     	}
+    	.nowrap{
+    		white-space:nowrap;
+   		} 
     </style>
 </head>
 <body>
@@ -318,13 +321,13 @@
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th width="50px"><li class="icon-glass"></li></th>
-									<th width="80px">状态</th>
-									<th width="170px"><spring:message code="main.sboffer.createDate" /></th>
-									<th width="170px"><spring:message code="main.sboffer.provider" /></th>
-									<th><spring:message code="main.sboffer.receiveTeams" /></th>
-									<th><spring:message code="main.sboffer.restaurants" /></th>
-									<th width="300px"></th>
+									<th width="50px" class="nowrap"><li class="icon-glass"></li></th>
+									<th width="80px" class="nowrap">状态</th>
+									<th width="170px" class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
+									<th class="nowrap"><spring:message code="main.sboffer.provider" /></th>
+									<th width="100px" class="nowrap"><spring:message code="main.sboffer.receiveTeams" /></th>
+									<th class="nowrap"><spring:message code="main.sboffer.restaurants" /></th>
+									<th width="300px" class="nowrap"></th>
 								</tr>
 							</thead>
 							<tbody id="orderProviderListBody">

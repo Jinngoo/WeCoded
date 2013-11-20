@@ -1,1 +1,1 @@
-INSERT INTO `User` (`id`, `name`, `nickname`, `password`) VALUES ('9c5132c6-7a69-4746-9ada-55d8c1d3ce2e', 'jn', 'jnjnjnjn', 'c4ca4238a0b923820dcc509a6f75849b');
+INSERT INTO `User` (`id`, `name`, `nickname`, `password`) VALUES ('9c5132c6-7a69-4746-9ada-55d8c1d3ce2e', 'jn', 'jn_admin', 'c4ca4238a0b923820dcc509a6f75849b');

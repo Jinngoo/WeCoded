@@ -25,12 +25,7 @@ public class MainController extends BaseControllerSupport{
 
     @Autowired
     private JinvaService jinvaService;
-
-    @RequestMapping(value="test2")
-    public String test2(HttpServletRequest request){
-        return "test2";
-    }
-    
+   
     @RequestMapping(value="test")
     public String test(HttpServletRequest request){
         

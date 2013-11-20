@@ -28,9 +28,7 @@
 	<div class="container">
 		<br/><br/><br/>
 		
-		<c:forEach items="${imageList }" var="image">
-			
-		</c:forEach>
+		<h1>${result }</h1>
 	</div>
 </body>
 </html>

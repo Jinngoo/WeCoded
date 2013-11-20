@@ -4,10 +4,11 @@
 		    $("#userAvatar").attr("src", $("#userAvatar").attr("src"));
 		}
 	</script>
+	<c:set var="isSignin" value="${not empty sessionScope.user }"/>
 	<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container" style="max-width: 1300px;">
 			<ul class="nav navbar-nav navbar-left">
-			<img src="${RESOURCE}/image/common/favicon.ico" style="width: 32px; height: 32px; margin-top: 9px; margin-left: 3px; margin-right: 7px" />
+				<img src="${RESOURCE}/image/common/favicon.ico" title="Jinn" style="cursor: pointer; width: 32px; height: 32px; margin-top: 9px; margin-left: 3px; margin-right: 7px" />
 			</ul>
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"><spring:message code="main.title" /></a>
@@ -22,18 +23,25 @@
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="Search">
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-default">不支持呵呵</button>
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<p class="navbar-text">
-					<span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})
-				</p>
-				<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
+				<c:if test="${isSignin}">
+					<p class="navbar-text">
+						<span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})
+					</p>
+					<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
+				</c:if>
+				<c:if test="${not isSignin}">
+					<li><a href="${CONTEXT_PATH}/login">SignIn</a></li>
+				</c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<a href="${CONTEXT_PATH}/tool/uploadImage/1/${sessionScope.user.id}?close=1" target="_blank">
-					<img id="userAvatar" src="${CONTEXT_PATH}/getImage/1/${sessionScope.user.id}" style="width:50px; height:50px; cursor: pointer" title="换头像" />
-				</a>
+				<c:if test="${isSignin}">
+					<a href="${CONTEXT_PATH}/tool/uploadImage/1/${sessionScope.user.id}?close=1" target="_blank">
+						<img id="userAvatar" src="${CONTEXT_PATH}/getImage/1/${sessionScope.user.id}" style="width:50px; height:50px; cursor: pointer" title="换头像" />
+					</a>
+				</c:if>
 			</ul>
 		</div>
 	</nav>
