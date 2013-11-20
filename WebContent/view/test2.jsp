@@ -28,20 +28,9 @@
 	<div class="container">
 		<br/><br/><br/>
 		
-		<img id="input" src="${RESOURCE}/image/test.jpg" />
-	
- 		<canvas id="canvas" width="500px" height="400px" style="border: 1px solid red;"></canvas>
- 
-		<button onclick="go()" id="testBtn">Go</button>
-		
-		<div id="outputDiv" style="border: 1px solid black;"></div>
- 		
- 		<form id="uploadForm" action="${CONTEXT_PATH}/setting/upload" method="post" enctype="multipart/form-data">
- 			<input id="uploadData" name="uploadData">
- 			<input id="uploadName" name="uploadName">
- 			<input id="uploadType" name="uploadType">
- 		</form>
- 		
+		<c:forEach items="${imageList }" var="image">
+			
+		</c:forEach>
 	</div>
 </body>
 </html>
