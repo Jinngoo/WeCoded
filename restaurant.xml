@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<resultset>
+    <rowset id="1">
+        <row id="1">
+            <column id="1" name="C_BH"><![CDATA[92AFFD1F72101509E5B6D4CBD9887854]]></column>
+            <column id="2" name="C_MC"><![CDATA[ÌïÒ°¼Ò(82150661)(82151443)]]></column>
+            <column id="3" name="C_ADDRESS"><![CDATA[Çå»ª¿Æ¼¼Ô°dfdfdf]]></column>
+        </row>
+        <row id="2">
+            <column id="1" name="C_BH"><![CDATA[0DD4633418FA27FDA30A496C1AEF0C58]]></column>
+            <column id="2" name="C_MC"><![CDATA[Ò»Æ·ÈýÐ¦4008927927(ÎåµÀ¿Úµê82863733)]]></column>
+            <column id="3" name="C_ADDRESS"><![CDATA[ÎåµÀ¿ÚÄÇÀï]]></column>
+        </row>
+        <row id="3">
+            <column id="1" name="C_BH"><![CDATA[6E14DD738AAA6274FA7DA452ADBCA907]]></column>
+            <column id="2" name="C_MC"><![CDATA[÷Ï¿Í]]></column>
+            <column id="3" name="C_ADDRESS"><![CDATA[Çå»ª¿Æ¼¼Ô°A]]></column>
+        </row>
+        <row id="4">
+            <column id="1" name="C_BH"><![CDATA[FA516413EA514158A047F4857D26F873]]></column>
+            <column id="2" name="C_MC"><![CDATA[ºÍÎ¶·»(62780569)(62780565)]]></column>
+            <column id="3" name="C_ADDRESS"><![CDATA[D×ù]]></column>
+        </row>
+        <row id="5">
+            <column id="1" name="C_BH"><![CDATA[873310F863163AB93072573C3070B874]]></column>
+            <column id="2" name="C_MC"><![CDATA[ÄÏÃÅÎ¶µÀ62578995]]></column>
+            <column id="3" name="C_ADDRESS"><![CDATA[Â¥ÏÂ°¡]]></column>
+        </row>
+    </rowset>
+</resultset>
