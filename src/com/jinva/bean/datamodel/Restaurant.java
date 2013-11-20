@@ -60,7 +60,7 @@ public class Restaurant {
 		this.name = name;
 	}
 
-	@Column(name = "ownerId", length = 36, nullable = false)
+	@Column(name = "ownerId", length = 36, nullable = true)
 	public String getOwnerId() {
 		return ownerId;
 	}
