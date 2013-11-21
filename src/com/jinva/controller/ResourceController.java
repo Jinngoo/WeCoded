@@ -65,13 +65,13 @@ public class ResourceController extends BaseControllerSupport{
         ServletContext servletContext = request.getServletContext();
         String path = null;
         if (JinvaConsts.UPLOAD_TYPE_USER_AVATAR.equals(type)) {
-            path = servletContext.getRealPath("resource/image/default/user.jpg");
+            path = servletContext.getRealPath("/resource/image/default/user.jpg");
         } else if (JinvaConsts.UPLOAD_TYPE_GROUP_AVATAR.equals(type)) {
-            path = servletContext.getRealPath("resource/image/default/group.jpg");
+            path = servletContext.getRealPath("/resource/image/default/group.jpg");
         }else if (JinvaConsts.UPLOAD_TYPE_RESTNURANT_AVATAR.equals(type)) {
-            path = servletContext.getRealPath("resource/image/default/restaurant.jpg");
+            path = servletContext.getRealPath("/resource/image/default/restaurant.jpg");
         }else if (JinvaConsts.UPLOAD_TYPE_DISH_AVATAR.equals(type)) {
-            path = servletContext.getRealPath("resource/image/default/dish.jpg");
+            path = servletContext.getRealPath("/resource/image/default/dish.jpg");
         }
         InputStream in = null;
         ByteArrayOutputStream out = null;
