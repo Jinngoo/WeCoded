@@ -38,7 +38,7 @@ function bindAll(){
 		ajaxAnywhere.formName = "group_form";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "teamList";
-		}
+		};
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 			
 		};
@@ -68,7 +68,7 @@ function bindAll(){
 		ajaxAnywhere.formName = "restaurant_form";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "restaurantList";
-		}
+		};
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 			
 		};
@@ -124,7 +124,7 @@ function reloadAvatar(){
         img.attr("src", img.attr("src"));
         
 //        img = $("#img_" + toReloadAvatarId);
-        img = $("img[id^=img_" + toReloadAvatarId + "]")
+        img = $("img[id^=img_" + toReloadAvatarId + "]");
         img.attr("src", img.attr("src"));
         toReloadAvatarId = null;
     }
@@ -163,7 +163,7 @@ function joinTeam(teamId, password, trigger) {
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "teamList";
-		}
+		};
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
@@ -180,7 +180,7 @@ function confirmPassword() {
 	if (password == $("#toJoinGroupPassword").val()) {
 		joinGroup($("#toJoinGroupId").val());
 	} else {
-		alert("Wrong password")
+		alert("Wrong password");
 	}
 }
 
@@ -191,7 +191,7 @@ function quitTeam(teamId, isConfirm, trigger) {
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "teamList";
-		}
+		};
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
@@ -214,7 +214,7 @@ function deleteTeam(teamId, memberCount, isConfirm) {
 		ajaxAnywhere.formName = "";
 		AjaxAnywhere.prototype.getZonesToReaload = function() {
 			return "teamList";
-		}
+		};
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
@@ -240,7 +240,7 @@ function deleteRestaurant(restaurantId, isConfirm){
         ajaxAnywhere.formName = "";
         AjaxAnywhere.prototype.getZonesToReaload = function() {
             return "restaurantList";
-        }
+        };
         AjaxAnywhere.prototype.showLoadingMessage = function() {
         };
         AjaxAnywhere.prototype.hideLoadingMessage = function() {
@@ -329,7 +329,7 @@ function cancelProvide(orderProviderId, isConfirm) {
     $("#confirmBtn").unbind("click");
     if (isConfirm) {
         var url = contextPath + "/dining/cancelProvide/" + orderProviderId;
-        $.post(url, params, function(data, textStatus, jqXHR) {
+        $.post(url, {}, function(data, textStatus, jqXHR) {
             var code = data;
             if (code == "success") {
                 window.location.reload();// TODO aa?
