@@ -6,7 +6,16 @@ var cookie_username = "jinn_wecoded_username";
 $(document).ready(function(){
     bindEvent();
     cookieControl();
+    setFocus();
 });
+
+function setFocus(){
+	if (!$("#username-login").val()) {
+		$("#username-login").focus();
+	} else if (!$("#password-login").val()) {
+		$("#password-login").focus();
+	}
+}
 
 function cookieControl(){
     var username = $.cookie(cookie_username);
