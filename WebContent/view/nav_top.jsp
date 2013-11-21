@@ -16,6 +16,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="${CONTEXT_PATH}/news">首页</a></li>
 				<li><a href="${CONTEXT_PATH}/dining">吃的</a></li>
+				<li><a href="${CONTEXT_PATH}/chatRoom">聊天室(Coming!)</a></li>
 				<li><a href="${CONTEXT_PATH}/message">消息(x)</a></li>
 				<li><a href="${CONTEXT_PATH}/setting">设置</a></li>
 			</ul>

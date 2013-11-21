@@ -28,7 +28,7 @@ public class MainController extends BaseControllerSupport{
    
     @RequestMapping(value="chatRoom")
     public String ws(){
-    	return "chatRoom";
+    	return "chat/chatRoom";
     }
     
     @RequestMapping(value="test")

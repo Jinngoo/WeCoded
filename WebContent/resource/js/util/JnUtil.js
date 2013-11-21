@@ -91,6 +91,13 @@
 	        return unescape(r[2]);
 	    return null;
 	};
+	JnUtil.prototype.getIndexUrl = function(contextPath, protocol) {
+	    var url = window.location.href;
+	    if (protocol) {
+            url = protocol + url.substring("http".length, url.length);
+        }
+        return url.substring(0, url.indexOf(contextPath) + contextPath.length);
+	};
 	
 	window.J = new JnUtil();
 })(window);
