@@ -26,6 +26,11 @@ public class MainController extends BaseControllerSupport{
     @Autowired
     private JinvaService jinvaService;
    
+    @RequestMapping(value="chatRoom")
+    public String ws(){
+    	return "chatRoom";
+    }
+    
     @RequestMapping(value="test")
     public String test(HttpServletRequest request){
         
