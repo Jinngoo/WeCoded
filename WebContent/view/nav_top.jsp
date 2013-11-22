@@ -16,15 +16,10 @@
 			<ul class="nav navbar-nav">
 				<li><a href="${CONTEXT_PATH}/news">首页</a></li>
 				<li><a href="${CONTEXT_PATH}/dining">吃的</a></li>
-				<li><a href="${CONTEXT_PATH}/chatRoom">聊天室(Coming!)</a></li>
+				<li><a href="${CONTEXT_PATH}/chatRoom">聊天室</a></li>
 				<li><a href="${CONTEXT_PATH}/message">消息(x)</a></li>
 				<li><a href="${CONTEXT_PATH}/setting">设置</a></li>
 			</ul>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="不支持呵呵">
-				</div>
-			</form>
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${isSignin}">
 					<p class="navbar-text">

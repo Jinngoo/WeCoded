@@ -21,20 +21,12 @@ function bindEvent() {
         }
     });
 }
-function sendInput() {
-    var msg = $("#input").val();
-    if ($.trim(msg).length > 0) {
-        ws_send(msg);
-        $("#input").val("");
-    }
-}
-function receiveData(data){
-    data = eval("("+data+")");
-    var template = $("#template").clone().removeAttr("id");
-    
-    var html = "<b>" + data.name + ":</b><br/>" + data.text;
+function appendText(userid, username, text){
+	var template = $("#template").clone().removeAttr("id");
+	
+	var html = "<b>" + username + ":</b><br/>" + text;
     template.children(".text").html(html.replace(/\s/gi, "<br/>"));
-    template.children(".avatar").attr("src", contextPath + "/getImage/1/" + data.id).attr("title", "某某人");
+    template.children(".avatar").attr("src", contextPath + "/getImage/1/" + userid).attr("title", username);
     template.appendTo($("#output")).slideDown("fast");
     $("#output").parent().animate({scrollTop : $("#output").height()});
     
@@ -44,6 +36,21 @@ function receiveData(data){
             $(this).remove();
         });
     }
+}
+function sendInput() {
+    var text = $("#input").val();
+    if ($.trim(text).length > 0) {
+    	var userid = $("#userid").val();
+    	var username = $("#username").val();
+    	var message = "{userid:'" + userid + "',username:'" + username + "',text:'" + text + "'}"; 
+        ws_send(message);
+        $("#input").val("");
+        appendText(userid, username, text);
+    }
+}
+function receiveData(data){
+    data = eval("("+data+")");
+    appendText(data.userid, data.username, data.text);
 }
 
 function ws_connect() {

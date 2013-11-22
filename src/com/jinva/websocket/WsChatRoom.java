@@ -15,20 +15,20 @@ import javax.websocket.PongMessage;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.sf.json.JSONObject;
 
 @ServerEndpoint("/wsChatRoom")
 public class WsChatRoom {
 
-	private static Map<String, Session> sesMap = Collections.synchronizedMap(new HashMap<String, Session>());
 	private static Map<String, String> ses_user = Collections.synchronizedMap(new HashMap<String, String>());
 	
+	private Log logger = LogFactory.getLog(getClass());
 	
 	@OnOpen
 	public void onOpen(Session session) {
-	    System.out.println("WebSocket open");
 		Map<String, List<String>> req = session.getRequestParameterMap();
 		List<String> ids = req.get("id");
 		String userId = ids.get(0);
@@ -36,20 +36,23 @@ public class WsChatRoom {
 	}
 
 	@OnMessage
-	public void onTextMessage(Session session, String msg, boolean last) throws IOException {
+	public void onTextMessage(Session session, String message, boolean last) throws IOException {
+		JSONObject input = JSONObject.fromObject(message);
+		String userid = input.getString("userid");
+		String username = input.getString("username");
+		String text = input.getString("text");
+		
 		Set<Session> set = session.getOpenSessions();
 		for(Session ses : set){
-//		    if(ses.equals(session)){
-//		        continue;
-//		    }
-		    String userId = ses_user.get(ses.getId());
-		    JSONObject json = new JSONObject();
-		    json.put("id", userId);
-		    json.put("name", "jinn");
-		    json.put("text", msg);
-		    send(ses, json);
+		    if(ses.getId().equals(session.getId())){
+		        continue;
+		    }
+		    JSONObject output = new JSONObject();
+		    output.put("userid", userid);
+		    output.put("username", username);
+		    output.put("text", text);
+		    send(ses, output);
 		}
-		System.out.println("onTextMessage");
 	}
 
 	@OnMessage
@@ -64,7 +67,6 @@ public class WsChatRoom {
 
 	@OnClose
 	public void onClose(Session session) {
-		System.out.println("WebSocket close");
 		ses_user.remove(session.getId());
 	}
 	
@@ -72,7 +74,7 @@ public class WsChatRoom {
 	    try {
             session.getBasicRemote().sendText(json.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+        	logger.error("Send message error.", e);
         }
 	}
 

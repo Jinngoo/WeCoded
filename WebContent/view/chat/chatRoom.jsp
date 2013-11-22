@@ -55,6 +55,7 @@
 <body>
 	<%@ include file="../nav_top.jsp" %>
 	<input id="userid" type="hidden" value="${sessionScope.user.id}"/>
+	<input id="username" type="hidden" value="${sessionScope.user.nickname}"/>
 	
 	<div id="template" class="chatbox shadow">
 		<img class="avatar shadow" />
