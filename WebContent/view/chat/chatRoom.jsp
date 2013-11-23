@@ -68,6 +68,8 @@
 			padding-top: 5px;
 			padding-left: 25px;
 			clear: right;
+			word-wrap: break-word; 
+			word-break: normal;
 		}
 		div.chatbox div.content img.image{
 			max-width: 100%;
@@ -101,7 +103,7 @@
 	</div>
 
 
-	<div class="container">
+	<div id="inputArea" class="container">
 		<div class="form-group">
 			<div class="input-group ">
 				<span class="input-group-addon">

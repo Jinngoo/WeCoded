@@ -121,6 +121,17 @@
         }
         return string;
 	};
-	
+	JnUtil.prototype.loadImage = function(src, callback, scope) {
+        var image = new Image();
+        image.src = src;
+        if (image.complete) { // 如果图片已经存在于浏览器缓存，直接调用回调函数
+            callback.call(scope||window, image);
+            return image; // 直接返回，不用再处理onload事件
+        }
+        image.onload = function() { // 图片下载完毕时异步调用callback函数。
+            callback.call(scope||window, image);
+        };
+        return image;
+    };
 	window.J = new JnUtil();
 })(window);

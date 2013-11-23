@@ -13,14 +13,17 @@ Date.prototype.format = function (fmt) { //author: meizz
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-
+//////////////////////////
 var ws = null;
 var ctrl = false;
+var fileReader = null;
+
 $(document).ready(function() {
     ws_connect();
     bindEvent();
     resizeOutput();
     onFocus();
+    console.log('加个在线人数、视频独立窗口')
 });
 $(window).resize(function(){
     resizeOutput();
@@ -56,16 +59,11 @@ function bindEvent() {
     $("#sendPic").click(function(){
         $("#fileChooser").click();
     });
-    
-    var fileReader = new FileReader();
+    /////////////
+    fileReader = new FileReader(); //init FileReader, for send image
     fileReader.onload = function(progressEvent){
         var dataURL = progressEvent.target.result;
-        
-        var params = { image : dataURL };
-        var message = buildMessage(params);
-        
-        ws_send(message);
-        appendMessage(message);
+        sendImage(dataURL);
     };
     fileReader.onerror = function(){
         alert("Load file error.");
@@ -73,9 +71,79 @@ function bindEvent() {
     $("#fileChooser").change(function(){
         var files = $(this).get(0).files;
         var file = files[0];
-        fileReader.readAsDataURL(file);
+        sendImageByFile(file);
         $(this).val("");
     });
+    /////////////
+    $(document).on({
+        dragleave:function(e){  //拖离
+            e.preventDefault();
+        },
+        drop:function(e){       //拖后放
+            e.preventDefault();
+            var dataTransfer = e.originalEvent.dataTransfer;
+    
+            var items = dataTransfer.items;
+            var item = items[0];
+            if(item.kind == "file"){
+                var file = item.getAsFile();
+                sendImageByFile(file);
+            }else if(item.kind == "string"){
+                item.getAsString(function(str){
+                    if(str.substring(0, 4) != "data"){
+                        $("#input").val($("#input").val() + str);
+                    }
+                });
+            }
+            
+        },
+        dragenter:function(e){  //拖进
+            e.preventDefault();
+        },
+        dragover:function(e){   //拖来拖去
+            e.preventDefault();
+        }
+    });
+}
+/**
+ * 发送图片文件，gif最大2MB，其他格式512kb以上压缩后发送
+ * @param file
+ */
+function sendImageByFile(file){
+    if(file && /^(image\/jpeg|image\/png|image\/bmp|image\/gif)$/i.test(file.type)){
+        if("image/gif" == file.type){
+            file.size < 2048 * 1024 ? fileReader.readAsDataURL(file) : alert("动态图片超过2MB，太大鸟~");
+            return;
+        }
+        if (file.size < 512 * 1024) {
+            fileReader.readAsDataURL(file);//send in onload
+        } else {
+            sendCompressImage(file);
+        }
+    }
+}
+function sendCompressImage(file){
+    var url = URL.createObjectURL(file);
+    J.loadImage(url, function(image){
+        var width = image.naturalWidth;
+        var height = image.naturalHeight;
+        if(image.naturalWidth > 1024){
+            width = 1024;
+            height = height * width / image.naturalWidth;
+        }
+        var canvas = $("<canvas></canvas>").attr("width", width).attr("height", height).css("display", "none");
+        var context = canvas.get(0).getContext("2d");
+        context.drawImage(image, 0, 0, width, height);
+        var dataURL = canvas.get(0).toDataURL("image/jpeg");
+        canvas.remove();
+        sendImage(dataURL);
+    });
+}
+function sendImage(dataURL){
+    var params = { image : dataURL };
+    var message = buildMessage(params);
+    ws_send(message);
+    appendMessage(message);
 }
 function appendMessage(message){
     var userid = message.userid;

@@ -22,13 +22,17 @@ public class WsChatRoom {
 	
 	private StringBuffer buffer;
 	
-    private void onTextMessage(Session session, String message) throws IOException {
+    private void onTextMessage(Session session, String message) {
         Set<Session> set = session.getOpenSessions();
         for (Session ses : set) {
             if (ses.getId().equals(session.getId())) {
                 continue;
             }
-            ses.getBasicRemote().sendText(message);
+            try {
+                ses.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                logger.error("Send error.", e);
+            }
         }
     }
 	
