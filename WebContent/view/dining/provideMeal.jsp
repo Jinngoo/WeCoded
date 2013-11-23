@@ -44,14 +44,14 @@
     		$("#mainContent").slideDown("fast");
     		
     		$("[id^=team_]").click(function(){
-    			$(this).find("i[class='icon-ok']").toggle();
+    			$(this).find("i[class='fa fa-check']").toggle();
     			var teamId = $(this).attr("id").substring("team_".length);
     			choosenTeams.toggle(teamId);
     			$("#groupCount").html(choosenTeams.length);
     		});
     		
     		$("[id^=restaurant_]").click(function(){
-    			$(this).find("i[class='icon-ok']").toggle();
+    			$(this).find("i[class='fa fa-check']").toggle();
     			var groupId = $(this).attr("id").substring("restaurant_".length);
     			choosenRestaurants.toggle(groupId);
     			$("#restaurantCount").html(choosenRestaurants.length);
@@ -123,7 +123,7 @@
 					<c:forEach items="${teamList }" var="team" varStatus="status">
 						<!-- Group button -->
 						<jn:PopoverButton id="team_${team.id}" style="cursor:pointer;"  popoverTitle="[${team.name}]" content="${team.name}" popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}" imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}" >
-							<i class="icon-ok" title="已经选择" style="display:none"></i>
+							<i class="fa fa-check" title="已经选择" style="display:none"></i>
 						</jn:PopoverButton>
 					</c:forEach>
 				</div>
@@ -137,7 +137,7 @@
 					<c:forEach items="${restaurantList }" var="restaurant" varStatus="status">
 						<!-- Group button -->
 						<jn:PopoverButton id="restaurant_${restaurant.id}" style="cursor:pointer;"  popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}" imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}" >
-							<i class="icon-ok" title="已经选择" style="display:none"></i>
+							<i class="fa fa-check" title="已经选择" style="display:none"></i>
 						</jn:PopoverButton>
 					</c:forEach>
 				</div>

@@ -98,6 +98,29 @@
         }
         return url.substring(0, url.indexOf(contextPath) + contextPath.length);
 	};
+	JnUtil.prototype.encodeHTML = function(str) {
+	    var div = document.createElement('div');  
+	    div.appendChild(document.createTextNode(str));  
+	    str = div.innerHTML;
+	    $(div).remove();
+	    return str;
+    };
+	JnUtil.prototype.decodeHTML = function(str){  
+	    var div = document.createElement('div');  
+	    div.innerHTML = s;  
+	    str = div.innerText || div.textContent;
+	    $(div).remove();
+	    return str;
+	}  ;
+	JnUtil.prototype.substring = function(string, fromStr, toStr){
+	    if (string.indexOf(fromStr) != -1) {
+	        string = string.substring(string.indexOf(fromStr), string.length);
+	        if(string.indexOf(toStr) != -1){
+	            string = string.substring(0, string.indexOf(toStr));
+	        }
+        }
+        return string;
+	};
 	
 	window.J = new JnUtil();
 })(window);

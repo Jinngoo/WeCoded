@@ -55,7 +55,7 @@
 				<table class="table table-bordered table-hover" id="orderList" style="font-family: 微软雅黑">
 					<thead>
 					<tr id="headTr">
-						<th width="8%"><li class="icon-glass"></li></th>
+						<th width="8%"><li class="fa fa-glass"></li></th>
 						<th width="20%">订餐人</th>
 						<th width="20%">餐馆</th>
 						<th width="20%">餐品</th>

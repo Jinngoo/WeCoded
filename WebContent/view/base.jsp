@@ -25,6 +25,7 @@
 
 <c:set var="JQUERY" value="${RESOURCE}/framework/jquery/jquery-2.0.3.min.js" />
 <c:set var="AJAXANYWHERE" value="${RESOURCE}/framework/other/aa.js" />
+<c:set var="MATH_UUID" value="${RESOURCE}/framework/other/Math.uuid.js" />
 <c:set var="CHART_JS" value="${RESOURCE}/framework/chart/Chart.min.js" />
 <c:set var="JN_UTIL" value="${RESOURCE}/js/util/JnUtil.js" />
 

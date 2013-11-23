@@ -129,12 +129,12 @@
 					</div>
 					
 					<aa:zone name="teamList">
-						<img id="teamListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
+						<i class="fa fa-spinner fa-spin fa-4x" id="teamListLoading" style="display:none;"></i>
 						<div id="teamListBody" style="margin-top:20px;">
 							<div class="alert alert-danger">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#myTeamPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i> 我创建的小组 (${fn:length(myTeamList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i> 我创建的小组 (${fn:length(myTeamList)})
 									<hr>
 								</div>
 								<div id="myTeamPanel" class="collapse in">
@@ -143,17 +143,17 @@
 										<jn:PopoverButton id="${team.id}" popoverTitle="[${team.name}]" content="${team.name}"
 											popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
-											<i class="icon-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
-											<i class="icon-wrench" style="cursor:pointer;" onclick="editTeam('${team.id}')" title="编辑"></i>
-											<i class="icon-trash" style="cursor:pointer;" onclick="deleteTeam('${team.id}',${team.memberCount}, false)" title="删除"></i>
+											<i class="fa fa-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
+											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editTeam('${team.id}')" title="编辑"></i>
+											<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteTeam('${team.id}',${team.memberCount}, false)" title="删除"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
 							</div>
 							<div class="alert alert-success">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#joinedTeamPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i> 我加入的小组 (${fn:length(joinedTeamList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i> 我加入的小组 (${fn:length(joinedTeamList)})
 									<hr>
 								</div>
 								<div id="joinedTeamPanel" class="collapse in">
@@ -161,16 +161,16 @@
 										<jn:PopoverButton id="${team.id}" popoverTitle="[${team.name}]" content="${team.name}"
 											popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
-											<i class="icon-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
-											<i class="icon-ban-circle" style="cursor:pointer;" onclick="quitTeam('${team.id}', false, this)" title="退出"></i>
+											<i class="fa fa-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
+											<i class="fa fa-ban-circle" style="cursor:pointer;" onclick="quitTeam('${team.id}', false, this)" title="退出"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
 							</div>
 							<div class="alert alert-info">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#otherTeamPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i> 其他的小组 (${fn:length(otherTeamList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i> 其他的小组 (${fn:length(otherTeamList)})
 									<hr>
 								</div>
 								<div id="otherTeamPanel" class="collapse in">
@@ -178,7 +178,7 @@
 										<jn:PopoverButton id="${team.id}" popoverTitle="[${team.name}]" content="${team.name}"
 											popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
-											<i class="icon-plus" style="cursor:pointer;" onclick="joinTeam('${team.id}', '${team.password}', this)" title="加入"></i>
+											<i class="fa fa-plus" style="cursor:pointer;" onclick="joinTeam('${team.id}', '${team.password}', this)" title="加入"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
@@ -242,23 +242,23 @@
 						</form>
 					</div>
 					<aa:zone name="restaurantList">
-						<img id="restaurantListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
+						<i class="fa fa-spinner fa-spin fa-4x" id="restaurantListLoading" style="display:none;"></i>
 						<div id="restaurantListBody" style="margin-top:20px">
 							<!-- 大家的餐馆 -->
 							<div class="alert alert-success">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#publicRestaurantPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i>大家的餐馆(${fn:length(publicRestaurantList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i>大家的餐馆(${fn:length(publicRestaurantList)})
 									<hr>
 								</div>
 								<div id="publicRestaurantPanel" class="collapse in">
 									<c:forEach items="${publicRestaurantList }" var="restaurant" varStatus="status">
 										<jn:PopoverButton id="${restaurant.id}_public" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
-											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
-											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
+											<i class="fa fa-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
 											<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
-												<i class="icon-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
+												<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
 											</c:if>
 										</jn:PopoverButton>
 									</c:forEach>
@@ -267,17 +267,17 @@
 							<!-- 我的餐馆 -->
 							<div class="alert alert-danger">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#myRestaurantPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i>我的餐馆(${fn:length(myRestaurantList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i>我的餐馆(${fn:length(myRestaurantList)})
 									<hr>
 								</div>
 								<div id="myRestaurantPanel" class="collapse in">
 									<c:forEach items="${myRestaurantList }" var="restaurant" varStatus="status">
 										<jn:PopoverButton id="${restaurant.id}_mine" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
-											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
-											<i class="icon-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
-											<i class="icon-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
+											<i class="fa fa-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
+											<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
@@ -285,15 +285,15 @@
 							<!-- 其他餐馆 -->
 							<div class="alert alert-info">
 								<div class="collapseTrigger" data-toggle="collapse" data-target="#otherRestaurantPanel" onclick="toggleArrow(this)">
-									<i class="icon-chevron-right" style="display:none"></i>
-									<i class="icon-chevron-down"></i>其他餐馆(${fn:length(otherRestaurantList)})
+									<i class="fa fa-chevron-right" style="display:none"></i>
+									<i class="fa fa-chevron-down"></i>其他餐馆(${fn:length(otherRestaurantList)})
 									<hr>
 								</div>
 								<div id="otherRestaurantPanel" class="collapse in">
 									<c:forEach items="${otherRestaurantList }" var="restaurant" varStatus="status">
 										<jn:PopoverButton id="${restaurant.id}_other" popoverTitle="[${restaurant.name}]" content="${restaurant.name}" popoverContent="创建者:&nbsp;&nbsp;${restaurant.ownerName}<br>菜品数:&nbsp;&nbsp;${restaurant.dishCount}<br>打电话:&nbsp;&nbsp;${restaurant.telphone}<br>店简介:&nbsp;&nbsp;${restaurant.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
-											<i class="icon-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
+											<i class="fa fa-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
@@ -320,11 +320,11 @@
 					</a>
 					<hr />
 					<aa:zone name="orderProviderList">
-						<img id="orderProviderListLoading" style="display:none;" src="${RESOURCE}/image/common/loading.gif" />
+						<i class="fa fa-spinner fa-spin fa-4x" id="orderProviderListLoading" style="display:none;"></i>
 						<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
 							<thead>
 								<tr>
-									<th width="50px" class="nowrap"><li class="icon-glass"></li></th>
+									<th width="50px" class="nowrap"><li class="fa fa-glass"></li></th>
 									<th width="70px" class="nowrap">状态</th>
 									<th width="150px" class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
 									<th class="nowrap"><spring:message code="main.sboffer.provider" /></th>

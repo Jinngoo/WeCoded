@@ -23,7 +23,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${isSignin}">
 					<p class="navbar-text">
-						<span id="topNickName">${sessionScope.user.nickname}</span>&nbsp;(${sessionScope.user.name})
+						<span id="topNickName">${sessionScope.user.nickname}</span>
 					</p>
 					<li><a href="${CONTEXT_PATH}/signout">SignOut</a></li>
 				</c:if>

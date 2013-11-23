@@ -187,8 +187,8 @@
 								x&nbsp;<span></span>
 							</div>
 							<div class="tool_bar opacityBar">
-								<i class="icon-minus icon-white tool_img" title="减一份" onclick="minusDish('${dish.id}', 1, true)" style="display:none"></i>
-								<i class="icon-plus icon-white tool_img" title="订一份" onclick="plusDish('${dish.id}', 1, true)"></i>
+								<i class="fa fa-minus fa fa-white tool_img" title="减一份" onclick="minusDish('${dish.id}', 1, true)" style="display:none"></i>
+								<i class="fa fa-plus fa fa-white tool_img" title="订一份" onclick="plusDish('${dish.id}', 1, true)"></i>
 							</div>
 							<div style="width:130px;height:130px">
 								<img src="${CONTEXT_PATH}/getImage/4/${dish.id}" style="width:130px;height:130px" />

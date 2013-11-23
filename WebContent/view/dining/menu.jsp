@@ -125,10 +125,10 @@
 						<div class="tool_bar">
 							<c:if test="${canEdit}">
 								<a href="${CONTEXT_PATH}/tool/uploadImage/4/${dish.id}?callback=reloadImage&close=1" target="_blank" style="color:white;text-decoration:none;">
-									<i class="icon-picture icon-white tool_img" title="更改图片" onmousedown="markDish('${dish.id}')"></i>
+									<i class="fa fa-picture-o fa fa-white tool_img" title="更改图片" onmousedown="markDish('${dish.id}')"></i>
 								</a>
-								<i class="icon-wrench icon-white tool_img" title="编辑" onclick="editDish('${dish.id}')"></i>
-								<i class="icon-remove icon-white tool_img" title="删除" onclick="deleteDish('${dish.id}')"></i>
+								<i class="fa fa-wrench fa fa-white tool_img" title="编辑" onclick="editDish('${dish.id}')"></i>
+								<i class="fa fa-times fa fa-white tool_img" title="删除" onclick="deleteDish('${dish.id}')"></i>
 							</c:if>
 						</div>
 						<div style="width:130px;height:130px">

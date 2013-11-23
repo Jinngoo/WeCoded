@@ -94,7 +94,7 @@
 						${user.nickname }
 						<div style="display:none;float:right;cursor:pointer;">
 							<c:if test="${iamOwner}">
-								<i class="icon-ban-circle" style="padding-right:5px;" title="移除成员" onclick="deleteUser('${user.id}')"></i>
+								<i class="fa fa-ban-circle" style="padding-right:5px;" title="移除成员" onclick="deleteUser('${user.id}')"></i>
 							</c:if>
 						</div>
 					</div>
