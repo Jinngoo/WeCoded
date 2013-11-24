@@ -74,11 +74,11 @@
 				<c:if test="${iamOwner}">
 					<button class="btn btn-success" style="margin-left:20px;" data-toggle="collapse" data-target=".collapseDish">添加成员</button>
 				</c:if>
+//TODO 样式得改改啊
 			</div>
 			<div id="collapseCreateDish" class="collapse collapseDish">
 			 	Coming soon... <a class="btn btn-small offset1" data-toggle="collapse" data-target=".collapseDish">取消</a>
 			</div>
-			
 			<hr/>
 			<aa:zone name="memberList">
 			<div id="memberList">

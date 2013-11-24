@@ -76,14 +76,14 @@
 				
 				<!-- topic -->
 				<div class="tab-pane" id="topic">
-					<form class="form-horizontal" role="form" action="#" style="width:600px;margin-left: 20px; margin-top: 20px">
+					<div style="width:600px;margin-left: 20px; margin-top: 20px">
 						<div class="form-group">
 							<textarea class="form-control" rows="4" id="public_topic"></textarea>
 						</div>
 						<div class="form-group" style="text-align:right">
 							<button class="btn btn-primary" id="public_btn">发表</button>
 						</div>
-					</form>
+					</div>
 					<hr/>
 				</div>
 				

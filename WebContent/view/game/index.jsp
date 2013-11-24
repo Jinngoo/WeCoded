@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Message</title>
+    <title>Games</title>
     <%@ include file="../head.jsp"%>  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -18,28 +18,19 @@
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	
 	<script type="text/javascript" src="${JN_UTIL}"></script>
+	
     <script type="text/javascript">
-	    $(document).ready(function(){
-			$("#mainContent").slideDown("fast");
-		});
+	   
     </script>
+    <style type="text/css">
+	</style>
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
+	
 	<div class="container">
-		<div id="mainContent" style="display:none;margin-left:20px;">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#aa" data-toggle="tab">没</a></li>
-				<li><a href="#bb" data-toggle="tab">做</a></li>
-				<li><a href="#cc" data-toggle="tab">呢</a></li>
-			</ul>
-			
-			<div class="tab-content">
-				<div class="tab-pane active" id="aa">阿大的撒</div>
-				<div class="tab-pane" id="bb">个归属感</div>
-				<div class="tab-pane" id="cc">效果桑德菲杰风格</div>
-			</div>
-		</div>
+		<h1>没有啊！！！</h1>
+		<h5>话说这个 RESTful url 咋样？</h5>
 	</div>
 
 

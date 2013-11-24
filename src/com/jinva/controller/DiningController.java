@@ -39,11 +39,11 @@ import com.jinva.util.StorageUtil;
 
 @Controller
 @RequestMapping("/dining")
-public class DiningController extends BaseControllerSupport{
+public class DiningController extends BaseControllerSupport {
 
     @Autowired
     private JinvaService jinvaService;
-    
+
     @Autowired
     private IStorage storage;
     
