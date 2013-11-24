@@ -224,7 +224,8 @@ function getYoukuInfo(url, chatbox){
     api += encodeURIComponent(url);
     $.getJSON(api, function(data, textStatus, jqXHR) {
         if (!data.error) {
-            var videoBox = initVideoBox("youku", data.thumbnail_v2, data.player);
+            var thumbnail = data.thumbnail_v2 || data.thumbnail;
+            var videoBox = initVideoBox("youku", thumbnail, data.player);
             var target = chatbox.find("div.content");
             target.append("<br>").append(videoBox.show());
             target.append("<br>视频标题：").append(data.title);
