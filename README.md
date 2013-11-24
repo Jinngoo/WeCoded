@@ -8,7 +8,7 @@ Web development practice
 再加俩小游戏上去啊……
 
 
-自己建个数据库，config.properties里hibernate.hbm2ddl.auto=create就自动初始化表了啊啊啊啊心绞痛啊~记得初始化玩再启动要改回来啊~~要么数据又清空了啊~~
+自己建个数据库，config.properties里hibernate.hbm2ddl.auto=create就自动初始化表了啊啊啊啊心绞痛啊~记得初始化玩再启动要改回来啊~要么数据又清空了啊~~
 
 and~ 
 [http]
