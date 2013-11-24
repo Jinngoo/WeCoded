@@ -14,6 +14,9 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 }
 //////////////////////////
+
+
+/////////////////////////
 var ws = null;
 var ctrl = false;
 var fileReader = null;
@@ -24,6 +27,9 @@ $(document).ready(function() {
     resizeOutput();
     onFocus();
     console.log('加个在线人数、视频独立窗口')
+    
+    $(".videoWindow").easydrag();
+    $(".videoWindow").setHandler('moveVideo');
 });
 $(window).resize(function(){
     resizeOutput();
@@ -39,7 +45,7 @@ function resizeOutput(){
     $(".output").height(height);
     var top = $(".output").offset().top + 15;
     var left = $(".output").offset().left + 15;
-    $("#fixed").css("top", top).css("left", left).height(height - 40);
+    $("#userbox").css("top", top).css("left", left).height(height - 40);
 }
 function bindEvent() {
     $("#send").click(function() {
@@ -208,6 +214,8 @@ function checkVideo(message, chatbox){
         getYoukuInfo(url, chatbox);
     }else if(url && url.indexOf("tudou.com") != -1){
         getTudouInfo(url, chatbox);
+    }else{
+        chatbox.html(chatbox.html().replace(url, "<a href='"+url+"' target='_blank'>"+url+"</a>"));
     }
 }
 //http%3A%2F%2Fv.youku.com%2Fv_show%2Fid_XNjM4NjczMzI4_ev_3.html
@@ -216,8 +224,9 @@ function getYoukuInfo(url, chatbox){
     api += encodeURIComponent(url);
     $.getJSON(api, function(data, textStatus, jqXHR) {
         if (!data.error) {
+            var videoBox = initVideoBox("youku", data.thumbnail_v2, data.player);
             var target = chatbox.find("div.content");
-            target.append("<br>").append($("#youku").clone().attr("src", data.player).show());
+            target.append("<br>").append(videoBox.show());
             target.append("<br>视频标题：").append(data.title);
             target.append("<br>视频描述：").append(data.description);
         }else{
@@ -238,11 +247,48 @@ function getTudouInfo(url, chatbox){
     api += videoId;
     $.getJSON(api, function(data, textStatus, jqXHR) {
         if (data.result) {
+            var videoBox = initVideoBox("tudou", data.result.bigPicUrl, data.result.outerPlayerUrl);
             var target = chatbox.find("div.content");
-            target.append("<br>").append($("#tudou").clone().attr("src", data.result.outerPlayerUrl).show());
+            target.append("<br>").append(videoBox.show());
             target.append("<br>视频标题：").append(data.result.title);
             target.append("<br>视频标签：").append(data.result.tags);
         }
+    });
+}
+function initVideoBox(embedId, imageSrc, videoLink){
+    var videoBox = $("#videoBox").clone().removeAttr("id");
+    videoBox.children(".videoThumbnail").attr("src", imageSrc);
+    videoBox.children(".videoPlay").click(function(){
+        var alreadyHasVideo = !!$(".videoContainer").html();
+        
+        var video = $("#" + embedId).clone();
+        video.children("param[name=src]").attr("value", videoLink);//ie
+        video.children("embed").attr("src", videoLink);//chrome
+        $(".videoContainer").empty().append(video.show());
+        if(!alreadyHasVideo){
+            $(".videoWindow").animate({right: "0px"});
+        }
+    });
+    return videoBox;
+}
+function toggleVideo(){
+    var hideRight = 0 - $(".videoContainer").width() + "px";
+    var currLeft = $(".videoWindow").css("left");
+    var currRight = $(".videoWindow").css("right");
+    if(!currLeft || currLeft != "auto"){//拖动过,直接隐藏
+        $(".videoWindow").css("left", "").animate({"right": hideRight, "top": "50px"});
+        return;
+    }
+    if(currRight == hideRight){ //现在是隐藏
+        currRight = "0px";
+    }else{//show or other position
+        currRight = hideRight;
+    }
+    $(".videoWindow").animate({"right": currRight, "top": "50px"});
+}
+function closeVideo(){
+    $(".videoWindow").css("left", "").animate({"right": "-" + $(".videoWindow").width() + "px", "top": "50px"}, function(){
+        $(".videoContainer").empty();
     });
 }
 function buildMessage(params){
@@ -279,7 +325,6 @@ function receiveMessage(message){
 }
 function refreshUserList(message){
     var users = message.userlist;
-    console.log(users)
     $("#usercount").html(users.length);
     $("#userlist").empty();
     for(var i = 0; i < users.length; i ++){

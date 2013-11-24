@@ -67,5 +67,14 @@ public class User {
 		this.nickname = nickname;
 	}
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof User) {
+            User target = (User) obj;
+            return String.valueOf(id).equals(target.getId());
+        }
+        return false;
+    }
+
 
 }

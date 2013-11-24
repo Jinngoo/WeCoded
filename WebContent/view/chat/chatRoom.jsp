@@ -13,7 +13,12 @@
 	<link href="${FONT_AWESOME_CSS}" rel="stylesheet" media="screen">
 	
 	<link href="${RESOURCE}/css/common.css" rel="stylesheet" media="screen">
+	<link href="${RESOURCE}/css/chat/chatRoom.css" rel="stylesheet" media="screen">
 	
+	
+	<style type="text/css">
+		
+	</style>
 	<!-- Js -->
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
@@ -23,74 +28,8 @@
 	
 	<script type="text/javascript" src="${MATH_UUID}"></script>
 	<script type="text/javascript" src="${JN_UTIL}"></script>
+	<script type="text/javascript" src="${JQUERY_EASY_DRAG}"></script>
 	<script type="text/javascript" src="${RESOURCE}/js/chat/chatRoom.js"></script>
-	
-	<style type="text/css">
-		body{
-			
-		}
-		.output{
-			height: 480px; 
-			margin-bottom:10px;
-			overflow-y: auto;
-			padding: 15px;
-			box-shadow: 0px 0px 2px #00CCFF;
-		}
-		div.fixedbox{
-			width:185px;
-			height:100px;
-			overflow-y: auto;
-			position: fixed;
-			border:1px solid #00CCFF;
-			box-shadow: 0px 0px 4px #0066FF;
-			font-family: "微软雅黑";
-		}
-		div.chatbox{
-			display:none;
-			position: relative;
-			margin-bottom: 15px;
-			margin-left: 200px;
-		}
-		div.chatbox img.avatar{
-			width:60px;
-			height:60px;
-			float: left;
-			cursor: pointer;
-		}
-		div.chatbox div.body{
-			font-family: "微软雅黑";
-			margin-left: 60px;
-			padding-right: 10px;
-			width:auto;
-			min-height: 60px;
-			padding-bottom: 10px;
-			clear: right;
-		}
-		div.chatbox div.name{
-			padding-left: 10px;
-			float: left;
-			font-weight: bold;
-		}
-		div.chatbox div.date{
-			float: right;
-		}
-		div.chatbox div.content{
-			padding-top: 5px;
-			padding-left: 25px;
-			clear: right;
-			word-wrap: break-word; 
-			word-break: normal;
-		}
-		div.chatbox div.content img.image{
-			max-width: 100%;
-			cursor: pointer;
-		}
-		i.tool{
-			cursor: pointer;
-			margin-top: 5px;
-		}
-		
-	</style>
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
@@ -106,7 +45,7 @@
 		</div>
 	</div>
 	
-	<div id="fixed" class="fixedbox well">
+	<div id="userbox" class="userbox well">
 		<div>在线人数：<span id="usercount"></span></div>
 		<div id="userlist"></div>
 	</div>
@@ -135,7 +74,29 @@
 	<audio id="alertAudio" controls="controls" preload="preload" style="display:none">
 		<source src="${RESOURCE}/audio/alert1.mp3" type="audio/mpeg">
 	</audio>
-<!-- 	<embed id="youku" style="display:none" src="" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed> -->
-<!-- 	<embed id="tudou" style="display:none" src="" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"></embed> -->
+	
+	<div id="videoBox" class="videoBox">
+		<img class="videoThumbnail" />
+		<img class="videoPlay" src="${RESOURCE}/image/common/play.jpg" title="播放" />
+	</div>
+	
+	<div class="videoWindow">
+		<div class="videoTool well">
+			<i id="closeVideo" class="fa fa-power-off fa-lg" onclick="closeVideo()"></i>
+			<i id="moveVideo" class="fa fa-arrows fa-lg"></i>
+			<i id="toggleVideo" class="fa fa-exchange fa-lg" onclick="toggleVideo()"></i>
+		</div>
+		<div class="videoContainer"></div>
+	</div>
+	<object id="youku" width="480" height="400" style="display:none" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
+		<param name="src" value="about:blank" />
+		<embed width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always" />
+	</object>
+	<object id="tudou" width="480" height="400" style="display:none" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
+		<param name="src" value="about:blank" />
+		<embed width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always" />
+	</object>
+<!-- 	<embed id="youku" style="display:none" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"> -->
+<!--  	<embed id="tudou" style="display:none" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"> -->
 </body>
 </html>

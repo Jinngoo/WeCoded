@@ -29,6 +29,7 @@
 <c:set var="CHART_JS" value="${RESOURCE}/framework/chart/Chart.min.js" />
 <c:set var="JN_UTIL" value="${RESOURCE}/js/util/JnUtil.js" />
 
+<c:set var="JQUERY_EASY_DRAG" value="${RESOURCE}/framework/jquery/plugin/jquery.easydrag.handler.beta2.js" />
 <c:set var="JQUERY_JCROP_JS" value="${RESOURCE}/framework/jcrop/js/jquery.Jcrop.min.js" />
 <c:set var="JQUERY_JCROP_CSS" value="${RESOURCE}/framework/jcrop/css/jquery.Jcrop.min.css" />
 
