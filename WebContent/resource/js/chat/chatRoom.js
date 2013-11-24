@@ -35,7 +35,11 @@ function onFocus(){
     $("#input").focus();
 }
 function resizeOutput(){
-    $(".output").height($(window).height() - 255);
+    var height = $(window).height() - 255;
+    $(".output").height(height);
+    var top = $(".output").offset().top + 15;
+    var left = $(".output").offset().left + 15;
+    $("#fixed").css("top", top).css("left", left).height(height - 40);
 }
 function bindEvent() {
     $("#send").click(function() {
@@ -82,7 +86,7 @@ function bindEvent() {
         drop:function(e){       //拖后放
             e.preventDefault();
             var dataTransfer = e.originalEvent.dataTransfer;
-    
+
             var items = dataTransfer.items;
             var item = items[0];
             if(item.kind == "file"){
@@ -115,11 +119,12 @@ function sendImageByFile(file){
             file.size < 2048 * 1024 ? fileReader.readAsDataURL(file) : alert("动态图片超过2MB，太大鸟~");
             return;
         }
-        if (file.size < 512 * 1024) {
-            fileReader.readAsDataURL(file);//send in onload
-        } else {
-            sendCompressImage(file);
-        }
+        sendCompressImage(file);//统统压缩~~
+//        if (file.size < 256 * 1024) { //256KB以下 直接发
+//            fileReader.readAsDataURL(file);//send in onload
+//        } else {
+//            sendCompressImage(file);
+//        }
     }
 }
 function sendCompressImage(file){
@@ -127,14 +132,27 @@ function sendCompressImage(file){
     J.loadImage(url, function(image){
         var width = image.naturalWidth;
         var height = image.naturalHeight;
-        if(image.naturalWidth > 1024){
-            width = 1024;
+      
+        if(image.naturalWidth >= 2560){
+            width = 1920;
             height = height * width / image.naturalWidth;
+        }else if(image.naturalWidth >= 1920){
+            width = 1440;
+            height = height * width / image.naturalWidth;
+        }
+        
+        var quality = 1.0;
+        if(file.size >= 4096 * 1024){
+            quality = 0.4;
+        }else if(file.size >= 1024 * 1024){
+            quality = 0.6;
+        }else if(file.size >= 128 * 1024){
+            quality = 0.8;
         }
         var canvas = $("<canvas></canvas>").attr("width", width).attr("height", height).css("display", "none");
         var context = canvas.get(0).getContext("2d");
         context.drawImage(image, 0, 0, width, height);
-        var dataURL = canvas.get(0).toDataURL("image/jpeg");
+        var dataURL = canvas.get(0).toDataURL("image/jpeg", quality);
         canvas.remove();
         sendImage(dataURL);
     });
@@ -229,6 +247,7 @@ function getTudouInfo(url, chatbox){
 }
 function buildMessage(params){
     var message = {
+        type: "text",
         userid : $("#userid").val(),
         username : $("#username").val(),
         date : new Date()
@@ -250,11 +269,28 @@ function sendInput() {
     }
 }
 function receiveMessage(message){
-    appendMessage(JSON.parse(message));
-    $("#alertAudio").get(0).play();
+    message = JSON.parse(message);
+    if(message.type == "text"){
+        appendMessage(message);
+        $("#alertAudio").get(0).play();
+    }else if(message.type == "userlist"){
+        refreshUserList(message);
+    }
+}
+function refreshUserList(message){
+    var users = message.userlist;
+    console.log(users)
+    $("#usercount").html(users.length);
+    $("#userlist").empty();
+    for(var i = 0; i < users.length; i ++){
+        var user = users[i];
+        $("<div></div>").html(user.nickname).appendTo($("#userlist"));
+    }
 }
 function ws_connect() {
-    var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom?id=" + $("#userid").val();
+    var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
+    url += "?userid=" + $("#userid").val();
+    url += "&username=" + encodeURIComponent($("#username").val());
     ws = new WebSocket(url);
     ws.onopen = function() {
         console.log("open");

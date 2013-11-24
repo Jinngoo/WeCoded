@@ -1,5 +1,6 @@
 package com.jinva.interceptor;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,13 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		
 		User user = (User) request.getSession().getAttribute(JinvaConsts.USER);
 		if (user == null) {
-			response.sendRedirect(request.getContextPath() + "/login");
+//			response.sendRedirect(request.getContextPath() + "/login");
+			if (StringUtils.isNotBlank(uri) && !uri.equals("/")) {
+                String encodeUri = URLEncoder.encode(URLEncoder.encode(uri, "UTF-8"), "UTF-8");
+                response.sendRedirect(request.getContextPath() + "/login/" + encodeUri);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
 			return false;
 		}
 		return true;

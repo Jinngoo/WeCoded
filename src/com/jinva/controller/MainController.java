@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -76,6 +77,13 @@ public class MainController extends BaseControllerSupport{
         return user == null ? "login" : redirectIndex();
     }
     
+    @RequestMapping(value = "login/{redirect}", method = RequestMethod.GET)
+    public String login(HttpSession session, HttpServletRequest request, @PathVariable("redirect") String redirect) throws UnsupportedEncodingException{
+        User user = (User) session.getAttribute(JinvaConsts.USER);
+        request.setAttribute("redirect", redirect);
+        return user == null ? "login" : redirectIndex();
+    }
+    
     @RequestMapping(value = "login/validateName", method = RequestMethod.POST)
     public ResponseEntity<Boolean> validateName(HttpServletRequest request){
         String name = request.getParameter("name");
@@ -106,7 +114,7 @@ public class MainController extends BaseControllerSupport{
     
     
     @RequestMapping(value = "login/signin", method = RequestMethod.POST)
-    public ResponseEntity<String> signin(HttpSession session,HttpServletRequest request) {
+    public ResponseEntity<String> signin(HttpSession session, HttpServletRequest request) {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
         User user = jinvaService.getUser(name);

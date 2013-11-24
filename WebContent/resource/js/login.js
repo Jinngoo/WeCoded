@@ -112,7 +112,7 @@ function validateName(callback){
 			callback.call(this);
 		}
 	}else{
-		var url = 'login/validateName';
+		var url = contextPath + '/login/validateName';
 		var params = {"name":name};
 		$.post(url, params, function(data, textStatus, jqXHR){
 			var access = data;
@@ -161,7 +161,7 @@ function signup(){
 		var password = $.md5($("#password").val());
 		var nickname = encodeURIComponent(encodeURIComponent($("#nickname").val()));
 		
-		var url = 'login/signup';
+		var url = contextPath + '/login/signup';
 		var params = {"name":name, "password":password, "nickname":nickname};
 		$("#btn-signup").button("loading");
 		$.post(url, params, function(data, textStatus, jqXHR){
@@ -226,16 +226,21 @@ function clearForm(id){
 }
 
 function login(){
-	var url = 'login/signin';
+	var url = contextPath + '/login/signin';
     var params = {
-    		"username":$("#username-login").val(),
-    		"password":$.md5($("#password-login").val())
+    		"username" : $("#username-login").val(),
+    		"password" : $.md5($("#password-login").val())
     };
     $.post(url, params, function(data, textStatus, jqXHR){
     	var code = data;
     	if (code == "success") {
     	    setCookie();
-			window.location.reload();
+            var redirect = $("#redirect").val();
+            if (redirect) {
+                window.location.href = contextPath + decodeURIComponent(redirect);
+            } else {
+                window.location.reload();
+            }
 		} else if (code == "nouser") {
 		    $("#modal-tip").html("User not found");
 		    $("#hide-modal").show();

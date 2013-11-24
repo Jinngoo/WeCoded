@@ -34,6 +34,7 @@
 				<div class="box">
 					<input class="input form-control" type="text" id="username-login" name="username" placeholder="用户名"/>
 					<input class="input form-control" type="password" id="password-login" name="password" placeholder="密码"/>
+					<input class="" type="hidden" id="redirect" value="${redirect }" />
 				</div>
 				<div class="box">
 					<input class="btn btn-success" type="button" id="submit" value="登录"/>
