@@ -88,7 +88,7 @@
 							<div class="form-group"> 
 								<input type="text" class="form-control" placeholder="Search(Coming soon)">
 							</div>
-							<a class="btn btn-success" data-toggle="collapse" data-target=".createGroup">创建小组</a>
+							<a class="button button-rounded button-flat-action" data-toggle="collapse" data-target=".createGroup">创建小组</a>
 						</form>
 					</div>
 					<div id="collapseCreateGroup" class="collapse createGroup" style="position:relative;">
@@ -194,7 +194,7 @@
 							<div class="form-group"> 
 								<input type="text" class="form-control" placeholder="Search(Coming soon)">
 							</div>
-							<a class="btn btn-success" data-toggle="collapse" data-target=".createRestaurant">添加餐馆</a> 
+							<a class="button button-rounded button-flat-action" data-toggle="collapse" data-target=".createRestaurant">添加餐馆</a>
 						</form>
 					</div>
 					<div id="collapseCreateRestaurant" class="collapse createRestaurant" style="position:relative;">
