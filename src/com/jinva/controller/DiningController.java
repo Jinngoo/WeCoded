@@ -58,6 +58,12 @@ public class DiningController extends BaseControllerSupport{
         return "dining/index";
     }
 
+    @RequestMapping(value = "orderProviderCount", method = RequestMethod.GET)
+    public ResponseEntity<Integer> orderProviderCount(HttpSession session) {
+        int count = jinvaService.getOrderProviderCount(getUserId(session));
+        return new ResponseEntity<Integer>(count, HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "orderProviderList", method = RequestMethod.GET)
     public String orderProviderList(HttpServletRequest request, HttpSession session) {
         List<OrderProvider> orderProviderList = jinvaService.getOrderProviderList(0, -1, getUserId(session));

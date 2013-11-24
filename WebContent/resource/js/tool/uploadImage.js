@@ -35,7 +35,7 @@ function saveImg(btn){
     canvas.attr("height", outHeight);
     var context = canvas.get(0).getContext("2d");
     context.drawImage($("#jcropTarget").get(0), x, y, width, height, 0, 0, outWidth, outHeight);
-    var dataURL = canvas.get(0).toDataURL("image/jpeg");
+    var dataURL = canvas.get(0).toDataURL("image/jpeg", "0.5");
     var base64Data = dataURL.replace(/^data:image\/\w+;base64,/, "");
     canvas.remove();
     
@@ -54,7 +54,6 @@ function saveImg(btn){
             
             var uploadType = $("#uploadType").val();
             if(uploadType == "1"){
-                reloadUserAvatar();
                 if (opener && opener.reloadUserAvatar) {
                     opener.reloadUserAvatar();
                 }
@@ -66,6 +65,9 @@ function saveImg(btn){
                     window.opener = null;
                     window.close();
                 } else {
+                    if(uploadType == "1"){
+                        reloadUserAvatar();
+                    }
                     $(btn).button('reset')
                 }
             }, 500);
@@ -113,10 +115,10 @@ function fileChoosen() {
     }
 
     // check for file size
-    if (oFile.size > 1024 * 1024) {
-        onError("文件超过1MB，请选择一张稍小点的图片");
-        return;
-    }
+//    if (oFile.size > 1024 * 1024) {
+//        onError("文件超过1MB，请选择一张稍小点的图片");
+//        return;
+//    }
 
     var jcropTarget = $("#jcropTarget");
     var imageDom = jcropTarget.get(0);
@@ -162,7 +164,7 @@ function fileChoosen() {
 
             // initialize Jcrop
             jcropTarget.Jcrop({
-                minSize: [64, 64], // min crop size
+                minSize: [40, 40], // min crop size
                 aspectRatio : 1, // keep aspect ratio 1:1
                 bgFade: true, // use fade effect
                 bgOpacity: 0.6, // fade opacity
@@ -183,7 +185,7 @@ function fileChoosen() {
                 // select 1/2 center area
                 var minLength = Math.min(realWidth, realHeight);
                 var center = {x: realWidth/2, y: realHeight/2};
-                this.setSelect([center.x-minLength/4, center.y-minLength/4, center.x+minLength/4, center.y+minLength/4]);
+                this.setSelect([center.x-minLength/2, center.y-minLength/2, center.x+minLength/2, center.y+minLength/2]);
             });
         };
     };

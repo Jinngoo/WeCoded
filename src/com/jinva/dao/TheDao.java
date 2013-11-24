@@ -59,7 +59,7 @@ public class TheDao extends HibernateDaoSupport{
 		}
 	}
 	
-	public long selectCount(Class<?> clazz, String[] fieldNames, Object[] fieldValues){
+	public int selectCount(Class<?> clazz, String[] fieldNames, Object[] fieldValues){
 		String hql = "select count(*) from " + clazz.getName() + " where ";
 		List<String> fieldList = new ArrayList<String>();
 		for(String fieldName : fieldNames){
@@ -68,10 +68,29 @@ public class TheDao extends HibernateDaoSupport{
 		hql = hql + StringUtils.join(fieldList, " and ");
 		List<?> result = getHibernateTemplate().find(hql, fieldValues);
 		if (CollectionUtils.isNotEmpty(result)) {
-			return (Long) result.get(0);
+			return Integer.valueOf(result.get(0).toString());
 		} else {
 			return 0;
 		}
 	}
+	
+    public int selectCount(String hql, Object[] params) {
+        if (hql.startsWith("from") || hql.startsWith("FROM")) {
+            hql = "select count(*) " + hql;
+        } else if (hql.startsWith("select") && hql.indexOf("count") == -1 || hql.startsWith("SELECT") && hql.indexOf("COUNT") == -1) {
+            hql = "select count(*) from " + hql.substring(hql.indexOf("from") + 4);
+        }
+        List<?> result = null;
+        if (params == null) {
+            result = getHibernateTemplate().find(hql);
+        } else {
+            result = getHibernateTemplate().find(hql, params);
+        }
+        if (CollectionUtils.isNotEmpty(result)) {
+            return Integer.valueOf(result.get(0).toString());
+        } else {
+            return 0;
+        }
+    }
 	
 }

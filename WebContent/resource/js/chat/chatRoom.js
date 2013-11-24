@@ -331,6 +331,7 @@ function refreshUserList(message){
         var user = users[i];
         $("<div></div>").html(user.nickname).appendTo($("#userlist"));
     }
+    top_reloadChatRoomUserCount(users.length);
 }
 function ws_connect() {
     var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
@@ -338,7 +339,7 @@ function ws_connect() {
     url += "&username=" + encodeURIComponent($("#username").val());
     ws = new WebSocket(url);
     ws.onopen = function() {
-        console.log("open");
+        top_reloadChatRoomUserCount();
     }
     ws.onmessage = function(e) {
         receiveMessage(e.data);

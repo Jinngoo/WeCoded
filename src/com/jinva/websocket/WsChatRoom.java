@@ -34,6 +34,8 @@ public class WsChatRoom {
 
     private static Map<String, User> userMap = Collections.synchronizedMap(new HashMap<String, User>());
 
+    public static int userCount = 0;
+    
     /**
      * 向除了自身的其他客户端广播
      * 
@@ -72,6 +74,7 @@ public class WsChatRoom {
                 userArray.add(user);
             }
         }
+        userCount = userArray.size();
         JSONObject message = new JSONObject();
         message.put("type", "userlist");
         message.put("userlist", userArray);
