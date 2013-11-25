@@ -57,12 +57,14 @@ $(window).resize(function(){
 $(window).focus(function(){
     onFocus();
 });
+$(window).blur(function(){
+	onBlur();
+});
 function onFocus(){
     $("#input").focus();
     isFocus = true;
 }
 function onBlur(){
-	$("#input").focus();
 	isFocus = false;
 }
 function resizeOutput(){
