@@ -37,6 +37,8 @@ function sendNotification(messageText){
 var ws = null;
 var ctrl = false;
 var fileReader = null;
+var maxRecord = 50;
+var isFocus = true;
 
 $(document).ready(function() {
 	addNotificationSupport();
@@ -44,7 +46,7 @@ $(document).ready(function() {
     bindEvent();
     resizeOutput();
     onFocus();
-    console.log('加个在线人数、视频独立窗口')
+    console.log('TODO:最大记录保留数、历史记录保存')
     
     $(".videoWindow").easydrag();
     $(".videoWindow").setHandler('moveVideo');
@@ -57,6 +59,11 @@ $(window).focus(function(){
 });
 function onFocus(){
     $("#input").focus();
+    isFocus = true;
+}
+function onBlur(){
+	$("#input").focus();
+	isFocus = false;
 }
 function resizeOutput(){
     var height = $(window).height() - 255;
@@ -212,7 +219,7 @@ function appendMessage(message){
     scrollMessage();
     
     var chatboxs = $("#output").children(".chatbox");
-    if(chatboxs.length > 24){
+    if(chatboxs.length > maxRecord){
         chatboxs.first().slideUp("fast", function(){
             $(this).remove();
         });
@@ -338,7 +345,9 @@ function receiveMessage(message){
     if(message.type == "text"){
         appendMessage(message);
         $("#alertAudio").get(0).play();
-        sendNotification(message.username + " : " + "发来消息。");//桌面通知
+        if(!isFocus){
+        	sendNotification(message.username + " : " + "发来消息。");//桌面通知
+        }
     }else if(message.type == "userlist"){
         refreshUserList(message);
     }

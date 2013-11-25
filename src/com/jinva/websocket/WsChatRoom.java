@@ -43,6 +43,10 @@ public class WsChatRoom {
      * @param message
      */
     private void broadcast(Session session, String message) {
+    	if(!session.isOpen()){
+    		logger.warn("Session closed");
+    		return;
+    	}
         Set<Session> set = session.getOpenSessions();
         for (Session ses : set) {
             if (ses.getId().equals(session.getId())) {
@@ -59,6 +63,10 @@ public class WsChatRoom {
      * @param message
      */
     private void sendBasicMessage(Session session, String message) {
+    	if(!session.isOpen()){
+    		logger.warn("Session closed");
+    		return;
+    	}
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException e) {
