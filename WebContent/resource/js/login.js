@@ -24,7 +24,7 @@ function cookieControl(){
     }
 }
 function setCookie(){
-    $.cookie(cookie_username, $("#username-login").val(), {expires: 7});
+    $.cookie(cookie_username, $("#username-login").val(), {expires: 7, path : "/"});
 }
 
 function bindEvent(){

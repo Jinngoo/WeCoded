@@ -145,7 +145,7 @@
 											imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
 											<i class="fa fa-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
 											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editTeam('${team.id}')" title="编辑"></i>
-											<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteTeam('${team.id}',${team.memberCount}, false)" title="删除"></i>
+											<i class="fa fa-trash-o" style="cursor:pointer;" onclick="deleteTeam('${team.id}',${team.memberCount}, false)" title="删除"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
@@ -162,7 +162,7 @@
 											popoverContent="创建者:&nbsp;&nbsp;${team.ownerName}<br>成员数:&nbsp;&nbsp;${team.memberCount}<br>组简介:&nbsp;&nbsp;${team.introduction}"
 											imgUrl="${CONTEXT_PATH}/getImage/2/${team.id}">
 											<i class="fa fa-user" style="cursor:pointer;" onclick="showTeamMember('${team.id}')" title="浏览成员"></i>
-											<i class="fa fa-ban-circle" style="cursor:pointer;" onclick="quitTeam('${team.id}', false, this)" title="退出"></i>
+											<i class="fa fa-ban" style="cursor:pointer;" onclick="quitTeam('${team.id}', false, this)" title="退出"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>

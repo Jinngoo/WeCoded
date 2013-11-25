@@ -39,6 +39,7 @@ var ctrl = false;
 var fileReader = null;
 var maxRecord = 50;
 var isFocus = true;
+var sendShortcutKeys = 2;
 
 $(document).ready(function() {
 	addNotificationSupport();
@@ -46,6 +47,7 @@ $(document).ready(function() {
     bindEvent();
     resizeOutput();
     onFocus();
+    initSendShortcutKeys();
     console.log('TODO:最大记录保留数、历史记录保存')
     
     $(".videoWindow").easydrag();
@@ -79,10 +81,19 @@ function bindEvent() {
         sendInput();
     });
     $("#input").keydown(function(e){
+        var onlyEnter = sendShortcutKeys == 1;
+        var ctrlEnter = sendShortcutKeys == 2;
         if(e.keyCode == 17){
             ctrl = true;
-        }else if(ctrl && e.keyCode == 13){
-            sendInput();
+        } else if (e.keyCode == 13){
+            if (onlyEnter && !ctrl || ctrlEnter && ctrl) {
+                if(!$("#send").attr("disabled")){
+                    sendInput();
+                }
+                return false;
+            } else if (onlyEnter && ctrl) {
+                $("#input").val($("#input").val() + "\n");
+            }
         }
     });
     $("#input").keyup(function(e){
@@ -237,49 +248,26 @@ function checkVideo(message, chatbox){
     } else if(message.indexOf("www") != -1){
         url = J.substring(message, "www", " ");
     }
-    if(url && url.indexOf("youku.com") != -1){
-        getYoukuInfo(url, chatbox);
-    }else if(url && url.indexOf("tudou.com") != -1){
-        getTudouInfo(url, chatbox);
-    }else{
-        chatbox.html(chatbox.html().replace(url, "<a href='"+url+"' target='_blank'>"+url+"</a>"));
+    if (url && url.indexOf("youku.com") != -1) {
+        getVideoInfo("youku", url, chatbox);
+    } else if (url && url.indexOf("tudou.com") != -1) {
+        getVideoInfo("tudou", url, chatbox);
+    } else {
+        chatbox.html(chatbox.html().replace(url, "<a href='" + url + "' target='_blank'>" + url + "</a>"));
     }
 }
-//http%3A%2F%2Fv.youku.com%2Fv_show%2Fid_XNjM4NjczMzI4_ev_3.html
-function getYoukuInfo(url, chatbox){
-    var api = "https://openapi.youku.com/v2/videos/show_basic.json?client_id=683e07f6f96dd3a0&video_url=";
-    api += encodeURIComponent(url);
-    $.getJSON(api, function(data, textStatus, jqXHR) {
-        if (!data.error) {
-            var thumbnail = data.thumbnail_v2 || data.thumbnail;
-            var videoBox = initVideoBox("youku", thumbnail, data.player);
+function getVideoInfo(videoType, url, chatbox){
+    var params = { "type" : videoType, "url" : url };
+    $.post(contextPath + "/chatRoom/videoInfo", params, function(result, textStatus, jqXHR) {
+        if (!result.error) {
+            var videoBox = initVideoBox("youku", result.thumbnail, result.player);
             var target = chatbox.find("div.content");
             target.append("<br>").append(videoBox.show());
-            target.append("<br>视频标题：").append(data.title);
-            target.append("<br>视频描述：").append(data.description);
+            target.append("<br>视频标题：").append(result.title);
+            target.append("<br>视频描述：").append(result.description);
+            scrollMessage();
         }else{
-            console.log(data.error);
-        }
-    });
-}
-//http://www.tudou.com/v/Nxm2zaSwqRc/&bid=05&rpid=324313167&resourceId=324313167_05_05_99/v.swf
-function getTudouInfo(url, chatbox){
-    var api = "http://api.tudou.com/v6/video/info?app_key=6206acbc39bf0491&itemCodes=";
-    if(url.substring(url.length-1, url.length) == "/"){
-        url = url.substring(0, url.lentgh - 1);
-    }
-    var videoId = url.substring(url.lastIndexOf("/")+1, url.length);
-    if(videoId.indexOf(".") != -1){
-        videoId = videoId.substring(0, videoId.indexOf("."));
-    }
-    api += videoId;
-    $.getJSON(api, function(data, textStatus, jqXHR) {
-        if (data.result) {
-            var videoBox = initVideoBox("tudou", data.result.bigPicUrl, data.result.outerPlayerUrl);
-            var target = chatbox.find("div.content");
-            target.append("<br>").append(videoBox.show());
-            target.append("<br>视频标题：").append(data.result.title);
-            target.append("<br>视频标签：").append(data.result.tags);
+            console.log(result.error);
         }
     });
 }
@@ -342,16 +330,29 @@ function sendInput() {
         appendMessage(message);
     }
 }
-function receiveMessage(message){
+function receiveMessage(message) {
     message = JSON.parse(message);
-    if(message.type == "text"){
+    if (message.type == "text") {
         appendMessage(message);
         $("#alertAudio").get(0).play();
-        if(!isFocus){
-        	sendNotification(message.username + " : " + "发来消息。");//桌面通知
+        if (!isFocus) {
+            if (message.text) {
+                sendNotification(message.username + " : " + getComment(message.text));// 桌面通知
+            } else if (message.image) {
+                sendNotification(message.username + " : " + "发来图片。");// 桌面通知
+            } else {
+                sendNotification(message.username + " : " + "发来消息。");// 桌面通知
+            }
         }
     }else if(message.type == "userlist"){
         refreshUserList(message);
+    }
+}
+function getComment(text){
+    if(text && text.toString().length > 18){
+        return text.toString().substring(0, 18) + "...";
+    }else{
+        return text;
     }
 }
 function refreshUserList(message){
@@ -364,6 +365,20 @@ function refreshUserList(message){
     }
     top_reloadChatRoomUserCount(users.length);
 }
+function initSendShortcutKeys(){
+    if(!$.cookie("wecoded_shortcut_keys")){
+        $.cookie("wecoded_shortcut_keys", sendShortcutKeys, {expires: 7, path : "/"});
+    }
+    sendShortcutKeys = $.cookie("wecoded_shortcut_keys");
+
+    $($("#sendShortcutsMenu").children("li").get(sendShortcutKeys-1)).addClass("active");
+}
+function changeSendShortcutKeys(type){
+    sendShortcutKeys = parseInt(type, 10);
+    $("#sendShortcutsMenu").children("li").removeClass("active");
+    $($("#sendShortcutsMenu").children("li").get(type-1)).addClass("active");
+}
+///////////  websocket   ///////////////////////////
 function ws_connect() {
     var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
     url += "?userid=" + $("#userid").val();

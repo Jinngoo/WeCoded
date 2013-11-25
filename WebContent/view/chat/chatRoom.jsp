@@ -58,12 +58,29 @@
 		<div class="form-group">
 			<div class="input-group ">
 				<span class="input-group-addon">
-					<i id="sendPic" class="fa fa-picture-o fa-2x tool" title="发送图片"></i> <br/>
-					<i id="clearMsg" class="fa fa-times fa-2x tool" title="清除记录"></i> 
+					<table>
+						<tr>
+							<td><i class="fa fa-question fa-2x tool" title="暂留"></i>&nbsp;&nbsp;&nbsp;</td>
+							<td><i id="sendPic" class="fa fa-picture-o fa-2x tool" title="发送图片"></i></td>
+						</tr>
+						<tr>
+							<td><i id="clearMsg" class="fa fa-trash-o fa-2x tool" title="清除记录"></i>&nbsp;&nbsp;&nbsp;</td>
+							<td><i class="fa fa-question fa-2x tool" title="暂留"></i></td>
+						</tr>
+					</table>
 				</span>
 				<textarea id="input" rows="5" class="form-control"></textarea>
-				<span class="input-group-addon">
-					<button id="send" class="btn btn-default" style="width:100%;height:100%;">发送<br/>Ctrl+Enter</button><br/>
+				<span class="input-group-addon dropup" style="width: 140px;">
+					<div class="btn-group" style="height:100%">
+						<button type="button" class="btn btn-default" id="send" style="width:80px;height:100%">发送</button>
+						<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="width:30px;height:100%">
+							<span class="caret"></span> 
+						</button>
+						<ul id="sendShortcutsMenu" class="dropdown-menu pull-right" role="menu">
+							<li><a href="javascript:changeSendShortcutKeys(1)">Enter</a></li>
+							<li><a href="javascript:changeSendShortcutKeys(2)">Ctrl + Enter</a></li>
+						</ul>
+					</div>
 				</span>
 			</div>
 		</div>

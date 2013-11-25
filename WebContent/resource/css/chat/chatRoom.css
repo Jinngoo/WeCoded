@@ -76,6 +76,10 @@ div.videoBox {
 	position: relative;
 	display: none;
 }
+div.videoBox img.videoThumbnail{
+	min-width: 140px;
+	min-height: 80px;
+}
 
 div.videoBox img.videoPlay {
 	width: 50px;
