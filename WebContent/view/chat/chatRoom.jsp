@@ -69,7 +69,7 @@
 		</div>
 	</div>
 	
-	
+	<div id="notificationSupport" type="WeCoded_ChatRoom_Notufication" message="" style="display:none"></div>
 	<input type="file" id="fileChooser" style="display:none" accept="image/jpeg,image/gif,image/bmp,image/x-png">
 	<audio id="alertAudio" controls="controls" preload="preload" style="display:none">
 		<source src="${RESOURCE}/audio/alert1.mp3" type="audio/mpeg">

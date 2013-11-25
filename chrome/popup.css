@@ -1,0 +1,22 @@
+body {
+	white-space: nowrap;
+	font-family: 'Open Sans', arial, sans-serif;
+}
+
+a {
+	text-decoration: none;
+	font-size: 13px;
+}
+a:HOVER {
+	color : black;
+	text-decoration: underline;
+}
+a:ACTIVE {
+	color : black;
+}
+a:LINK {
+	color : black;
+}
+a:VISITED {
+	color : black;
+}

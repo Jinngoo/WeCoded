@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "Jinn Apps Chrome Support",
+  "description": "Jinn Apps Chrome Support.",
+  "version": "1.0",
+
+  "permissions": [
+    "contextMenus","notifications"
+  ],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_title": "Jinn Apps Chrome Support",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["jquery-2.0.3.min.js","background.js"]  
+  },
+   "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "css": ["mystyles.css"],
+      "js": ["jquery-2.0.3.min.js","content.js"]
+    }
+  ]
+}

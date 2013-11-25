@@ -14,14 +14,32 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 }
 //////////////////////////
-
-
+/**
+ * 桌面通知事件
+ */
+var notificationEvent = null;
+/**
+ * 添加桌面通知支持
+ */
+function addNotificationSupport(){
+	notificationEvent = document.createEvent('HTMLEvents');
+	notificationEvent.initEvent('WeCoded_ChatRoom_Notufication', false, false);
+}
+/**
+ * 向桌面发送通知
+ * @param message
+ */
+function sendNotification(messageText){
+	$("#notificationSupport").attr("message", messageText);
+	$("#notificationSupport").get(0).dispatchEvent(notificationEvent); 
+}
 /////////////////////////
 var ws = null;
 var ctrl = false;
 var fileReader = null;
 
 $(document).ready(function() {
+	addNotificationSupport();
     ws_connect();
     bindEvent();
     resizeOutput();
@@ -320,6 +338,7 @@ function receiveMessage(message){
     if(message.type == "text"){
         appendMessage(message);
         $("#alertAudio").get(0).play();
+        sendNotification(message.username + " : " + "发来消息。");//桌面通知
     }else if(message.type == "userlist"){
         refreshUserList(message);
     }
@@ -338,8 +357,10 @@ function ws_connect() {
     var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
     url += "?userid=" + $("#userid").val();
     url += "&username=" + encodeURIComponent($("#username").val());
+    $("#send").attr("disabled", "disabled");
     ws = new WebSocket(url);
     ws.onopen = function() {
+    	$("#send").removeAttr("disabled");
         top_reloadChatRoomUserCount();
     }
     ws.onmessage = function(e) {
