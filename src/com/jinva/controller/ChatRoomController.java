@@ -34,6 +34,7 @@ public class ChatRoomController extends BaseControllerSupport {
     public static final String API_YOUTUBE = "http://gdata.youtube.com/feeds/api/videos/{params}?v=2&alt=json";
 
     // http://v.youku.com/v_show/id_XNjM4NjczMzI4.html
+    // http://www.youtube.com/watch?v=Y7oFkkZJWPE
     
     // http://www.tudou.com/listplay/l3njSlyAKNA/q1VPZ0chB4k.html
     // http://www.tudou.com/albumplay/MLEFkT75uyY/d8UAQ_xdIOM.html
@@ -131,10 +132,11 @@ public class ChatRoomController extends BaseControllerSupport {
                 video.put("error", "视频不存在");
             }
         } else if("youtube".equalsIgnoreCase(videoType)){
-            JSONObject mediaGroup = json.getJSONObject("entry").getJSONObject("media$group");
+            JSONObject entry = json.getJSONObject("entry");
+            JSONObject mediaGroup = entry.getJSONObject("media$group");
             String title = mediaGroup.getJSONObject("media$title").getString("$t");
             String description = mediaGroup.getJSONObject("media$description").getString("$t");
-            String player = mediaGroup.getJSONObject("media$player").getString("url");
+            String player = entry.getJSONObject("content").getString("src");
             String thumbnail = mediaGroup.getJSONArray("media$thumbnail").getJSONObject(1).getString("url");
             video.put("title", title);
             video.put("description", description);

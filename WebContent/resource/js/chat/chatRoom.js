@@ -262,7 +262,7 @@ function getVideoInfo(videoType, url, chatbox){
     var params = { "type" : videoType, "url" : url };
     $.post(contextPath + "/chatRoom/videoInfo", params, function(result, textStatus, jqXHR) {
         if (!result.error) {
-            var videoBox = initVideoBox("youku", result.thumbnail, result.player);
+            var videoBox = initVideoBox(videoType, result.thumbnail, result.player);
             var target = chatbox.find("div.content");
             var description = result.description || "";
             if(description.length > 100)description = description.substring(0, 100)+" ...";
@@ -282,8 +282,9 @@ function initVideoBox(embedId, imageSrc, videoLink){
         var alreadyHasVideo = !!$(".videoContainer").html();
         
         var video = $("#" + embedId).clone();
-        video.children("param[name=src]").attr("value", videoLink);//ie
-        video.children("embed").attr("src", videoLink);//chrome
+        video.children("param[name=src]").attr("value", videoLink);
+        video.children("param[name=movie]").attr("value", videoLink);
+        video.children("embed").attr("src", videoLink);
         $(".videoContainer").empty().append(video.show());
         if(!alreadyHasVideo){
             $(".videoWindow").animate({right: "0px"});

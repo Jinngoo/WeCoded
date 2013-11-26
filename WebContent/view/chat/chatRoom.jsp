@@ -107,13 +107,18 @@
 	</div>
 	<object id="youku" width="480" height="400" style="display:none" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
 		<param name="src" value="about:blank" />
-		<embed width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always" />
+		<param name="allowFullScreen" value="true"></param>
+		<embed src="about:blank" width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always"></embed>
 	</object>
 	<object id="tudou" width="480" height="400" style="display:none" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
 		<param name="src" value="about:blank" />
-		<embed width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always" />
+		<param name="allowFullScreen" value="true"></param>
+		<embed src="about:blank" width="480" height="400" type="application/x-shockwave-flash" allowFullScreen="true" quality="high" align="middle" wmode="opaque" allowscriptaccess="always"></embed>
 	</object>
-<!-- 	<embed id="youku" style="display:none" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"> -->
-<!--  	<embed id="tudou" style="display:none" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"> -->
+	<object id="youtube" width="480" height="400" style="display:none" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0">
+		<param name="movie" value="about:blank"></param>
+		<param name="allowFullScreen" value="true"></param>
+		<embed src="about:blank" type="application/x-shockwave-flash" allowfullscreen="true" width="480" height="400"></embed>
+	</object>
 </body>
 </html>
