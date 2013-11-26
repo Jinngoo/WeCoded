@@ -120,7 +120,7 @@
 			<div id="dishList" class="well">
 				<c:forEach items="${dishList }" var="dish" varStatus="status">
 					<div class="btn btn-warning" style="padding:5px;margin-left:7px;margin-top:5px;cursor:default;position:relative" 
-							data-content="(${restaurant.name})<br>" data-trigger="hover" data-title="${dish.name }" data-placement="bottom" rel="popover"
+							data-content="(${restaurant.name})<br>" data-trigger="hover" data-title="<b>${dish.name}</b>" data-placement="bottom" rel="popover"
 							onmouseover="showToolBar(this);initPopover(this)" onmouseout="hideToolBar(this)" >
 						<div class="tool_bar">
 							<c:if test="${canEdit}">
@@ -137,7 +137,7 @@
 						<div style="width:130px;height:20px;font-size:12px;background-color:#cc2222">
 							<c:out value="${dish.price }"/>元
 						</div>
-						<div style="width:130px;height:20px;font-size:12px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="${dish.name }">
+						<div style="width:130px;height:20px;font-size:14px;font-family:'微软雅黑';white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="${dish.name }">
 							<c:out value="${dish.name }"/>
 						</div>
 					</div>

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -13,6 +15,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,13 +29,17 @@ import com.jinva.websocket.WsChatRoom;
 @RequestMapping("/chatRoom")
 public class ChatRoomController extends BaseControllerSupport {
 
-    public static final String API_YOUKU = "https://openapi.youku.com/v2/videos/show_basic.json?client_id=683e07f6f96dd3a0&video_url=";
-    public static final String API_TUDOU = "http://api.tudou.com/v6/video/info?app_key=6206acbc39bf0491&itemCodes=";
+    public static final String API_YOUKU = "https://openapi.youku.com/v2/videos/show_basic.json?client_id=683e07f6f96dd3a0&video_url={params}";
+    public static final String API_TUDOU = "http://api.tudou.com/v6/video/info?app_key=6206acbc39bf0491&itemCodes={params}";
+    public static final String API_YOUTUBE = "http://gdata.youtube.com/feeds/api/videos/{params}?v=2&alt=json";
 
     // http://v.youku.com/v_show/id_XNjM4NjczMzI4.html
     
     // http://www.tudou.com/listplay/l3njSlyAKNA/q1VPZ0chB4k.html
     // http://www.tudou.com/albumplay/MLEFkT75uyY/d8UAQ_xdIOM.html
+    
+    private String proxyIp;
+    private Integer proxyPort;
     
     @RequestMapping(value = "")
     public String index() {
@@ -50,14 +57,17 @@ public class ChatRoomController extends BaseControllerSupport {
         String params = getParams(videoType, videoUrl);
 
         HttpURLConnection connection = null;
+        Proxy proxy = getProxy(videoType);
         InputStream in = null;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         JSONObject result = null;
         String response = null;
         try {
-            api += URLEncoder.encode(params, "utf-8");
+            params = URLEncoder.encode(params, "utf-8");
+            api = api.replace("{params}", params);
             URL url = new URL(api);
-            connection = (HttpURLConnection) url.openConnection();    
+            connection = proxy == null ? (HttpURLConnection) url.openConnection() : (HttpURLConnection) url.openConnection(proxy);    
+            connection.setConnectTimeout(5000);
             connection.connect();
             in = connection.getErrorStream();
             int httpStatus = connection.getResponseCode();
@@ -78,6 +88,17 @@ public class ChatRoomController extends BaseControllerSupport {
         }
         result = getResult(videoType, response);
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
+    }
+    
+    private Proxy getProxy(String videoType){
+        if(StringUtils.isBlank(proxyIp) || proxyPort == null){
+            return null;
+        }
+        if ("youtube".equalsIgnoreCase(videoType)){
+            InetSocketAddress addr = new InetSocketAddress(proxyIp, proxyPort);  
+            return new Proxy(Proxy.Type.HTTP, addr); 
+        }
+        return null;
     }
     
     private JSONObject getResult(String videoType, String response){
@@ -109,6 +130,16 @@ public class ChatRoomController extends BaseControllerSupport {
             }else{
                 video.put("error", "视频不存在");
             }
+        } else if("youtube".equalsIgnoreCase(videoType)){
+            JSONObject mediaGroup = json.getJSONObject("entry").getJSONObject("media$group");
+            String title = mediaGroup.getJSONObject("media$title").getString("$t");
+            String description = mediaGroup.getJSONObject("media$description").getString("$t");
+            String player = mediaGroup.getJSONObject("media$player").getString("url");
+            String thumbnail = mediaGroup.getJSONArray("media$thumbnail").getJSONObject(1).getString("url");
+            video.put("title", title);
+            video.put("description", description);
+            video.put("player", player);
+            video.put("thumbnail", thumbnail);
         } else {
             video.put("error", "视频类型不支持:" + videoType);
         }
@@ -122,11 +153,22 @@ public class ChatRoomController extends BaseControllerSupport {
             if(videoUrl.endsWith("/")){
                 videoUrl = videoUrl.substring(0, videoUrl.length() - 1);
             }
-            String param = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
-            if(param.contains(".")){
-                param = param.substring(0, param.indexOf("."));
+            String videoId = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
+            if(videoId.contains(".")){
+                videoId = videoId.substring(0, videoId.indexOf("."));
             }
-            return param;
+            return videoId;
+        }else if ("youtube".equalsIgnoreCase(videoType)) {
+            String videoId = null;
+            if(videoUrl.contains("v/")){
+                videoId = videoUrl.substring(videoUrl.indexOf("v/") + 2);
+            }else if(videoUrl.contains("v=")){
+                videoId = videoUrl.substring(videoUrl.indexOf("v=") + 2);
+            }else{
+                return null;
+            }
+            videoId = videoId.split("&|\\?|/")[0];
+            return videoId;
         } else {
             return null;
         }
@@ -137,6 +179,8 @@ public class ChatRoomController extends BaseControllerSupport {
             return API_YOUKU;
         } else if ("tudou".equalsIgnoreCase(videoType)) {
             return API_TUDOU;
+        } else if ("youtube".equalsIgnoreCase(videoType)) {
+            return API_YOUTUBE;
         } else {
             return null;
         }
@@ -158,6 +202,24 @@ public class ChatRoomController extends BaseControllerSupport {
             }
         }
         return null;
+    }
+
+    public String getProxyIp() {
+        return proxyIp;
+    }
+
+    @Value("#{propertiesReader[proxy_ip]}")
+    public void setProxyIp(String proxyIp) {
+        this.proxyIp = proxyIp;
+    }
+
+    public int getProxyPort() {
+        return proxyPort;
+    }
+
+    @Value("#{propertiesReader[proxy_port]}")
+    public void setProxyPort(Integer proxyPort) {
+        this.proxyPort = proxyPort;
     }
     
 }

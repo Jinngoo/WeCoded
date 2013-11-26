@@ -29,7 +29,6 @@ public class MainController extends BaseControllerSupport{
    
     @RequestMapping(value="test")
     public String test(HttpServletRequest request){
-        
         Integer pageSize = getInteger(request, "pageSize", 3);
         Integer pageNum = getInteger(request, "pageNum", 1);
         

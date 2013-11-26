@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	<script type="text/javascript" src="${JQUERY_MD5}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_SWITCH_JS}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_BUTTONS_JS}"></script>
 	
@@ -318,6 +319,9 @@
 					<a class="button glow button-rounded button-flat-highlight" onclick="provideMealPage()">
 						<span style="color:white">发起订餐</span>
 					</a>
+					<a class="button button-rounded button-flat-highlight" style="margin-left: 20px" onclick="$(this).children().toggle('fast')">
+						<span style="color:white">Tip</span><span style="color:white;display:none">能看到自己加入的、且是发布者指定的小组的订餐，现在加入也来的及~ 发布者在查看订单界面可以结束或取消</span>
+					</a>
 					<hr />
 					<aa:zone name="orderProviderList">
 						<i class="fa fa-spinner fa-spin fa-4x" id="orderProviderListLoading" style="display:none;"></i>
@@ -381,12 +385,12 @@
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal">
-							<input type="password" id="inputGroupPassword">
+							<input class="form-control" type="password" id="inputGroupPassword">
 							<input type="text" id="toJoinGroupId" style="display:none">
 							<input type="text" id="toJoinGroupPassword" style="display:none">
+							<button class="form-control btn btn-danger" data-dismiss="modal" style="margin-top:10px;margin-bottom:10px;" onclick="confirmPassword()">确定</button>
+							<button class="form-control btn btn-default" data-dismiss="modal">取消</button>
 						</form>
-						<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" onclick="confirmPassword()">确定</button>
-						<button class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div> <!-- /.modal-content -->
 			</div> <!-- /.modal-dialog -->

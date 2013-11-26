@@ -245,7 +245,7 @@ function login(){
 		    $("#modal-tip").html("User not found");
 		    $("#hide-modal").show();
 		} else if (code == "wrongpass") {
-		    $("#modal-tip").html("Wrong password");
+		    $("#modal-tip").html("Wrong password ( try default 12345 )");
             $("#hide-modal").show();
 		} else {
 		    $("#modal-tip").html("Unknown error occured on sign in");

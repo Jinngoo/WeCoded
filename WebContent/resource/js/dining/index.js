@@ -178,7 +178,7 @@ function confirmPassword() {
 		password = $.md5(password);
 	}
 	if (password == $("#toJoinGroupPassword").val()) {
-		joinGroup($("#toJoinGroupId").val());
+		joinTeam($("#toJoinGroupId").val());
 	} else {
 		alert("Wrong password");
 	}

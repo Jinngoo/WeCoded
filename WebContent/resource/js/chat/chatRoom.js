@@ -252,6 +252,8 @@ function checkVideo(message, chatbox){
         getVideoInfo("youku", url, chatbox);
     } else if (url && url.indexOf("tudou.com") != -1) {
         getVideoInfo("tudou", url, chatbox);
+    }  else if (url && url.indexOf("youtube.com") != -1) {
+        getVideoInfo("youtube", url, chatbox);
     } else {
         chatbox.html(chatbox.html().replace(url, "<a href='" + url + "' target='_blank'>" + url + "</a>"));
     }
@@ -262,9 +264,11 @@ function getVideoInfo(videoType, url, chatbox){
         if (!result.error) {
             var videoBox = initVideoBox("youku", result.thumbnail, result.player);
             var target = chatbox.find("div.content");
+            var description = result.description || "";
+            if(description.length > 100)description = description.substring(0, 100)+" ...";
             target.append("<br>").append(videoBox.show());
             target.append("<br>视频标题：").append(result.title);
-            target.append("<br>视频描述：").append(result.description);
+            target.append("<br>视频描述：").append(description);
             scrollMessage();
         }else{
             console.log(result.error);
