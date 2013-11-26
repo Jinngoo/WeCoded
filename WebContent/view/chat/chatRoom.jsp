@@ -61,12 +61,12 @@
 				<span class="input-group-addon">
 					<table>
 						<tr>
-							<td><i class="fa fa-question fa-2x tool" title="暂留"></i>&nbsp;&nbsp;&nbsp;</td>
+							<td><i class="fa fa-question fa-2x tool" title="暂留,提示音开关"></i>&nbsp;&nbsp;&nbsp;</td>
 							<td><i id="sendPic" class="fa fa-picture-o fa-2x tool" title="发送图片"></i></td>
 						</tr>
 						<tr>
 							<td><i id="clearMsg" class="fa fa-trash-o fa-2x tool" title="清除记录"></i>&nbsp;&nbsp;&nbsp;</td>
-							<td><i class="fa fa-question fa-2x tool" title="暂留"></i></td>
+							<td><i class="fa fa-question fa-2x tool" title="暂留,桌面提示开关"></i></td>
 						</tr>
 					</table>
 				</span>
