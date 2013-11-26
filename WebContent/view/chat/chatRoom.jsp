@@ -46,6 +46,7 @@
 	</div>
 	
 	<div id="userbox" class="userbox well">
+		<div><a href="${RESOURCE}/static/chrome.crx" title="开发中，下载另存为，在chrome设置-扩展程序-开发者模式勾选，把插件拖到设置界面里即可安装">chrome提示插件下载</a></div><br/>
 		<div>在线人数：<span id="usercount"></span></div>
 		<div id="userlist"></div>
 	</div>
