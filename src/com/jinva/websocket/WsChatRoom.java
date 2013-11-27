@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.CloseReason;
+import javax.websocket.CloseReason.CloseCode;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -24,8 +27,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.jinva.bean.datamodel.User;
+import com.jinva.consts.JinvaConsts;
 
-@ServerEndpoint("/wsChatRoom")
+@ServerEndpoint(value = "/wsChatRoom", configurator = HttpSessionConfigurator.class)
 public class WsChatRoom {
 
     private Log logger = LogFactory.getLog(getClass());
@@ -63,10 +67,18 @@ public class WsChatRoom {
      * @param message
      */
     private void sendBasicMessage(Session session, String message) {
-    	if(!session.isOpen()){
+        if (!session.isOpen()) {
     		logger.warn("Session closed");
     		return;
     	}
+        if (!isHttpSessionValid(session)) {
+            try {
+                closeSession(session, "Session已失效");
+            } catch (IOException e) {
+                logger.error(e);
+            }
+            return;
+        }
         try {
             session.getBasicRemote().sendText(message);
         } catch (IOException e) {
@@ -106,6 +118,25 @@ public class WsChatRoom {
         user.setId(userid);
         user.setNickname(username);
         return user;
+    }
+    
+    private void closeSession(Session session, String reason) throws IOException{
+        CloseCode normal  = new CloseCode() {
+            @Override
+            public int getCode() {
+                return 1000;
+            }
+        }; 
+        session.close(new CloseReason(normal, reason));
+    }
+    
+    private HttpSession getHttpSession(Session session){
+        return (HttpSession) session.getUserProperties().get("HttpSession");
+    }
+    
+    private boolean isHttpSessionValid(Session session) {
+        HttpSession httpSession = getHttpSession(session);
+        return httpSession != null && httpSession.getAttribute(JinvaConsts.USER) != null;
     }
 
     // /////////////////////////////////////////////////////////

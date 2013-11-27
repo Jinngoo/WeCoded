@@ -59,8 +59,10 @@
                 $("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + count + "</span>)");
             } else {
                 var url = contextPath + "/chatRoom/userCount";
-                $.get(url, function(result) {
-                    $("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + result + "</span>)");
+                $.getJSON(url, function(result) {
+                	if(result && result.count != null){
+                    	$("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
+                	}
                 });
             }
         }
@@ -69,8 +71,10 @@
                 $("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + count + "</span>)");
             } else {
                 var url = contextPath + "/dining/orderProviderCount";
-                $.get(url, function(result) {
-                    $("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + result + "</span>)");
+                $.getJSON(url, function(result) {
+                	if(result && result.count != null){
+                		$("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
+                	}
                 });
             }
         }

@@ -204,8 +204,12 @@ function sendCompressImage(file){
 function sendImage(dataURL){
     var params = { image : dataURL };
     var message = buildMessage(params);
-    ws_send(message);
-    appendMessage(message);
+    var sendResult = ws_send(message);
+	if(sendResult == true){
+		appendMessage(message);
+	}else{
+		alert(sendResult);
+	}
 }
 function appendMessage(message){
     var userid = message.userid;
@@ -330,9 +334,14 @@ function sendInput() {
     	var userid = $("#userid").val();
     	var username = $("#username").val();
     	var message = buildMessage({ text : text }); 
-    	$("#input").val("").focus();
-        ws_send(message);
-        appendMessage(message);
+        var sendResult = ws_send(message);
+        $("#input").focus();
+		if (sendResult == true) {
+			$("#input").val("");
+			appendMessage(message);
+		} else {
+			alert(sendResult);
+		}
     }
 }
 function receiveMessage(message) {
@@ -397,18 +406,25 @@ function ws_connect() {
     ws.onmessage = function(e) {
         receiveMessage(e.data);
     }
-    ws.onclose = function(e) {
-        console.log("closed");
+    ws.onclose = function(closeEvent) {
+        console.log(ws);
+        alert("连接已关闭, 关闭代码 : [ " + closeEvent.code + " ], 关闭原因 :[ " + closeEvent.reason + " ]")
     }
     ws.onerror = function(e) {
         console.log("error");
+        console.log(e);
     }
 }
 function ws_send(msg) {
     if(typeof msg == "object"){
         msg = JSON.stringify(msg);
     }
-    ws.send(msg);
+    if (ws.readyState == 1) {
+		ws.send(msg);
+		return true;
+	} else {
+		return "连接已关闭, readyState : [ " + ws.readyState + " ]";
+	}
 }
 function ws_close() {
     if (ws != null) {

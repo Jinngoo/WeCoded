@@ -48,10 +48,12 @@ public class ChatRoomController extends BaseControllerSupport {
     }
 
     @RequestMapping(value = "userCount", method = RequestMethod.GET)
-    public ResponseEntity<Integer> chatRoom() {
-        return new ResponseEntity<Integer>(WsChatRoom.userCount, HttpStatus.OK);
+    public ResponseEntity<JSONObject> chatRoom() {
+        JSONObject result = new JSONObject();
+        result.put("count", WsChatRoom.userCount);
+        return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "videoInfo", method = RequestMethod.POST)
     public ResponseEntity<JSONObject> videoInfo(@RequestParam("type") String videoType, @RequestParam("url") String videoUrl) {
         String api = getApi(videoType);
@@ -73,41 +75,44 @@ public class ChatRoomController extends BaseControllerSupport {
             in = connection.getErrorStream();
             int httpStatus = connection.getResponseCode();
             
-            if(in == null && httpStatus == HttpStatus.OK.value()){ // success
-                in = connection.getInputStream();
-                out = new ByteArrayOutputStream();
-                IOUtils.copy(in, out);
-                response = new String(out.toByteArray(), "utf-8");
-            }
+			if (in == null && httpStatus == HttpStatus.OK.value()) { // success
+				in = connection.getInputStream();
+				out = new ByteArrayOutputStream();
+				IOUtils.copy(in, out);
+				response = new String(out.toByteArray(), "utf-8");
+				result = getResult(videoType, response);
+			} else {
+				result = new JSONObject();
+				result.put("error", "查询视频信息失败, http status:" + HttpStatus.OK.value());
+			}
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            IOUtils.closeQuietly(out);
-            IOUtils.closeQuietly(in);
-        }
-        result = getResult(videoType, response);
+            logger.error("Get video info fail", e);
+		} catch (IOException e) {
+		    logger.error("Get video info fail", e);
+		} finally {
+			IOUtils.closeQuietly(out);
+			IOUtils.closeQuietly(in);
+		}
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
     
-    private Proxy getProxy(String videoType){
-        if(StringUtils.isBlank(proxyIp) || proxyPort == null){
-            return null;
-        }
-        if ("youtube".equalsIgnoreCase(videoType)){
-            InetSocketAddress addr = new InetSocketAddress(proxyIp, proxyPort);  
-            return new Proxy(Proxy.Type.HTTP, addr); 
-        }
-        return null;
-    }
-    
-    private JSONObject getResult(String videoType, String response){
+	private Proxy getProxy(String videoType) {
+		if (StringUtils.isBlank(proxyIp) || proxyPort == null) {
+			return null;
+		}
+		if ("youtube".equalsIgnoreCase(videoType)) {
+			InetSocketAddress addr = new InetSocketAddress(proxyIp, proxyPort);
+			return new Proxy(Proxy.Type.HTTP, addr);
+		}
+		return null;
+	}
+
+    private JSONObject getResult(String videoType, String response) {
         JSONObject video = new JSONObject();
         JSONObject json = JSONObject.fromObject(response);
-        if(response == null){
+        if (response == null) {
             video.put("error", "查询视频信息失败");
-        }else if ("youku".equalsIgnoreCase(videoType)) {
+        } else if ("youku".equalsIgnoreCase(videoType)) {
             if (!json.containsKey("error")) {
                 video.put("title", getString(json, "title"));
                 video.put("description", getString(json, "description"));
@@ -119,19 +124,19 @@ public class ChatRoomController extends BaseControllerSupport {
         } else if ("tudou".equalsIgnoreCase(videoType)) {
             if (json.containsKey("results")) {
                 JSONArray results = json.getJSONArray("results");
-                if(results.size() > 0){
+                if (results.size() > 0) {
                     JSONObject result = results.getJSONObject(0);
                     video.put("title", getString(result, "title"));
-                    video.put("description", getString(result, new String[] {"description", "tags"}));
-                    video.put("thumbnail", getString(result, new String[]{"bigPicUrl", "picUrl"}));
+                    video.put("description", getString(result, new String[] { "description", "tags" }));
+                    video.put("thumbnail", getString(result, new String[] { "bigPicUrl", "picUrl" }));
                     video.put("player", getString(result, "outerPlayerUrl"));
-                }else{
+                } else {
                     video.put("error", "视频不存在");
                 }
-            }else{
+            } else {
                 video.put("error", "视频不存在");
             }
-        } else if("youtube".equalsIgnoreCase(videoType)){
+        } else if ("youtube".equalsIgnoreCase(videoType)) {
             JSONObject entry = json.getJSONObject("entry");
             JSONObject mediaGroup = entry.getJSONObject("media$group");
             String title = mediaGroup.getJSONObject("media$title").getString("$t");
@@ -152,21 +157,21 @@ public class ChatRoomController extends BaseControllerSupport {
         if ("youku".equalsIgnoreCase(videoType)) {
             return videoUrl;
         } else if ("tudou".equalsIgnoreCase(videoType)) {
-            if(videoUrl.endsWith("/")){
+            if (videoUrl.endsWith("/")) {
                 videoUrl = videoUrl.substring(0, videoUrl.length() - 1);
             }
             String videoId = videoUrl.substring(videoUrl.lastIndexOf("/") + 1);
-            if(videoId.contains(".")){
+            if (videoId.contains(".")) {
                 videoId = videoId.substring(0, videoId.indexOf("."));
             }
             return videoId;
-        }else if ("youtube".equalsIgnoreCase(videoType)) {
+        } else if ("youtube".equalsIgnoreCase(videoType)) {
             String videoId = null;
-            if(videoUrl.contains("v/")){
+            if (videoUrl.contains("v/")) {
                 videoId = videoUrl.substring(videoUrl.indexOf("v/") + 2);
-            }else if(videoUrl.contains("v=")){
+            } else if (videoUrl.contains("v=")) {
                 videoId = videoUrl.substring(videoUrl.indexOf("v=") + 2);
-            }else{
+            } else {
                 return null;
             }
             videoId = videoId.split("&|\\?|/")[0];
@@ -188,18 +193,18 @@ public class ChatRoomController extends BaseControllerSupport {
         }
     }
 
-    private String getString(JSONObject json, String name){
-        if(json.containsKey(name)){
+    private String getString(JSONObject json, String name) {
+        if (json.containsKey(name)) {
             return json.getString(name);
-        }else{
+        } else {
             return null;
         }
     }
-    
-    private String getString(JSONObject json, String[] names){
-        for(String name : names){
+
+    private String getString(JSONObject json, String[] names) {
+        for (String name : names) {
             String string = getString(json, name);
-            if(StringUtils.isNotBlank(string)){
+            if (StringUtils.isNotBlank(string)) {
                 return string;
             }
         }

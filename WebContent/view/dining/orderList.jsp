@@ -44,6 +44,7 @@
 				<button class="btn btn-success" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')">结束订餐</button>
 			</c:if>
 			<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics(this)">合并查看</button>
+			//TODO 速度慢了点，改成所有tr一起animate height 0
 			<hr/>
 			<div class="alert alert-success">
 				<div><b>餐馆信息</b></div>
