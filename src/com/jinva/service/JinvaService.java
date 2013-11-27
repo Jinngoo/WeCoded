@@ -381,12 +381,12 @@ public class JinvaService {
     	return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
     }
     
-    public int getOrderProviderCount(String userId){
-        String hql = "select count(*) from #OrderProvider where id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
+    public int getOrderProviderCount(String userId, Integer status){
+        String hql = "select count(*) from #OrderProvider where status = ? and id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
         hql = hql.replaceAll("#OrderProvider", OrderProvider.class.getName());
         hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
         hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
-        return theDao.selectCount(hql, new Object[]{userId});
+        return theDao.selectCount(hql, new Object[]{status, userId});
     }
     
     @SuppressWarnings("unchecked")

@@ -60,10 +60,10 @@ public class DiningController extends BaseControllerSupport {
 
     @RequestMapping(value = "orderProviderCount", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> orderProviderCount(HttpSession session) {
-        int count = jinvaService.getOrderProviderCount(getUserId(session));
+        int offering = jinvaService.getOrderProviderCount(getUserId(session), OrderProvider.STATUS_OFFERING);
+        int end = jinvaService.getOrderProviderCount(getUserId(session), OrderProvider.STATUS_END);
         JSONObject result = new JSONObject();
-        result.put("count", count);
-        // TODO 未结束/全部 比例
+        result.put("count", offering + "/" + (offering + end));
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
     
@@ -344,7 +344,7 @@ public class DiningController extends BaseControllerSupport {
         orderProvider.setProvideUserId(getUserId(session));
         // orderProvider.setReceiveGroups(choosenGroups);
         orderProvider.setRestaurants(choosenRestaurants);
-        orderProvider.setStatus(OrderProvider.STATUS_OFFER);
+        orderProvider.setStatus(OrderProvider.STATUS_OFFERING);
 
         String orderProviderId = (String) jinvaService.save(orderProvider);
         for (String teamId : choosenTeams.split(",")) {

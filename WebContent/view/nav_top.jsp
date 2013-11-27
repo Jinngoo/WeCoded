@@ -51,6 +51,7 @@
 	</header>
 	<div id="top_occupying" style="height:80px"></div>
 	<script>
+		var top_reloadInterval = null;
 		function reloadUserAvatar(){
 		    $("#userAvatar").attr("src", $("#userAvatar").attr("src"));
 		}
@@ -59,10 +60,11 @@
                 $("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + count + "</span>)");
             } else {
                 var url = contextPath + "/chatRoom/userCount";
-                $.getJSON(url, function(result) {
-                	if(result && result.count != null){
-                    	$("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
-                	}
+                $.getJSON(url).success(function(result){
+                   	$("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
+                   	startReloadInterval();
+                }).error(function(){
+                    clearReloadInterval();
                 });
             }
         }
@@ -71,10 +73,11 @@
                 $("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + count + "</span>)");
             } else {
                 var url = contextPath + "/dining/orderProviderCount";
-                $.getJSON(url, function(result) {
-                	if(result && result.count != null){
-                		$("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
-                	}
+                $.getJSON(url).success(function(result){
+               		$("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
+                    startReloadInterval();
+                }).error(function(){
+                    clearReloadInterval();
                 });
             }
         }
@@ -87,11 +90,23 @@
             });
             top_reloadOrderProviderCount();
             top_reloadChatRoomUserCount();
-            setInterval(function() {
+            startReloadInterval();
+        });
+        function startReloadInterval(){
+            if(top_reloadInterval != null){
+                return;
+            }
+            top_reloadInterval = setInterval(function() {
                 top_reloadOrderProviderCount();
                 top_reloadChatRoomUserCount();
             }, 1000 * 60);
-        });
+        }
+        function clearReloadInterval(){
+            if(top_reloadInterval != null){
+                clearInterval(top_reloadInterval);
+                top_reloadInterval = null;
+            }
+        }
         $(window).focus(function() {
             top_reloadOrderProviderCount();
             top_reloadChatRoomUserCount();

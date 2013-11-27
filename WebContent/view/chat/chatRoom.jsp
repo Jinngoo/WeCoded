@@ -59,9 +59,9 @@
 		<div class="form-group">
 			<div class="input-group ">
 				<span class="input-group-addon">
-					<table>
+					<table class="toolTable">
 						<tr>
-							<td><i class="fa fa-question fa-2x tool" title="暂留,提示音开关"></i>&nbsp;&nbsp;&nbsp;</td>
+							<td><i id="alertToneSwitch" class="fa fa-volume-up fa-2x tool" title="提示音开关"></i>&nbsp;&nbsp;&nbsp;</td>
 							<td><i id="sendPic" class="fa fa-picture-o fa-2x tool" title="发送图片"></i></td>
 						</tr>
 						<tr>

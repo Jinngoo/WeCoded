@@ -33,7 +33,7 @@ public class OrderProvider {
 	private String provideUserName;
 	private String receiveTeams;
 
-	public static final int STATUS_OFFER = 1;
+	public static final int STATUS_OFFERING = 1;
 	public static final int STATUS_END = 2;
 
 	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")

@@ -7,6 +7,7 @@ $(document).ready(function(){
         show: false
     });
     dealTotalPrice();
+    $("#orderList").slideDown("slow");
 });
 //$(window).bind("scroll", function(){ });
 
@@ -60,11 +61,11 @@ function showOrderStatistics(){
         }else{
             statistics[restaurant] = {};
             statistics[restaurant][dish] = order;
-            //eval("statistics = $.extend({}, statistics, {'" + statistics + "':order})");
         }
     });
-//          alert(decodeURIComponent($.param(statistics)));
-    hideTr($("#orderListBody tr"), $("#orderListBody tr").length-1, false, function(){
+
+    $("#orderList").slideUp("fast", function(){
+        $("tr.orginTr").hide();
         var index = 1;
         for(var restaurant in statistics){
             for(var dish in statistics[restaurant]){
@@ -80,39 +81,16 @@ function showOrderStatistics(){
                 $("#orderListBody").append(tr);
             }
         }
-        showTr($("tr.hiddenTr"), $("tr.hiddenTr").length-1);
+        $("tr.hiddenTr").show();
+        $(this).slideDown("fast");
     });
-
 }
 
 function recoverTable(){
-    var hiddenTrs = $("tr.hiddenTr");
-    var orginTrs = $("tr.orginTr");
-    hideTr(hiddenTrs, hiddenTrs.length-1, true, function(){
-        showTr(orginTrs, orginTrs.length-1);
-    });
-}
-
-function hideTr(trs, index, needRemove, callback){
-    $(trs[index]).hide("fast",function(){
-        if(needRemove){
-            $(this).remove();
-        }
-        if(index>0){
-            hideTr(trs, index-1, needRemove, callback);
-        }else{
-            if(callback){
-                callback.call();
-            }
-        }
-    });
-}
-
-function showTr(trs, index){
-    $(trs[index]).show("fast",function(){
-        if(index>0){
-            showTr(trs, index-1);
-        }
+    $("#orderList").slideUp("fast", function(){
+        $("tr.hiddenTr").remove();
+        $("tr.orginTr").show();
+        $(this).slideDown("fast");
     });
 }
 
@@ -168,7 +146,7 @@ function finishProvide(orderProviderId, isConfirm){
         $.post(url, {}, function(data, textStatus, jqXHR){
             var code = data;
             if(code == "success"){
-                goback();
+                window.location.href = window.location.href;  
             }else if(code == "error"){
                 alert("An error occured");
             }else{

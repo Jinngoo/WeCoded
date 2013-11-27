@@ -39,7 +39,8 @@ var ctrl = false;
 var fileReader = null;
 var maxRecord = 50;
 var isFocus = true;
-var sendShortcutKeys = 2;
+var sendShortcutKeys = 2; //发送快捷键, 1:enter, 2:enter+ctrl
+var alertToneSwitch = 1; //提示音开关, 1:on, 2:off
 
 $(document).ready(function() {
 	addNotificationSupport();
@@ -48,6 +49,7 @@ $(document).ready(function() {
     resizeOutput();
     onFocus();
     initSendShortcutKeys();
+    initAlertToneSwitch();
     console.log('TODO:最大记录保留数、历史记录保存')
     
     $(".videoWindow").easydrag();
@@ -83,9 +85,9 @@ function bindEvent() {
     $("#input").keydown(function(e){
         var onlyEnter = sendShortcutKeys == 1;
         var ctrlEnter = sendShortcutKeys == 2;
-        if(e.keyCode == 17){
+        if(e.keyCode == 17){ //ctrl
             ctrl = true;
-        } else if (e.keyCode == 13){
+        } else if (e.keyCode == 13){ //enter
             if (onlyEnter && !ctrl || ctrlEnter && ctrl) {
                 if(!$("#send").attr("disabled")){
                     sendInput();
@@ -97,7 +99,7 @@ function bindEvent() {
         }
     });
     $("#input").keyup(function(e){
-        if(e.keyCode == 17){
+        if(e.keyCode == 17){ //ctrl
             ctrl = false;
         }
     });
@@ -106,6 +108,12 @@ function bindEvent() {
     });
     $("#sendPic").click(function(){
         $("#fileChooser").click();
+    });
+    $("#alertToneSwitch").click(function(){
+        $(this).toggleClass("fa-volume-up");
+        $(this).toggleClass("fa-volume-off");
+        alertToneSwitch = alertToneSwitch == 1 ? 2 : 1;
+        storeAlertToneSwitch();
     });
     /////////////
     fileReader = new FileReader(); //init FileReader, for send image
@@ -344,11 +352,16 @@ function sendInput() {
 		}
     }
 }
+function playAlertTone(){
+    if(alertToneSwitch == 1){
+        $("#alertAudio").get(0).play();
+    }
+}
 function receiveMessage(message) {
     message = JSON.parse(message);
     if (message.type == "text") {
         appendMessage(message);
-        $("#alertAudio").get(0).play();
+        playAlertTone();
         if (!isFocus) {
             if (message.text) {
                 sendNotification(message.username + " : " + getComment(message.text));// 桌面通知
@@ -379,6 +392,20 @@ function refreshUserList(message){
     }
     top_reloadChatRoomUserCount(users.length);
 }
+function initAlertToneSwitch(){
+    if(!$.cookie("wecoded_alert_tone")){
+        storeAlertToneSwitch();
+    }
+    alertToneSwitch = $.cookie("wecoded_alert_tone");
+    if(alertToneSwitch == 1){
+        $("#alertToneSwitch").addClass("fa-volume-up").removeClass("fa-volume-off");
+    }else{
+        $("#alertToneSwitch").addClass("fa-volume-off").removeClass("fa-volume-up");
+    }
+}
+function storeAlertToneSwitch(){
+    $.cookie("wecoded_alert_tone", alertToneSwitch, {expires: 28, path : "/"});
+}
 function initSendShortcutKeys(){
     if(!$.cookie("wecoded_shortcut_keys")){
     	storeSendShortcutKeys();
@@ -394,7 +421,7 @@ function changeSendShortcutKeys(type) {
 	$($("#sendShortcutsMenu").children("li").get(type - 1)).addClass("active");
 }
 function storeSendShortcutKeys(){
-	$.cookie("wecoded_shortcut_keys", sendShortcutKeys, {expires: 7, path : "/"});
+	$.cookie("wecoded_shortcut_keys", sendShortcutKeys, {expires: 28, path : "/"});
 }
 // ///////// websocket ///////////////////////////
 function ws_connect() {

@@ -10,11 +10,14 @@
     <!-- Css -->
 	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
 	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
+	<link href="${FONT_AWESOME_CSS}" rel="stylesheet" media="screen">
+	<link href="${BOOTSTRAP_BUTTONS_CSS}" rel="stylesheet" media="screen">
 	
 	<!-- Js -->
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	<script type="text/javascript" src="${BOOTSTRAP_BUTTONS_JS}"></script>
 	
 	<script type="text/javascript" src="${JN_UTIL}"></script>
     <script type="text/javascript" src="${RESOURCE}/js/dining/orderList.js"></script>
@@ -32,19 +35,25 @@
     		margin-right: 20px;
     		max-width: 1300px;
     	}
+    	.button{
+    		padding-left: 15px;
+    		padding-right: 15px;
+    	}
+    	.button i.fa{
+    		margin-right: 5px;
+    	}
     </style>
 </head>
 <body>
 	<%@ include file="../nav_top.jsp" %>
 	<div class="container">
 		<div id="mainContent">
-			<button class="btn btn-danger" style="margin-left:10px;" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')">&lt;&lt;&nbsp;返回</button>
+			<button class="button" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')"><i class="fa fa-reply"></i>返回</button>
 			<c:if test="${orderProvider.provideUserId eq sessionScope.user.id &&  orderProvider.status eq 1}"><!-- TODO -->
-				<button class="btn btn-warning" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')">取消订餐</button>
-				<button class="btn btn-success" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')">结束订餐</button>
+				<button class="button button-caution" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')"><i class="fa fa-trash-o"></i>取消订餐</button>
+				<button class="button button-action" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')"><i class="fa fa-cutlery"></i>结束订餐</button>
 			</c:if>
-			<button class="btn btn-info" style="margin-left:20px;" onclick="changeStatistics(this)">合并查看</button>
-			//TODO 速度慢了点，改成所有tr一起animate height 0, 没加自动刷新列表
+			<button class="button button-primary" style="margin-left:60px;" onclick="changeStatistics(this)">合并查看</button>
 			<hr/>
 			<div class="alert alert-success">
 				<div><b>餐馆信息</b></div>
@@ -52,8 +61,8 @@
 					<div>${restaurant.name} ( ${restaurant.telphone} )</div>
 				</c:forEach>
 			</div>
-			<div >
-				<table class="table table-bordered table-hover" id="orderList" style="font-family: 微软雅黑">
+			<div id="orderList" style="display: none">
+				<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
 					<thead>
 					<tr id="headTr">
 						<th width="8%"><li class="fa fa-glass"></li></th>
@@ -90,11 +99,11 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<a class="close" data-dismiss="modal">×</a>
-					<h5 id="confirmTip"></h5>
+					<h4 id="confirmTip"></h4>
 				</div>
 				<div class="modal-body">
-					<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
-					<button class="btn btn-default" data-dismiss="modal" id="cancelBtn">取消</button>
+					<button class="button button-caution" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
+					<button class="button" data-dismiss="modal" id="cancelBtn">取消</button>
 				</div>
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->

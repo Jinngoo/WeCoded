@@ -133,3 +133,8 @@ div.videoWindow div.videoContainer {
 	margin-top: 20px;
 	cursor: pointer;
 }
+
+.toolTable i.fa-2x{
+	width: 30px;
+	height: 28px;
+}

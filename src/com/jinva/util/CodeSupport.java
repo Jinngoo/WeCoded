@@ -17,7 +17,7 @@ public class CodeSupport {
 	private static Map<Integer, String> orderProviderStatusCode = Collections.unmodifiableMap(new HashMap<Integer, String>(){
 		private static final long serialVersionUID = 564374620593534207L;
 		{
-			put(OrderProvider.STATUS_OFFER, "code.orderProvider.status.offer");
+			put(OrderProvider.STATUS_OFFERING, "code.orderProvider.status.offer");
 			put(OrderProvider.STATUS_END, "code.orderProvider.status.end");
 		}
 	});
