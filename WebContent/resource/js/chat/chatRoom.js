@@ -381,18 +381,22 @@ function refreshUserList(message){
 }
 function initSendShortcutKeys(){
     if(!$.cookie("wecoded_shortcut_keys")){
-        $.cookie("wecoded_shortcut_keys", sendShortcutKeys, {expires: 7, path : "/"});
+    	storeSendShortcutKeys();
     }
     sendShortcutKeys = $.cookie("wecoded_shortcut_keys");
 
     $($("#sendShortcutsMenu").children("li").get(sendShortcutKeys-1)).addClass("active");
 }
-function changeSendShortcutKeys(type){
-    sendShortcutKeys = parseInt(type, 10);
-    $("#sendShortcutsMenu").children("li").removeClass("active");
-    $($("#sendShortcutsMenu").children("li").get(type-1)).addClass("active");
+function changeSendShortcutKeys(type) {
+	sendShortcutKeys = parseInt(type, 10);
+	storeSendShortcutKeys();
+	$("#sendShortcutsMenu").children("li").removeClass("active");
+	$($("#sendShortcutsMenu").children("li").get(type - 1)).addClass("active");
 }
-///////////  websocket   ///////////////////////////
+function storeSendShortcutKeys(){
+	$.cookie("wecoded_shortcut_keys", sendShortcutKeys, {expires: 7, path : "/"});
+}
+// ///////// websocket ///////////////////////////
 function ws_connect() {
     var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
     url += "?userid=" + $("#userid").val();
@@ -407,8 +411,7 @@ function ws_connect() {
         receiveMessage(e.data);
     }
     ws.onclose = function(closeEvent) {
-        console.log(ws);
-        alert("连接已关闭, 关闭代码 : [ " + closeEvent.code + " ], 关闭原因 :[ " + closeEvent.reason + " ]")
+        console.log("连接已关闭, 关闭代码 : [ " + closeEvent.code + " ], 关闭原因 :[ " + closeEvent.reason + " ]");
     }
     ws.onerror = function(e) {
         console.log("error");

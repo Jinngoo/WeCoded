@@ -63,6 +63,7 @@ public class DiningController extends BaseControllerSupport {
         int count = jinvaService.getOrderProviderCount(getUserId(session));
         JSONObject result = new JSONObject();
         result.put("count", count);
+        // TODO 未结束/全部 比例
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
     
