@@ -35,7 +35,7 @@ function saveImg(btn){
     canvas.attr("height", outHeight);
     var context = canvas.get(0).getContext("2d");
     context.drawImage($("#jcropTarget").get(0), x, y, width, height, 0, 0, outWidth, outHeight);
-    var dataURL = canvas.get(0).toDataURL("image/jpeg", "0.5");
+    var dataURL = canvas.get(0).toDataURL("image/jpeg", "1");
     var base64Data = dataURL.replace(/^data:image\/\w+;base64,/, "");
     canvas.remove();
     
