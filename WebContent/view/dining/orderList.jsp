@@ -50,7 +50,7 @@
 		<div id="mainContent">
 			<button class="button" id="goBack" backUrl="${backUrl}" onclick="goback('${backUrl}')"><i class="fa fa-reply"></i>返回</button>
 			<c:if test="${orderProvider.provideUserId eq sessionScope.user.id &&  orderProvider.status eq 1}"><!-- TODO -->
-				<button class="button button-caution" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')"><i class="fa fa-trash-o"></i>取消订餐</button>
+				<button class="button button-caution" style="margin-left:20px;" onclick="cancelProvide('${orderProvider.id}')"><i class="fa fa-trash-o"></i>删除订餐</button>
 				<button class="button button-action" style="margin-left:20px;" onclick="finishProvide('${orderProvider.id}')"><i class="fa fa-cutlery"></i>结束订餐</button>
 			</c:if>
 			<button class="button button-primary" style="margin-left:60px;" onclick="changeStatistics(this)">合并查看</button>

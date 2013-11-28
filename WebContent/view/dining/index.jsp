@@ -356,7 +356,7 @@
 											</c:if>
 											<a class="button button-rounded button-flat-primary button-small" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
 											<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
-												<a class="button button-rounded button-flat-caution button-small" onclick="cancelProvide('${orderProvider.id}')"><spring:message code="main.sboffer.cancelProvide" /></a>
+												<a class="button button-rounded button-flat-caution button-small" onclick="cancelProvide('${orderProvider.id}')">删除订单</a>
 											</c:if>
 										</td>
 									</tr>

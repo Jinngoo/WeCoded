@@ -55,6 +55,8 @@
 		</table>
 		
 	</div>
+	//TODO 增加切换选择区域大小的功能
+	//TODO 选择框宽高比不要固定，保存时存成需要的大小
 	
 	<input type="file" id="fileChooser" style="display:none" accept="image/jpeg,image/x-png">
 	<form id="uploadForm" action="${CONTEXT_PATH}/tool/uploadImage" method="post" enctype="multipart/form-data">
