@@ -23,6 +23,7 @@
 <c:set var="BOOTSTRAP_BUTTONS_CSS" value="${RESOURCE}/framework/bootstrap-buttons/css/buttons.css" />
 <c:set var="BOOTSTRAP_BUTTONS_JS" value="${RESOURCE}/framework/bootstrap-buttons/js/buttons.js" />
 
+<c:set var="THREE" value="${RESOURCE}/framework/three/three.min.js" />
 <c:set var="JQUERY" value="${RESOURCE}/framework/jquery/jquery-2.0.3.min.js" />
 <c:set var="AJAXANYWHERE" value="${RESOURCE}/framework/other/aa.js" />
 <c:set var="MATH_UUID" value="${RESOURCE}/framework/other/Math.uuid.js" />
