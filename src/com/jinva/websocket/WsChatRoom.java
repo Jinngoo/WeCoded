@@ -114,9 +114,11 @@ public class WsChatRoom {
     private User buildUser(Session session) {
         String userid = getParameter(session, "userid");
         String username = getParameter(session, "username");
+        String usernickname = getParameter(session, "usernickname");
         User user = new User();
         user.setId(userid);
-        user.setNickname(username);
+        user.setName(username);
+        user.setNickname(usernickname);
         return user;
     }
     

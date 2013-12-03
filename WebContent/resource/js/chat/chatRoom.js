@@ -221,7 +221,7 @@ function sendImage(dataURL){
 }
 function appendMessage(message){
     var userid = message.userid;
-    var username = message.username;
+    var usernickname = message.usernickname;
     var date = new Date(message.date);
     date = date.format("yyyy-MM-dd HH:mm:ss");
     
@@ -234,8 +234,8 @@ function appendMessage(message){
     }
     
 	var template = $("#template").clone().attr("id", id);
-	template.children("img").attr("src", contextPath + "/getImage/1/" + userid).attr("title", username);
-	template.find("div.name").html(username);
+	template.children("img").attr("src", contextPath + "/getImage/1/" + userid).attr("title", usernickname);
+	template.find("div.name").html(usernickname);
 	template.find("div.date").html(date);
 	template.find("div.content").html(content);
 	
@@ -329,6 +329,7 @@ function buildMessage(params){
         type: "text",
         userid : $("#userid").val(),
         username : $("#username").val(),
+        usernickname : $("#usernickname").val(),
         date : new Date()
     };
     if(params){
@@ -339,8 +340,6 @@ function buildMessage(params){
 function sendInput() {
     var text = $("#input").val();
     if ($.trim(text).length > 0) {
-    	var userid = $("#userid").val();
-    	var username = $("#username").val();
     	var message = buildMessage({ text : text }); 
         var sendResult = ws_send(message);
         $("#input").focus();
@@ -364,11 +363,11 @@ function receiveMessage(message) {
         playAlertTone();
         if (!isFocus) {
             if (message.text) {
-                sendNotification(message.username + " : " + getComment(message.text));// 桌面通知
+                sendNotification(message.usernickname + " : " + getComment(message.text));// 桌面通知
             } else if (message.image) {
-                sendNotification(message.username + " : " + "发来图片。");// 桌面通知
+                sendNotification(message.usernickname + " : " + "发来图片。");// 桌面通知
             } else {
-                sendNotification(message.username + " : " + "发来消息。");// 桌面通知
+                sendNotification(message.usernickname + " : " + "发来消息。");// 桌面通知
             }
         }
     }else if(message.type == "userlist"){
@@ -388,7 +387,7 @@ function refreshUserList(message){
     $("#userlist").empty();
     for(var i = 0; i < users.length; i ++){
         var user = users[i];
-        $("<div></div>").html(user.nickname).appendTo($("#userlist"));
+        $("<div></div>").html(user.nickname + "(" + user.name + ")").appendTo($("#userlist"));
     }
     top_reloadChatRoomUserCount(users.length);
 }
@@ -428,6 +427,7 @@ function ws_connect() {
     var url = J.getIndexUrl(contextPath, "ws") + "/wsChatRoom";
     url += "?userid=" + $("#userid").val();
     url += "&username=" + encodeURIComponent($("#username").val());
+    url += "&usernickname=" + encodeURIComponent($("#usernickname").val());
     $("#send").attr("disabled", "disabled");
     ws = new WebSocket(url);
     ws.onopen = function() {
