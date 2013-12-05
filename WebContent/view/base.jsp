@@ -34,6 +34,9 @@
 <c:set var="JQUERY_JCROP_JS" value="${RESOURCE}/framework/jcrop/js/jquery.Jcrop.min.js" />
 <c:set var="JQUERY_JCROP_CSS" value="${RESOURCE}/framework/jcrop/css/jquery.Jcrop.min.css" />
 
+<c:set var="JQUERY_GRIDLY_JS" value="${RESOURCE}/framework/gridly/jquery.gridly.js" />
+<c:set var="JQUERY_GRIDLY_CSS" value="${RESOURCE}/framework/gridly/jquery.gridly.css" />
+
 <c:set var="JQUERY_MD5" value="${RESOURCE}/framework/jquery/plugin/jquery.md5.js" />
 <c:set var="JQUERY_FORM" value="${RESOURCE}/framework/jquery/plugin/jquery.form.js" />
 <c:set var="JQUERY_JSON" value="${RESOURCE}/framework/jquery/plugin/jquery.json-2.4.js" />

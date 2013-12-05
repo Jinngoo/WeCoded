@@ -12,11 +12,13 @@
 	<!-- Css -->
 	<link href="${BOOTSTRAP_CSS}" rel="stylesheet" media="screen">
 	<link href="${BOOTSTRAP_THEME_CSS}" rel="stylesheet" media="screen">
+	<link href="${JQUERY_GRIDLY_CSS}" rel="stylesheet" media="screen">
 	
 	<!-- Js -->
 	<script type="text/javascript" src="${JQUERY}"></script>
 	<script type="text/javascript" src="${BOOTSTRAP_JS}"></script>
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
+	<script type="text/javascript" src="${JQUERY_GRIDLY_JS}"></script>
 	
     <script type="text/javascript" src="${RESOURCE}/js/custom/carouselPage.js"></script>
 </head>
@@ -24,6 +26,42 @@
 
 	<%@ include file="nav_top.jsp" %>
 	<div class="container">
+	
+		<style type="text/css">
+		  .gridly {
+		    position: relative;
+		    width: 960px;
+		  	border: 1px solid gray;
+		  }
+		  .brick{
+		  	border: 1px solid gray;
+		  }
+		  .brick.small {
+		    width: 100px;
+		    height: 100px;
+		  }
+		  .brick.large {
+		    width: 100px;
+		    height: 100px;
+		  }
+		</style>
+		<div class="gridly">
+		  <div class="brick small">1</div>
+		  <div class="brick small">2</div>
+		  <div class="brick large">3</div>
+		  <div class="brick small">4</div>
+		  <div class="brick small">5</div>
+		  <div class="brick large">6</div>
+		  <div class="brick small">7</div>
+		  <div class="brick large">8</div>
+		  <div class="brick small">9</div>
+		  <div class="brick large">10</div>
+		</div>
+		<script>
+		  $('.gridly').gridly({
+		    gutter: 10 // px
+		  });
+		</script>
 	
 		<button class="btn btn-default" onclick="test()">test</button>
 

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Dish</title>
+    <title>吃啥呢</title>
     <%@ include file="../head.jsp"%>  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -18,113 +18,32 @@
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	
 	<script type="text/javascript" src="${JN_UTIL}"></script>
+	<script type="text/javascript" src="${RESOURCE}/js/dining/order.js"></script>
 	
     <script type="text/javascript">
-    	var dishJson = {};
-	    $(document).ready(function(){
-			$("#mainContent").slideDown("fast");
-			initOrderList();
-			refreshChooseList();
-	    });
-	    function goback(backUrl){
-    		$("#mainContent").slideUp("fast", function(){
-	    		window.location.href = decodeURIComponent(backUrl);
-    		});
-    	}
 	    function initOrderList(){
 	    	<c:forEach items="${orderList}" var="order">
-				plusDish("${order.dishId}", ${order.dishNum}, false);
-			</c:forEach>
-	    }
-	    
-	    function plusDish(dishId, dishNum, needRefresh){
-	    	if(J.isEmpty(dishNum)){
-	    		dishNum = 1;
-	    	}
-	    	var countBar = $("#dish_" + dishId).children("div.count_bar");
-	    	var countSpan = countBar.children("span");
-	    	var count = countSpan.html();
-	    	if(J.isEmpty(count)){
-	    		count = 0;
-	    	}
-	    	count = parseInt(count, 10) + parseInt(dishNum,10);
-	    	if(parseInt(count, 10) > 0){
-		    	var minusBtn = $("#dish_" + dishId).children("div.tool_bar").children("i:first");
-	    		countBar.show();
-	    		minusBtn.show();
-	    	}
-	    	eval("dishJson = $.extend({}, dishJson, {'" + dishId + "':count});");
-	    	countSpan.html(count);
-	    	if(needRefresh){
-	    		refreshChooseList();
-	    	}
-	    }
-	    
-	    function minusDish(dishId, dishNum, needRefresh){
-	    	if(J.isEmpty(dishNum)){
-	    		dishNum = 1;
-	    	}
-	    	var countBar = $("#dish_" + dishId).children("div.count_bar");
-	    	var countSpan = countBar.children("span");
-	    	var count = countSpan.html();
-	    	if(J.isEmpty(count)){
-	    		return;
-	    	}
-	    	count = parseInt(count, 10) - parseInt(dishNum,10);
-	    	if(count <= 0){
-		    	var minusBtn = $("#dish_" + dishId).children("div.tool_bar").children("i:first");
-	    		countBar.hide();
-	    		minusBtn.hide();
-	    	}
-    		eval("dishJson = $.extend({}, dishJson, {'" + dishId + "':count});");
-	    	countSpan.html(count);
-	    	if(needRefresh){
-	    		refreshChooseList();
-	    	}
-	    }
-	    
-	    function refreshChooseList(){
-	    	var html = "";
-	    	var height = 0;
-	    	var totalPrice = 0;
-	    	for(var dishId in dishJson){
-	    		var count = dishJson[dishId];
-	    		if(count == 0){
-	    			continue;
-	    		}
-	    		var name = $("#dishName_" + dishId).val();
-	    		var price = $("#dishPrice_" + dishId).val();
-	    		var thisPrice = Math.round(price*count*100)/100;
-		    	html += "<div style=\"display:block;font-size:12px;\">" + name + "&nbsp;:&nbsp;" + count + "&nbsp;份";
-		    	html += "&nbsp;&nbsp;-&nbsp;&nbsp;花费&nbsp;:&nbsp;" + price + "&nbspx&nbsp" + count + "&nbsp=&nbsp" + thisPrice + "&nbsp;元";
-		    	html += "</div>";
-		    	height += 20;
-		    	totalPrice += thisPrice;
-		    	totalPrice = Math.round(totalPrice*100)/100;
-	    	}
-	    	html = "<div style=\"font-size:14px;\">我共选择了&nbsp;:&nbsp;" + totalPrice + "&nbsp;元</div>" + html;
-	    	html += "<hr/>";
-	    	$("#iChoosed").html(html);
-	    	$("#iChoosed").animate({height:60+height+"px"});
+	    		plusDish("${order.dishId}", ${order.dishNum}, false);
+	    	</c:forEach>
 	    }
 	    function submitOrder(){
 	    	var url = contextPath + "/dining/submitOrder";
-    		var params = {"dishJson":$.param(dishJson), "orderProviderId":"${orderProviderId}"};
-    		$.post(url, params, function(data, textStatus, jqXHR){
-    			var code = data;
-    			if(code == "success"){
-    			    $("#tip").html("下单成功！");
-    			    $("#tipModal").modal("show");
-    			    setTimeout(function(){
-    			        $("#tipModal").modal("hide");
-    			    	window.location.href = window.location.href;
-    			    }, 1000);
-				}else if(code == "error"){
-					alert("An error occured");
-				}else{
-					alert("Unknown error occured");
-				}
-    		});
+	    	var params = {"dishJson":$.param(dishJson), "orderProviderId":"${orderProviderId}"};
+	    	$.post(url, params, function(data, textStatus, jqXHR){
+	    		var code = data;
+	    		if(code == "success"){
+	    		    $("#tip").html("下单成功！");
+	    		    $("#tipModal").modal("show");
+	    		    setTimeout(function(){
+	    		        $("#tipModal").modal("hide");
+	    		    	window.location.href = window.location.href;
+	    		    }, 1000);
+	    		}else if(code == "error"){
+	    			alert("An error occured");
+	    		}else{
+	    			alert("Unknown error occured");
+	    		}
+	    	});
 	    }
     </script>
     <style type="text/css">
@@ -172,9 +91,13 @@
 			</button>
 			//TODO 分页，top按钮，收缩各店
 			<hr/>
-			<div id="iChoosed" class="alert alert-success" style="height:0px">
-				
-			</div>
+			<div id="iChoosed" class="alert alert-success" style="height:0px"></div>
+			<form class="form-inline" role="search">
+				<div class="form-group"> 
+					<input type="text" class="form-control" placeholder="Search(Coming soon)">
+				</div>
+			</form>
+			<br>
 		
 			<c:forEach items="${restaurantDishMap }" var="entry" varStatus="status">
 				<div class="well">
