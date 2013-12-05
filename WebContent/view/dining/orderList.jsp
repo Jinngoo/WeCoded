@@ -23,6 +23,9 @@
     <script type="text/javascript" src="${RESOURCE}/js/dining/orderList.js"></script>
     
     <style type="text/css">
+    	body{
+    		overflow-y: scroll;
+    	}
     	.hiddenTr{
     		display:none;
     	}
@@ -41,6 +44,10 @@
     	}
     	.button i.fa{
     		margin-right: 5px;
+    	}
+    	.label{
+    		font-weight: normal;
+    		cursor: pointer;
     	}
     </style>
 </head>
@@ -76,12 +83,12 @@
 					</thead>
 					<tbody id="orderListBody">
 						<c:forEach items="${orderList }" var="order" varStatus="status">
-						<tr class="success orginTr">
+						<tr class="orginTr">
 							<td>${status.index+1}</td>
-							<td>${order.userName}</td>
-							<td>${order.restaurantName}<span style="display:none">${order.restaurantId}</span></td>
-							<td>${order.dishName}<span style="display:none">${order.dishId}</span></td>
-							<td>${order.dishNum}</td>
+							<td><span class="label label-success" userId="${order.userId}">${order.userName}</span></td>
+							<td><span class="label label-primary" restaurantId="${order.restaurantId}">${order.restaurantName}</span></td>
+							<td><span class="label label-primary" dishId="${order.dishId}">${order.dishName}</span></td>
+							<td><span class="badge">${order.dishNum}</span></td>
 							<td>${order.dishPrice}</td>
 							<td class="totalPrice"><fmt:formatNumber value="${order.dishPrice * order.dishNum }" pattern="#.##" minFractionDigits="2" /></td>
 						</tr>

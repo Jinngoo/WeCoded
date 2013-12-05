@@ -8,30 +8,43 @@ $(document).ready(function(){
     });
     dealTotalPrice();
     $("#orderList").slideDown("slow");
+    
+    bindLabelTip("orginTr");
 });
 //$(window).bind("scroll", function(){ });
 
+function bindLabelTip(trClass){
+	$("." + trClass).find(".label").mouseover(function(){
+    	var userId = $(this).attr("userId");
+    	var restaurantId = $(this).attr("restaurantId");
+    	var dishId = $(this).attr("dishId");
+    	//TODO show tip
+    });
+}
 function dealTotalPrice(){
     var totalPrice = 0;
     $(".totalPrice").each(function(){
         totalPrice = J.plus(totalPrice, $(this).html()).toFixed(2);
     });
-    $("#totalPriceBody").append("<tr><td colSpan=\"6\"></td><td>" + totalPrice + "</td></tr>");
+    $("#totalPriceBody").append("<tr><td colSpan=\"6\"></td><td><span class=\"label label-danger\"><b>" + totalPrice + "</b></span></td></tr>");
 }
 
 function changeStatistics(button){
+	$(button).attr("disabled", "disabled");
     if(!statisticsChanged){
-        showOrderStatistics();
-        statisticsChanged = true;
-        $(button).html("逐条查看");
+        showOrderStatistics(function(){
+        	statisticsChanged = true;
+        	$(button).html("逐条查看").removeAttr("disabled");
+        });
     }else{
-        recoverTable();
-        statisticsChanged = false;
-        $(button).html("合并查看");
+        recoverTable(function(){
+        	statisticsChanged = false;
+        	$(button).html("合并查看").removeAttr("disabled");
+        });
     }
 }
 
-function showOrderStatistics(){
+function showOrderStatistics(callback){
     var statistics = {};
     $("#orderListBody tr").each(function(){
         var tds = $(this).children("td");
@@ -39,7 +52,7 @@ function showOrderStatistics(){
         var user = $(tds[1]).html();
         var restaurant = $(tds[2]).html();
         var dish = $(tds[3]).html();
-        var count = $(tds[4]).html();
+        var count = $(tds[4]).children().html();
         var price = $(tds[5]).html();
         var totalPrice = $(tds[6]).html();
         var order = {
@@ -52,7 +65,7 @@ function showOrderStatistics(){
         };
         if(statistics[restaurant]){
             if(statistics[restaurant][dish]){
-                statistics[restaurant][dish].user += ", "+user;
+                statistics[restaurant][dish].user += "&nbsp;"+user;
                 statistics[restaurant][dish].count = J.plus(statistics[restaurant][dish].count, count);
                 statistics[restaurant][dish].totalPrice = J.plus(statistics[restaurant][dish].totalPrice, totalPrice).toFixed(2);
             }else{
@@ -69,12 +82,12 @@ function showOrderStatistics(){
         var index = 1;
         for(var restaurant in statistics){
             for(var dish in statistics[restaurant]){
-                var tr = "<tr class=\"success hiddenTr\">";
+                var tr = "<tr class=\"hiddenTr\">";
                 tr += "<td>" + index++ + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].user + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].restaurant + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].dish + "</td>";
-                tr += "<td>" + statistics[restaurant][dish].count + "</td>";
+                tr += "<td><span class=\"badge\">" + statistics[restaurant][dish].count + "</span></td>";
                 tr += "<td>" + statistics[restaurant][dish].price + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].totalPrice + "</td>";
                 tr += "</tr>";
@@ -82,15 +95,20 @@ function showOrderStatistics(){
             }
         }
         $("tr.hiddenTr").show();
-        $(this).slideDown("fast");
+        bindLabelTip("hiddenTr");
+        $(this).slideDown("fast", function(){
+        	callback && callback.call();
+        });
     });
 }
 
-function recoverTable(){
+function recoverTable(callback){
     $("#orderList").slideUp("fast", function(){
         $("tr.hiddenTr").remove();
         $("tr.orginTr").show();
-        $(this).slideDown("fast");
+        $(this).slideDown("fast", function(){
+        	callback && callback.call();
+        });
     });
 }
 
