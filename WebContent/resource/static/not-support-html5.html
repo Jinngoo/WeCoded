@@ -15,6 +15,14 @@
 		font-family: "微软雅黑";
 		font-size: 13px;
 	}
+	td.name{
+		width: 160px;
+		text-align: right;
+		padding-right: 10px;
+	}
+	td.ua{
+		border-bottom: 1px solid gray;
+	}
 </style>
 <script type="text/javascript">
 	function onload(){
@@ -25,7 +33,7 @@
 <body onload="onload()">
 
 	<br/>
-	<h1 style="text-align: center">Your browser doesn't support HTML5 &nbsp;&nbsp;......&nbsp;&nbsp;<span style="font-size:16px">Perhaps~</></h1>
+	<h1 style="text-align: center">Your browser doesn't support HTML5&nbsp;&nbsp;......&nbsp;&nbsp;<span style="font-size:16px">Perhaps~</></h1>
 	<br/>
 	<h3 style="text-align: center">Please try Chrome, Safari, Opera, Firefox ...</h3>
 	<br/>
@@ -39,79 +47,79 @@
 		<h3><a href="../../" style="text-decoration: none;font-family: '微软雅黑'">&gt;&gt;&gt;&gt;&gt;&gt;&nbsp;去主页&nbsp;&lt;&lt;&lt;&lt;&lt;&lt;</a></h3>
 	</div>
 	<br/>
-	<div style="text-align: left; margin-left: 200px;">
+	<div style="text-align: left; margin-left: 50px;">
 		<table>
 			<tr>
 				<td></td>
 				<td><b>( MSIE 5 6 7 8 不被支持 )</b></td>
 			</tr>
 			<tr>
-				<td>[你的浏览器]</td>
-				<td id="ua">1</td>
+				<td class="name">[你的浏览器]</td>
+				<td id="ua" class="ua">1</td>
 			</tr>
 			<tr>
 				<td></td>
 				<td><b>( 以下为楼主机器实测 )</b></td>
 			</tr>
 			<tr>
-				<td>[chrome]</td>
-				<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td>
+				<td class="name">[chrome]</td>
+				<td class="ua">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36</td>
 			</tr>
 			<tr>
-				<td>[ie10]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
+				<td class="name">[ie10]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
 			</tr>
 			<tr>
-				<td>[ie10兼容]</td>
-				<td>Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/6.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
+				<td class="name">[ie10兼容]</td>
+				<td class="ua">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/6.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
 			</tr>
 			<tr>
-				<td>[ie9]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)</td>
+				<td class="name">[ie9]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)</td>
 			</tr>
 			<tr>
-				<td>[ie8]</td>
-				<td>Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
+				<td class="name">[ie8]</td>
+				<td class="ua">Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
 			</tr>
 			<tr>
-				<td>[ie7]</td>
-				<td>Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
+				<td class="name">[ie7]</td>
+				<td class="ua">Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)</td>
 			</tr>
 			<tr>
-				<td>[firefox]</td>
-				<td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0</td>
+				<td class="name">[firefox]</td>
+				<td class="ua">Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0</td>
 			</tr>
 			<tr>
-				<td>[sougou高速]</td>
-				<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36 SE 2.X MetaSr 1.0</td>
+				<td class="name">[sougou高速]</td>
+				<td class="ua">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36 SE 2.X MetaSr 1.0</td>
 			</tr>
 			<tr>
-				<td>[sougou兼容]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; SE 2.X MetaSr 1.0)</td>
+				<td class="name">[sougou兼容]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0; SE 2.X MetaSr 1.0)</td>
 			</tr>
 			<tr>
-				<td>[世界之窗]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0;  TheWorld 6)</td>
+				<td class="name">[世界之窗]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0;  TheWorld 6)</td>
 			</tr>
 			<tr>
-				<td>[360极速版极速模式]</td>
-				<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31</td>
+				<td class="name">[360极速版极速模式]</td>
+				<td class="ua">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31</td>
 			</tr>
 			<tr>
-				<td>[360极速版兼容模式]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
+				<td class="name">[360极速版兼容模式]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
 			</tr>
 			<tr>
-				<td>[360极速版ie模式]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
+				<td class="name">[360极速版ie模式]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
 			</tr>
 			<tr>
-				<td>[360安全兼容]</td>
-				<td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
+				<td class="name">[360安全兼容]</td>
+				<td class="ua">Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)</td>
 			</tr>
 			<tr>
-				<td>[360安全极速]</td>
-				<td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1</td>
+				<td class="name">[360安全极速]</td>
+				<td class="ua">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.89 Safari/537.1</td>
 			</tr>
 		</table>
 	</div>
