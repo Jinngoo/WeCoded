@@ -73,7 +73,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		    }
 		}
 
-		if ("test".equals(path) || "login".equals(path)) {
+		if ("test".equals(path) || "test2".equals(path) || "login".equals(path)) {
 			return true;
 		}
 
