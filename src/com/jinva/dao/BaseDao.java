@@ -98,7 +98,7 @@ public class BaseDao extends HibernateDaoSupport {
             return 0;
         }
     }
-    
+
     public long selectCount(String hql, Object[] params) {
         hql = hql.trim();
         if (hql.substring(0, 4).equalsIgnoreCase("from")) {
@@ -109,7 +109,12 @@ public class BaseDao extends HibernateDaoSupport {
                 hql = "select count(*) " + hql.substring(fromIndex);
             }
         }
-        
+        if (hql.contains("order by")) {
+            hql = hql.substring(0, hql.indexOf("order by"));
+        } else if (hql.contains("ORDER BY")) {
+            hql = hql.substring(0, hql.indexOf("ORDER BY"));
+        }
+
         List<?> result = params == null ? getHibernateTemplate().find(hql) : getHibernateTemplate().find(hql, params);
         if (CollectionUtils.isNotEmpty(result)) {
             return (Long) result.get(0);
@@ -141,12 +146,12 @@ public class BaseDao extends HibernateDaoSupport {
             }
         });
         detachedCriteria.setProjection(null);
-		if (count == null || count instanceof Collection) {
-			logger.error("Select count fail.");
-			return Long.valueOf(0);
-		} else {
-			return Long.valueOf(String.valueOf(count));
-		}
+        if (count == null || count instanceof Collection) {
+            logger.error("Select count fail.");
+            return Long.valueOf(0);
+        } else {
+            return Long.valueOf(String.valueOf(count));
+        }
     }
 
     public void delete(Object entity) {
@@ -177,7 +182,7 @@ public class BaseDao extends HibernateDaoSupport {
     }
 
     public int bulkUpdate(String hql, Object[] params) {
-        return getHibernateTemplate().bulkUpdate(hql, params);
+        return params == null ? getHibernateTemplate().bulkUpdate(hql) : getHibernateTemplate().bulkUpdate(hql, params);
     }
 
 }

@@ -21,35 +21,30 @@ public class PageDao extends BaseDao {
     @SuppressWarnings("unchecked")
     public <T> Page<T> selectPage(Class<T> clazz, Criterion criterion, Order order, int pageNum, int pageSize) {
         final DetachedCriteria detachedCriteria = DetachedCriteria.forClass(clazz);
-		if (criterion != null) {
-			detachedCriteria.add(criterion);
-		}
-		long totalCount = selectCount(detachedCriteria);
-		if (order != null) {
-			detachedCriteria.addOrder(order);
-		}
-		
-		Collection<T> data = null;
-		if (totalCount == 0) {
-			data = CollectionUtils.EMPTY_COLLECTION;
-		} else if (pageNum < 1 || pageSize < 1) {
-			pageNum = -1;
-			pageSize = -1;
-			data = getHibernateTemplate().findByCriteria(detachedCriteria);
-		} else {
-			int firstResult = (pageNum - 1) * pageSize;
-			int maxResults = pageSize;
-			data = getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);
-		}
+        if (criterion != null) {
+            detachedCriteria.add(criterion);
+        }
+        long totalCount = selectCount(detachedCriteria);
+        if (order != null) {
+            detachedCriteria.addOrder(order);
+        }
 
-        Page<T> page = new Page<T>();
-        page.setTotalCount(totalCount);
-        page.setData(data);
-        page.setPageNum(pageNum);
-        page.setPageSize(pageSize);
-        return page;
+        Collection<T> data = null;
+        if (totalCount == 0) {
+            data = CollectionUtils.EMPTY_COLLECTION;
+        } else if (pageNum < 1 || pageSize < 1) {
+            pageNum = -1;
+            pageSize = -1;
+            data = getHibernateTemplate().findByCriteria(detachedCriteria);
+        } else {
+            int firstResult = (pageNum - 1) * pageSize;
+            int maxResults = pageSize;
+            data = getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);
+        }
+
+        return buildPage(data, pageNum, pageSize, totalCount);
     }
-    
+
     @SuppressWarnings("unchecked")
     public <T> Page<T> selectPage(final String hql, final Object[] params, int pageNum, int pageSize) {
         long totalCount = selectCount(hql, params);
@@ -78,6 +73,10 @@ public class PageDao extends BaseDao {
                 }
             });
         }
+        return buildPage(data, pageNum, pageSize, totalCount);
+    }
+
+    private <T> Page<T> buildPage(Collection<T> data, int pageNum, int pageSize, long totalCount) {
         Page<T> page = new Page<T>();
         page.setTotalCount(totalCount);
         page.setData(data);
