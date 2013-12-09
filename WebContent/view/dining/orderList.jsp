@@ -94,7 +94,11 @@
 						</tr>
 						</c:forEach>
 					</tbody>
-					<tbody id="totalPriceBody">
+					<tbody>
+						<tr>
+							<td colSpan="6"></td>
+							<td><span class="label label-danger" id="totalPrice"></span></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

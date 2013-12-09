@@ -19,6 +19,7 @@ function bindLabelTip(trClass){
     	var restaurantId = $(this).attr("restaurantId");
     	var dishId = $(this).attr("dishId");
     	//TODO show tip
+    	$(this).attr("title", "TODO tip");
     });
 }
 function dealTotalPrice(){
@@ -26,7 +27,7 @@ function dealTotalPrice(){
     $(".totalPrice").each(function(){
         totalPrice = J.plus(totalPrice, $(this).html()).toFixed(2);
     });
-    $("#totalPriceBody").append("<tr><td colSpan=\"6\"></td><td><span class=\"label label-danger\"><b>" + totalPrice + "</b></span></td></tr>");
+    $("#totalPrice").html("<b>" + totalPrice + "</b>");
 }
 
 function changeStatistics(button){

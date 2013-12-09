@@ -89,14 +89,14 @@ public class BaseDao extends HibernateDaoSupport {
         }
     }
 
+    private long getCount(List<?> result) {
+        return CollectionUtils.isNotEmpty(result) ? (Long) result.get(0) : 0;
+    }
+
     public long selectCount(Class<?> clazz) {
         String hql = "select count(*) from " + clazz.getName();
         List<?> result = getHibernateTemplate().find(hql);
-        if (CollectionUtils.isNotEmpty(result)) {
-            return (Long) result.get(0);
-        } else {
-            return 0;
-        }
+        return getCount(result);
     }
 
     public long selectCount(String hql, Object[] params) {
@@ -116,11 +116,7 @@ public class BaseDao extends HibernateDaoSupport {
         }
 
         List<?> result = params == null ? getHibernateTemplate().find(hql) : getHibernateTemplate().find(hql, params);
-        if (CollectionUtils.isNotEmpty(result)) {
-            return (Long) result.get(0);
-        } else {
-            return 0;
-        }
+        return getCount(result);
     }
 
     public long selectCount(Class<?> clazz, String[] fieldNames, Object[] fieldValues) {
@@ -131,11 +127,7 @@ public class BaseDao extends HibernateDaoSupport {
         }
         hql = hql + StringUtils.join(fieldList, " and ");
         List<?> result = getHibernateTemplate().find(hql, fieldValues);
-        if (CollectionUtils.isNotEmpty(result)) {
-            return (Long) result.get(0);
-        } else {
-            return 0;
-        }
+        return getCount(result);
     }
 
     public long selectCount(final DetachedCriteria detachedCriteria) {
