@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.InitSqlDataService;
 import com.jinva.service.storage.IStorage;
 import com.jinva.util.StorageUtil;

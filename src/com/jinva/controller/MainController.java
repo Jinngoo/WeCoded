@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jinva.bean.datamodel.User;
 import com.jinva.consts.JinvaConsts;
+import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.DiningService;
 import com.jinva.service.JinvaService;
 

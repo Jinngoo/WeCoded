@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jinva.consts.JinvaConsts;
+import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.storage.IStorage;
 
 @Controller

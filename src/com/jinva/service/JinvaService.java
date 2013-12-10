@@ -446,7 +446,7 @@ public class JinvaService {
 			User user = theDao.getHibernateTemplate().get(User.class, userId);
 			Dish dish = theDao.getHibernateTemplate().get(Dish.class, dishId);
 			if(user != null){
-				order.setUserName(user.getNickname());
+				order.setUserName(user.getNickname());//改成读缓存, userName属性可以去掉了
 			}
 			if(dish != null){
 				order.setDishName(dish.getName());

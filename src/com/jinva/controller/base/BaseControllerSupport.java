@@ -1,4 +1,4 @@
-package com.jinva.controller;
+package com.jinva.controller.base;
 
 import java.util.HashMap;
 import java.util.Map;

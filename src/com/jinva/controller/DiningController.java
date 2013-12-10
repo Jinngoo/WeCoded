@@ -31,6 +31,7 @@ import com.jinva.bean.datamodel.TeamProvider;
 import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.consts.JinvaConsts;
+import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.DiningService;
 import com.jinva.service.JinvaService;
 import com.jinva.service.storage.IStorage;
@@ -75,7 +76,7 @@ public class DiningController extends BaseControllerSupport {
     @RequestMapping(value = "orderProviderList", method = RequestMethod.GET)
     public String orderProviderList(HttpServletRequest request, HttpSession session) {
         List<OrderProvider> orderProviderList = jinvaService.getOrderProviderList(0, -1, getUserId(session));
-        jinvaService.parseOrderProviderName(orderProviderList, new HashMap<String, String>());
+        jinvaService.parseOrderProviderName(orderProviderList, new HashMap<String, String>());//改成读缓存
         jinvaService.parseOrderProviderTeam(orderProviderList);
         jinvaService.parseOrderProviderRestaurant(orderProviderList, new HashMap<String, String>());
         request.setAttribute("orderProviderList", orderProviderList);
@@ -325,11 +326,11 @@ public class DiningController extends BaseControllerSupport {
         
         List<Team> teamList = jinvaService.getOptionalTeamList(0, -1, userId);
         
-        jinvaService.parseTeamOwnerName(teamList, new HashMap<String, String>());
+        jinvaService.parseTeamOwnerName(teamList, new HashMap<String, String>());//改成读缓存
         jinvaService.parseTeamMemberCount(teamList);
         
         List<Restaurant> restaurantList = jinvaService.getOptionalRestaurantList(0, -1, userId);
-        jinvaService.parseRestaurantOwnerName(restaurantList, new HashMap<String, String>());
+        jinvaService.parseRestaurantOwnerName(restaurantList, new HashMap<String, String>());//改成读缓存
         
         
         request.setAttribute("teamList", teamList);

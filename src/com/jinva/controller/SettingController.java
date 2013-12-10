@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jinva.bean.datamodel.User;
+import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.JinvaService;
 import com.jinva.service.storage.IStorage;
 
