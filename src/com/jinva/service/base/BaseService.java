@@ -1,4 +1,4 @@
-package com.jinva.service;
+package com.jinva.service.base;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,8 +8,8 @@ import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jinva.dao.BaseDao;
-import com.jinva.dao.PageDao;
+import com.jinva.dao.base.BaseDao;
+import com.jinva.dao.base.PageDao;
 import com.jinva.support.page.Page;
 
 @Service

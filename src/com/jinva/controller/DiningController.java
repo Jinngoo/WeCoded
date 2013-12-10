@@ -31,6 +31,7 @@ import com.jinva.bean.datamodel.TeamProvider;
 import com.jinva.bean.datamodel.User;
 import com.jinva.bean.datamodel.UserTeam;
 import com.jinva.consts.JinvaConsts;
+import com.jinva.service.DiningService;
 import com.jinva.service.JinvaService;
 import com.jinva.service.storage.IStorage;
 import com.jinva.util.CodeSupport;
@@ -41,8 +42,12 @@ import com.jinva.util.StorageUtil;
 @RequestMapping("/dining")
 public class DiningController extends BaseControllerSupport {
 
+    //TODO 分离至DiningSercice
     @Autowired
     private JinvaService jinvaService;
+    
+    @Autowired
+    private DiningService diningService;
 
     @Autowired
     private IStorage storage;
@@ -75,9 +80,9 @@ public class DiningController extends BaseControllerSupport {
         jinvaService.parseOrderProviderRestaurant(orderProviderList, new HashMap<String, String>());
         request.setAttribute("orderProviderList", orderProviderList);
         request.setAttribute("orderProviderStatusCode", CodeSupport.getOrderProviderStatusCode(request));
-        
         return index();
     }
+    //TODO
     
     @RequestMapping(value = "teamList", method = RequestMethod.GET)
     public String teamList(HttpServletRequest request, HttpSession session) {

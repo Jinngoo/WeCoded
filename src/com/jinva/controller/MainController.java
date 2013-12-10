@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jinva.bean.datamodel.User;
 import com.jinva.consts.JinvaConsts;
+import com.jinva.service.DiningService;
 import com.jinva.service.JinvaService;
 
 @Controller
@@ -27,8 +28,12 @@ public class MainController extends BaseControllerSupport{
     @Autowired
     private JinvaService jinvaService;
     
+    @Autowired
+    private DiningService diningService;
+    
     @RequestMapping(value = "test2")
-    public String test2() {
+    public String test2(HttpSession session) {
+        diningService.test(getUserId(session));
         return "test2";
     }
     

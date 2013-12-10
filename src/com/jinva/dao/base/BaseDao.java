@@ -1,4 +1,4 @@
-package com.jinva.dao;
+package com.jinva.dao.base;
 
 import java.io.Serializable;
 import java.util.ArrayList;

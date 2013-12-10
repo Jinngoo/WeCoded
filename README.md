@@ -12,6 +12,7 @@ Web development practice
 菜标签、搜索过滤
 音乐播放
 gif头像
+订餐范围可选to所有人
 
 自己建个数据库，config.properties里hibernate.hbm2ddl.auto=create就自动初始化表了啊啊啊啊心绞痛啊~记得初始化玩再启动要改回来啊~要么数据又清空了啊~~
 
