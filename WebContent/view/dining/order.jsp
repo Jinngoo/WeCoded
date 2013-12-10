@@ -75,6 +75,13 @@
     		margin-left: 1px;
     		margin-right: 1px;
     	}
+    	a.dish{
+    		padding:5px;
+    		margin-left:7px;
+    		margin-top:5px;
+    		cursor:default;
+    		position:relative;
+    	}
     </style>
 </head>
 <body>
@@ -92,18 +99,20 @@
 			//TODO 分页，top按钮，收缩各店
 			<hr/>
 			<div id="iChoosed" class="alert alert-success" style="height:0px"></div>
-			<form class="form-inline" role="search">
-				<div class="form-group"> 
-					<input type="text" class="form-control" placeholder="Search(Coming soon)">
+				<div class="form-group" style="width: 320px"> 
+					<div class="input-group">
+						<span class="input-group-addon"><i id="closeVideo" class="fa fa-times fa-lg" style="cursor:pointer" onclick="clearSearch()"></i></span>
+						<input id="searchInput" type="text" class="form-control" placeholder="Search" onkeydown="searchKeydown()" onpaste="searchKeydown()" >
+						<span class="input-group-addon"><i id="closeVideo" class="fa fa-times fa-lg" style="cursor:pointer" onclick="clearSearch()"></i></span>
+					</div>
 				</div>
-			</form>
 			<br>
 		
 			<c:forEach items="${restaurantDishMap }" var="entry" varStatus="status">
 				<div class="well">
 					<div>&nbsp;&nbsp;&nbsp;店名：${restaurantMap[entry.key].name }</div>
 					<c:forEach items="${entry.value }" var="dish" varStatus="statusDish">
-						<a id="dish_${dish.id}" class="btn btn-warning" style="padding:5px;margin-left:7px;margin-top:5px;cursor:default;position:relative">
+						<a id="dish_${dish.id}" name="${dish.name}" class="btn btn-warning dish">
 							<input type="text" id="dishName_${dish.id}" value="${dish.name}" style="display:none">
 							<input type="text" id="dishPrice_${dish.id}" value="${dish.price}" style="display:none">
 							<div class="count_bar opacityBar">

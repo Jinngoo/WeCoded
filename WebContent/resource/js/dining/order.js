@@ -80,3 +80,31 @@ function refreshChooseList(){
 	$("#iChoosed").html(html);
 	$("#iChoosed").animate({height:60+height+"px"});
 }
+
+var searchTimeout = null;
+function searchKeydown() {
+	if (searchTimeout != null) {
+		clearTimeout(searchTimeout);
+	}
+	searchTimeout = setTimeout(function() {
+		var name = $("#searchInput").val();
+		if ($.trim(name).length == 0) {
+			$("a.dish").show("fast");
+		} else {
+			$("a.dish").hide("fast");
+			$("a.dish[name*='" + name + "']").show("fast");
+		}
+		searchTimeout = null;
+	}, 500);
+}
+
+function clearSearch() {
+	$("#searchInput").val("");
+	$("a.dish").show("fast");
+}
+
+
+
+
+
+

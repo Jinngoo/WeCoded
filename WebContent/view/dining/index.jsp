@@ -350,13 +350,13 @@
 										<td class="script_br">${orderProvider.restaurants}</td>
 										<td style="text-align:center">
 											<c:if test="${orderProvider.status eq 1 }">
-												<a class="button glow button-rounded button-flat-action button-small" onclick="joinProvideMeal('${orderProvider.id}')">
+												<a class="button glow button-rounded button-flat-action button-tiny" onclick="joinProvideMeal('${orderProvider.id}')">
 													<span style="color:white"><spring:message code="main.sboffer.chooseProvide" /></span>
 												</a>
 											</c:if>
-											<a class="button button-rounded button-flat-primary button-small" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
+											<a class="button button-rounded button-flat-primary button-tiny" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
 											<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
-												<a class="button button-rounded button-flat-caution button-small" onclick="cancelProvide('${orderProvider.id}')">删除订单</a>
+												<a class="button button-rounded button-flat-caution button-tiny" onclick="cancelProvide('${orderProvider.id}')">删除订单</a>
 											</c:if>
 										</td>
 									</tr>
@@ -405,8 +405,8 @@
 					<h5 id="confirmTip"></h5>
 				</div>
 				<div class="modal-body">
-					<button class="btn btn-danger" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
-					<button class="btn btn-default" data-dismiss="modal">取消</button>
+					<button class="button button-rounded button-caution button-small" data-dismiss="modal" style="margin-right:20px;" id="confirmBtn">确定</button>
+					<button class="button button-rounded button-small" data-dismiss="modal">取消</button>
 				</div>
 			</div> <!-- /.modal-content -->
 		</div> <!-- /.modal-dialog -->
