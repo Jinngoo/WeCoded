@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jinva.bean.datamodel.User;
@@ -35,10 +34,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 			uri = uri.replace(request.getContextPath(), "");
 		}
 
-//		if (uri.contains("not-support-html5.html")) {
-//			return true;
-//		}
-		
 		String path = uri.startsWith("/") ? uri.substring(1) : uri;
 		if (StringUtils.isNotBlank(path)) {
 			path = path.contains("/") ? path.substring(0, path.indexOf("/")) : path;
@@ -94,20 +89,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		}
 		return true;
 	}
-
-	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object o, ModelAndView mav)
-			throws Exception {
-	}
-
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object o, Exception excptn)
-			throws Exception {
-	}
-
-    public Boolean getSkipSignIn() {
-        return skipSignIn;
-    }
 
     @Value("#{propertiesReader[skipSignIn]}")
     public void setSkipSignIn(Boolean skipSignIn) {

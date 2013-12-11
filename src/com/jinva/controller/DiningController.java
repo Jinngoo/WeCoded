@@ -67,9 +67,8 @@ public class DiningController extends BaseControllerSupport {
     @RequestMapping(value = "orderProviderCount", method = RequestMethod.GET)
     public ResponseEntity<JSONObject> orderProviderCount(HttpSession session) {
         int offering = jinvaService.getOrderProviderCount(getUserId(session), OrderProvider.STATUS_OFFERING);
-        int end = jinvaService.getOrderProviderCount(getUserId(session), OrderProvider.STATUS_END);
         JSONObject result = new JSONObject();
-        result.put("count", offering + "/" + (offering + end));
+        result.put("count", offering);
         return new ResponseEntity<JSONObject>(result, HttpStatus.OK);
     }
     

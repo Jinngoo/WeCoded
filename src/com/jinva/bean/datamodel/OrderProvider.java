@@ -19,9 +19,6 @@ public class OrderProvider {
 
 	private String provideUserId;
 
-	//
-	// private String receiveUsers;
-
 	private Date createDate;
 
 	private String restaurants;
@@ -56,16 +53,6 @@ public class OrderProvider {
 	public void setProvideUserId(String provideUserId) {
 		this.provideUserId = provideUserId;
 	}
-
-	//
-	// @Column(name = "receiveUsers", length = 600)
-	// public String getReceiveUsers() {
-	// return receiveUsers;
-	// }
-	//
-	// public void setReceiveUsers(String receiveUsers) {
-	// this.receiveUsers = receiveUsers;
-	// }
 
 	@Column(name = "createDate", length = 300)
 	public Date getCreateDate() {

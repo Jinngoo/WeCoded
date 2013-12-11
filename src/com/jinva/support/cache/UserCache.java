@@ -48,5 +48,13 @@ public class UserCache {
         User user = get(id);
         return user == null ? null : user.getNickname();
     }
+    
+    public void reloadUser(String id) {
+        User user = baseDao.get(User.class, id);
+        if (user != null) {
+            cache.remove(id);
+            cache.put(id, user);
+        }
+    }
 
 }

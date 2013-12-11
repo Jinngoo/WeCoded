@@ -374,12 +374,9 @@ function receiveMessage(message) {
         refreshUserList(message);
     }
 }
-function getComment(text){
-    if(text && text.toString().length > 18){
-        return text.toString().substring(0, 18) + "...";
-    }else{
-        return text;
-    }
+function getComment(text) {
+	text = $.trim(text).replace(/\n/gi, "");
+	return text.length > 18 ? (text.substring(0, 18) + "...") : text;
 }
 function refreshUserList(message){
     var users = message.userlist;

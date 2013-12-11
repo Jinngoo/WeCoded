@@ -3,11 +3,11 @@ package com.jinva.websocket;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.CloseReason;
@@ -37,6 +37,7 @@ public class WsChatRoom {
     private StringBuffer buffer;
 
     private static Map<String, User> userMap = Collections.synchronizedMap(new HashMap<String, User>());
+    private static Map<String, Session> sessionMap = Collections.synchronizedMap(new HashMap<String, Session>());
 
     public static int userCount = 0;
     
@@ -51,8 +52,9 @@ public class WsChatRoom {
     		logger.warn("Session closed");
     		return;
     	}
-        Set<Session> set = session.getOpenSessions();
-        for (Session ses : set) {
+    	//不知道for中关闭session会不会有线程问题，所以new个新list
+    	Collection<Session> sessions = new ArrayList<Session>(sessionMap.values());
+        for (Session ses : sessions) {
             if (ses.getId().equals(session.getId())) {
                 continue;
             }
@@ -99,7 +101,6 @@ public class WsChatRoom {
         message.put("type", "userlist");
         message.put("userlist", userArray);
         return message.toString();
-
     }
 
     private String getParameter(Session session, String name) {
@@ -126,7 +127,7 @@ public class WsChatRoom {
         CloseCode normal  = new CloseCode() {
             @Override
             public int getCode() {
-                return 1000;
+                return 1000;//normal close
             }
         }; 
         session.close(new CloseReason(normal, reason));
@@ -147,6 +148,7 @@ public class WsChatRoom {
     public void onOpen(Session session) {
         User user = buildUser(session);
         userMap.put(session.getId(), user);
+        sessionMap.put(session.getId(), session);
 
         String message = buildUserListMessage();
         sendBasicMessage(session, message);
@@ -176,23 +178,16 @@ public class WsChatRoom {
     }
 
     @OnMessage
-    public void onPongMessage(PongMessage pm) {
+    public void onPongMessage(PongMessage pm) {// ie会有这玩意
         System.out.println("onPongMessage:" + pm.getApplicationData());
     }
 
     @OnClose
     public void onClose(Session session) {
         userMap.remove(session.getId());
+        sessionMap.remove(session.getId());
         String message = buildUserListMessage();
         broadcast(session, message);
     }
-
-    // private void send(Session session, JSONObject json){
-    // try {
-    // session.getBasicRemote().sendText(json.toString());
-    // } catch (IOException e) {
-    // logger.error("Send message error.", e);
-    // }
-    // }
 
 }

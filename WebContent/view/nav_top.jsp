@@ -62,7 +62,6 @@
                 var url = contextPath + "/chatRoom/userCount";
                 $.getJSON(url).success(function(result){
                    	$("#chatRoomLink").html("聊天室(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
-                   	startReloadInterval();
                 }).error(function(){
                     clearReloadInterval();
                 });
@@ -75,7 +74,6 @@
                 var url = contextPath + "/dining/orderProviderCount";
                 $.getJSON(url).success(function(result){
                		$("#diningLink").html("吃的(<span style='color:white;font-weight:bold;'>" + result.count + "</span>)");
-                    startReloadInterval();
                 }).error(function(){
                     clearReloadInterval();
                 });
@@ -110,6 +108,10 @@
         $(window).focus(function() {
             top_reloadOrderProviderCount();
             top_reloadChatRoomUserCount();
+            startReloadInterval();
+        });
+        $(window).blur(function(){
+        	clearReloadInterval();
         });
         $(window).resize(function(){
             $("#top_occupying").height(30 + $("#top_navbar").height());
