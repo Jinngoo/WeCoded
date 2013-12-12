@@ -7,9 +7,9 @@
 	</style>
 	<header id="top_navbar" class="navbar navbar-inverse navbar-fixed-top" role="banner">
 		<div class="container" >
-				<ul class="nav navbar-nav navbar-left" style="margin-left: 0px;">
-					<img src="${RESOURCE}/image/common/favicon.ico" title="Jinn" style="cursor: pointer; width: 32px; height: 32px; margin-top: 9px; margin-left: 3px; margin-right: 7px" />
-				</ul>
+			<ul class="nav navbar-nav navbar-left" style="margin-left: 0px;">
+				<img src="${RESOURCE}/image/common/favicon.ico" title="Jinn" style="cursor: pointer; width: 32px; height: 32px; margin-top: 9px; margin-left: 3px; margin-right: 7px" />
+			</ul>
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#"><spring:message code="main.title" /></a>
 				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
@@ -23,7 +23,7 @@
 				<ul class="nav navbar-nav">
 					<li><a href="${CONTEXT_PATH}/news">首页</a></li>
 					<li><a href="${CONTEXT_PATH}/dining" id="diningLink">吃的</a></li>
-					<li><a href="${CONTEXT_PATH}/chatRoom" id="chatRoomLink">聊天室</a></li>
+					<li><a href="${CONTEXT_PATH}/chatRoom" id="chatRoomLink" target="_blank">聊天室</a></li>
 					<li><a href="${CONTEXT_PATH}/game">游戏</a></li>
 					<li><a href="${CONTEXT_PATH}/message">消息(x)</a></li>
 					<li><a href="${CONTEXT_PATH}/setting">设置</a></li>

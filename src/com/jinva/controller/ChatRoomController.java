@@ -212,17 +212,9 @@ public class ChatRoomController extends BaseControllerSupport {
         return null;
     }
 
-    public String getProxyIp() {
-        return proxyIp;
-    }
-
     @Value("#{propertiesReader[proxy_ip]}")
     public void setProxyIp(String proxyIp) {
         this.proxyIp = proxyIp;
-    }
-
-    public int getProxyPort() {
-        return proxyPort;
     }
 
     @Value("#{propertiesReader[proxy_port]}")

@@ -134,7 +134,7 @@ public class WsChatRoom {
     }
     
     private HttpSession getHttpSession(Session session){
-        return (HttpSession) session.getUserProperties().get("HttpSession");
+        return (HttpSession) session.getUserProperties().get(HttpSessionConfigurator.HTTP_SESSION);
     }
     
     private boolean isHttpSessionValid(Session session) {
