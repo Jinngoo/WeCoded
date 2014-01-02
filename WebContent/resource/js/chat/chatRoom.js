@@ -14,6 +14,8 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 }
 //////////////////////////
+//http://translate.google.cn/translate_tts?ie=UTF-8&q=hello&tl=en&total=1&idx=0&textlen=5&prev=input
+//http://translate.google.cn/translate_tts?ie=UTF-8&q=%E4%BD%A0%E5%A4%A7%E7%88%B7&tl=zh-CN&total=1&idx=0&textlen=3&prev=input
 /**
  * 桌面通知事件
  */
@@ -162,16 +164,16 @@ function bindEvent() {
     });
 }
 /**
- * 发送图片文件，gif最大2MB，其他格式512kb以上压缩后发送
+ * 发送图片文件，gif最大5MB，其他格式512kb以上压缩后发送
  * @param file
  */
 function sendImageByFile(file){
     if(file && /^(image\/jpeg|image\/png|image\/bmp|image\/gif)$/i.test(file.type)){
         if("image/gif" == file.type){
-            file.size < 2048 * 1024 ? fileReader.readAsDataURL(file) : alert("动态图片超过2MB，太大鸟~");
-            return;
+            file.size < 5 * 1024 * 1024 ? fileReader.readAsDataURL(file) : alert("动态图片超过5MB，太大鸟~");
+        }else{
+            sendCompressImage(file);//统统压缩~~
         }
-        sendCompressImage(file);//统统压缩~~
 //        if (file.size < 256 * 1024) { //256KB以下 直接发
 //            fileReader.readAsDataURL(file);//send in onload
 //        } else {
