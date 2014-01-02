@@ -11,14 +11,13 @@
     $("#" + activeTab + "List").addClass("active");
 });
 function bindAll(){
-	$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+	$("#teamTab a, #restaurantTab a").on('show.bs.tab', function(e) {
 		var targetHref = e.target.href;
-		
 		var targetZone = targetHref.substring(targetHref.indexOf('#') + 1);
+
 		AjaxAnywhere.prototype.showLoadingMessage = function() {
 			$("#" + targetZone + "Body").hide();
 			$("#" + targetZone + "Loading").show();
-			
 		};
 		AjaxAnywhere.prototype.hideLoadingMessage = function() {
 		};

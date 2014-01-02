@@ -15,6 +15,15 @@ import com.jinva.support.page.Page;
 @Service
 public class DiningService extends BaseService {
 
+    public <T> Page<T> getOrderProviderList(String userId, Integer pageNum, Integer pageSize){
+        String hql = "from #OrderProvider where id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
+        hql = hql.replaceAll("#OrderProvider", OrderProvider.class.getName());
+        hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
+        hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
+        return pageDao.selectPage(hql, new Object[]{userId}, pageNum, pageSize);
+    }
+    
+    
     public void test(String userId) {
         long start = System.currentTimeMillis();
         

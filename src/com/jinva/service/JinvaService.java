@@ -2,6 +2,7 @@ package com.jinva.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -270,7 +271,7 @@ public class JinvaService {
     	}
     }
     
-    public void parseOrderProviderName(List<OrderProvider> orderProviderList, Map<String, String> cache){
+    public void parseOrderProviderName(Collection<OrderProvider> orderProviderList, Map<String, String> cache){
     	if(cache == null){
     		cache = new HashMap<String, String>();
     	}
@@ -295,7 +296,7 @@ public class JinvaService {
     }
     
     @SuppressWarnings("unchecked")
-	public void parseOrderProviderTeam(List<OrderProvider> orderProviderList){
+	public void parseOrderProviderTeam(Collection<OrderProvider> orderProviderList){
     	for(OrderProvider orderProvider : orderProviderList){
     		String hql = "select name from #Team where id in (select teamId from #TeamProvider where orderProviderId = ?)";
     		hql = hql.replaceAll("#Team", Team.class.getName());
@@ -305,7 +306,7 @@ public class JinvaService {
     	}
     }
     
-    public void parseOrderProviderRestaurant(List<OrderProvider> orderProviderList, Map<String, String> cache){
+    public void parseOrderProviderRestaurant(Collection<OrderProvider> orderProviderList, Map<String, String> cache){
     	if(cache == null){
     		cache = new HashMap<String, String>();
     	}
@@ -367,19 +368,19 @@ public class JinvaService {
     	}
 	}
     
-    /**
-     * 
-     * @param provideteamId
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-	public List<OrderProvider> getOrderProviderList(int start, int size, String userId){
-    	String hql = "from #OrderProvider where id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
-    	hql = hql.replaceAll("#OrderProvider", OrderProvider.class.getName());
-    	hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
-    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
-    	return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
-    }
+//    /**
+//     * 
+//     * @param provideteamId
+//     * @return
+//     */
+//    @SuppressWarnings("unchecked")
+//	public List<OrderProvider> getOrderProviderList(int start, int size, String userId){
+//    	String hql = "from #OrderProvider where id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";
+//    	hql = hql.replaceAll("#OrderProvider", OrderProvider.class.getName());
+//    	hql = hql.replaceAll("#TeamProvider", TeamProvider.class.getName());
+//    	hql = hql.replaceAll("#UserTeam", UserTeam.class.getName());
+//    	return theDao.getHibernateTemplate().find(hql, new Object[]{userId});
+//    }
     
     public int getOrderProviderCount(String userId, Integer status){
         String hql = "select count(*) from #OrderProvider where status = ? and id in (select orderProviderId from #TeamProvider where teamId in (select teamId from #UserTeam where userId = ?)) order by createDate desc";

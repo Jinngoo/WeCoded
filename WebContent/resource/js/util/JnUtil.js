@@ -133,5 +133,24 @@
         };
         return image;
     };
+    JnUtil.prototype.parseUrl = function(url, params){
+        var oldParams = {};
+        if(url.indexOf("?") != -1){
+            var urlArr = url.split("\?")
+            url = urlArr[0];
+            var paramArr = urlArr[1].split("\&");
+            for(var i = 0; i < paramArr.length; i ++){
+                var arr = paramArr[i].split("=");
+                oldParams[arr[0]] = arr[1];
+            }
+        }
+        $.extend(oldParams, params);
+        var paramsArray = new Array();
+        for(var key in oldParams){
+            paramsArray.push(key + "=" + oldParams[key]);
+        }
+        url += "?" + paramsArray.join("&");
+        return url;
+    };
 	window.J = new JnUtil();
 })(window);

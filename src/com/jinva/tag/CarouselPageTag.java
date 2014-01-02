@@ -30,22 +30,40 @@ public class CarouselPageTag extends TagSupport  {
     private Integer pageSize;
     
     private String url;
+    
+    private String initLoad;
 
     @Override
     public int doStartTag() throws JspException {
 //        String contextPath = pageContext.getServletContext().getContextPath();
     
+//        String prePageId = "prePage_" + id;
+//        String nextPageId = "nextPage_" + id;
+        String prePageRealId = "prePageReal_" + id;
+        String nextPageRealId = "nextPageReal_" + id;
+        
         StringBuilder buff = new StringBuilder();
         buff.append("<div id=\"").append(id).append("\" class=\"carousel slide carouselPage\" ");
         buff.append(" pageDataProvider=\"").append(pageDataProvider).append("\"");
         buff.append(" pageInfoProvider=\"").append(pageInfoProvider).append("\"");
         buff.append(" aaZone=\"").append(aaZone).append("\"");
         buff.append(" url=\"").append(url).append("\"");
+        buff.append(" initLoad=\"").append(initLoad).append("\"");
         if(StringUtils.isNotBlank(style)){
             buff.append(" style=\"").append(style).append("\"");
         }
         buff.append(">");//start tag
         
+        //翻页显示按钮
+        buff.append("<div style=\"width:100%; text-align:right; padding-right:30px;\">");
+        buff.append("    <button class=\"button button-rounded button-action button-tiny\" onclick=\"cp_prev('").append(id).append("', '").append(prePageRealId).append("')\" ><i class=\"fa fa-chevron-left fa-lg\"></i></button>");
+        buff.append("    &nbsp;&nbsp;&nbsp;&nbsp;");
+        buff.append("    <button class=\"button button-rounded button-action button-tiny\" onclick=\"cp_next('").append(id).append("', '").append(nextPageRealId).append("')\" ><i class=\"fa fa-chevron-right fa-lg\"></i></button>");
+        buff.append("</div>");
+        buff.append("<br/>");
+        
+        
+        //显示内容区域
         buff.append("<div class=\"carousel-inner\">");
         buff.append("  <div class=\"item active\">");
 //        buff.append("    <img src=\"" + contextPath + "/resource/image/02.jpg\"/>");
@@ -57,21 +75,25 @@ public class CarouselPageTag extends TagSupport  {
         buff.append("  </div>");
         buff.append("</div>");
         
-        String prePageId = "prePage_" + id;
-        String nextPageId = "nextPage_" + id;
-        String prePageRealId = "prePageReal_" + id;
-        String nextPageRealId = "nextPageReal_" + id;
         
-        buff.append("<a id=\"").append(prePageId).append("\" class=\"carousel-control left carouselPage\" href=\"#\"");
-        buff.append("     onclick=\"cp_prev('").append(id).append("', '").append(prePageRealId).append("')\">");
-        buff.append("  <span class=\"glyphicon glyphicon-chevron-left\"></span>");
-        buff.append("</a>");
+        //翻页显示按钮
+        buff.append("<div style=\"width:100%; text-align:right; padding-right:30px;\">");
+        buff.append("    <button class=\"button button-rounded button-action button-tiny\" onclick=\"cp_prev('").append(id).append("', '").append(prePageRealId).append("')\" ><i class=\"fa fa-chevron-left fa-lg\"></i></button>");
+        buff.append("    &nbsp;&nbsp;&nbsp;&nbsp;");
+        buff.append("    <button class=\"button button-rounded button-action button-tiny\" onclick=\"cp_next('").append(id).append("', '").append(nextPageRealId).append("')\" ><i class=\"fa fa-chevron-right fa-lg\"></i></button>");
+        buff.append("</div>");
         
-        buff.append("<a id=\"").append(nextPageId).append("\" class=\"carousel-control right\" href=\"#\"");
-        buff.append("     onclick=\"cp_next('").append(id).append("', '").append(nextPageRealId).append("')\">");
-        buff.append("  <span class=\"glyphicon glyphicon-chevron-right\"></span>");
-        buff.append("</a>");
+//        buff.append("<a id=\"").append(prePageId).append("\" class=\"carousel-control left carouselPage\" href=\"#\"");
+//        buff.append("     onclick=\"cp_prev('").append(id).append("', '").append(prePageRealId).append("')\">");
+//        buff.append("  <span class=\"glyphicon glyphicon-chevron-left\"></span>");
+//        buff.append("</a>");
+//        
+//        buff.append("<a id=\"").append(nextPageId).append("\" class=\"carousel-control right\" href=\"#\"");
+//        buff.append("     onclick=\"cp_next('").append(id).append("', '").append(nextPageRealId).append("')\">");
+//        buff.append("  <span class=\"glyphicon glyphicon-chevron-right\"></span>");
+//        buff.append("</a>");
         
+        //真是翻页操作按钮
         buff.append("<a id=\"").append(prePageRealId).append("\" class=\"carousel-control left\" href=\"#").append(id).append("\" data-slide=\"prev\" style=\"display:none\"></a>");
         buff.append("<a id=\"").append(nextPageRealId).append("\" class=\"carousel-control right\" href=\"#").append(id).append("\" data-slide=\"next\" style=\"display:none\"></a>");
         
@@ -254,6 +276,16 @@ public class CarouselPageTag extends TagSupport  {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+
+    public String getInitLoad() {
+        return initLoad;
+    }
+
+
+    public void setInitLoad(String initLoad) {
+        this.initLoad = initLoad;
     }
 
 }

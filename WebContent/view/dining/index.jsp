@@ -27,6 +27,7 @@
 	
     <script type="text/javascript" src="${JN_UTIL}"></script>
     <script type="text/javascript" src="${RESOURCE}/js/custom/popoverButton.js"></script>
+	<script type="text/javascript" src="${RESOURCE}/js/custom/carouselPage.js"></script>
 	<script type="text/javascript" src="${RESOURCE}/js/dining/index.js"></script>
     <style type="text/css">
     	.collapseTrigger{
@@ -323,46 +324,50 @@
 						<span style="color:white">Tip</span><span style="color:white;display:none">能看到自己加入的、且是发布者指定的小组的订餐，现在加入也来的及~ 发布者在查看订单界面可以结束或取消</span>
 					</a>
 					<hr />
+					
 					<aa:zone name="orderProviderList">
-						<i class="fa fa-spinner fa-spin fa-4x" id="orderProviderListLoading" style="display:none;"></i>
-						<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
-							<thead>
-								<tr>
-									<th width="50px" class="nowrap"><li class="fa fa-glass"></li></th>
-									<th width="70px" class="nowrap">状态</th>
-									<th width="150px" class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
-									<th class="nowrap"><spring:message code="main.sboffer.provider" /></th>
-									<th width="100px" class="nowrap"><spring:message code="main.sboffer.receiveTeams" /></th>
-									<th class="nowrap"><spring:message code="main.sboffer.restaurants" /></th>
-									<th width="310px" class="nowrap"></th>
-								</tr>
-							</thead>
-							<tbody id="orderProviderListBody">
-								<c:forEach items="${orderProviderList }" var="orderProvider" varStatus="status">
+						<div id="pageInfo" pageSize="${orderProviderPage.pageSize}" pageNum="${orderProviderPage.pageNum}" totalCount="${orderProviderPage.totalCount}"></div>
+						<div id="result">
+							<i class="fa fa-spinner fa-spin fa-4x" id="orderProviderListLoading" style="display:none;"></i>
+							<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
+								<thead>
 									<tr>
-										<td>${status.index+1}</td>
-										<td>${orderProviderStatusCode[orderProvider.status] }</td>
-										<td style="width:80px;text-align:center">
-											<fmt:formatDate value="${orderProvider.createDate}" type="date" pattern="yyyy-MM-dd HH:mm" />
-										</td>
-										<td>${orderProvider.provideUserName}</td>
-										<td class="script_br">${orderProvider.receiveTeams}</td>
-										<td class="script_br">${orderProvider.restaurants}</td>
-										<td style="text-align:center">
-											<c:if test="${orderProvider.status eq 1 }">
-												<a class="button glow button-rounded button-flat-action button-tiny" onclick="joinProvideMeal('${orderProvider.id}')">
-													<span style="color:white"><spring:message code="main.sboffer.chooseProvide" /></span>
-												</a>
-											</c:if>
-											<a class="button button-rounded button-flat-primary button-tiny" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
-											<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
-												<a class="button button-rounded button-flat-caution button-tiny" onclick="cancelProvide('${orderProvider.id}')">删除订单</a>
-											</c:if>
-										</td>
+										<th width="50px"><li class="fa fa-glass"></li></th>
+										<th width="70px">状态</th>
+										<th class="nowrap"><spring:message code="main.sboffer.createDate" /></th>
+										<th><spring:message code="main.sboffer.provider" /></th>
+										<th width="100px"><spring:message code="main.sboffer.receiveTeams" /></th>
+										<th><spring:message code="main.sboffer.restaurants" /></th>
+										<th width="310px"></th>
 									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
+								</thead>
+								<tbody id="orderProviderListBody">
+									<c:forEach items="${orderProviderPage.data }" var="orderProvider" varStatus="status">
+										<tr>
+											<td>${orderProviderPage.pageSize * (orderProviderPage.pageNum-1) + status.index + 1}</td>
+											<td>${orderProviderStatusCode[orderProvider.status] }</td>
+											<td class="nowrap" style="text-align:center">
+												<fmt:formatDate value="${orderProvider.createDate}" type="date" pattern="yyyy-MM-dd HH:mm" />
+											</td>
+											<td class="nowrap">${orderProvider.provideUserName}</td>
+											<td class="script_br">${orderProvider.receiveTeams}</td>
+											<td class="script_br">${orderProvider.restaurants}</td>
+											<td class="nowrap" style="text-align:center">
+												<c:if test="${orderProvider.status eq 1 }">
+													<a class="button glow button-rounded button-flat-action button-tiny" onclick="joinProvideMeal('${orderProvider.id}')">
+														<span style="color:white"><spring:message code="main.sboffer.chooseProvide" /></span>
+													</a>
+												</c:if>
+												<a class="button button-rounded button-flat-primary button-tiny" onclick="showOrderList('${orderProvider.id}')">查看订单</a>
+												<c:if test="${orderProvider.provideUserId eq sessionScope.user.id && orderProvider.status eq 1}"> <!-- TODO -->
+													<a class="button button-rounded button-flat-caution button-tiny" onclick="cancelProvide('${orderProvider.id}')">删除订单</a>
+												</c:if>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
 						<script type="text/javascript">
 							String.prototype.replaceAll = function(s1,s2){    
 								return this.replace(new RegExp(s1,"gm"),s2);    
@@ -372,6 +377,7 @@
 							});
 						</script>
 					</aa:zone>
+					<jn:CarouselPage id="newsCarousel" initLoad="true" url="${CONTEXT_PATH}/dining/orderProviderList" aaZone="orderProviderList" pageDataProvider="result" pageInfoProvider="pageInfo" pageSize="3"/>
 				</div>
 			</div>
 		</div>

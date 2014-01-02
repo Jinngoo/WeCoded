@@ -19,7 +19,13 @@ import com.jinva.support.page.Page;
 public class PageDao extends BaseDao {
 
     @SuppressWarnings("unchecked")
-    public <T> Page<T> selectPage(Class<T> clazz, Criterion criterion, Order order, int pageNum, int pageSize) {
+    public <T> Page<T> selectPage(Class<T> clazz, Criterion criterion, Order order, Integer pageNum, Integer pageSize) {
+        if(pageNum == null){
+            pageNum = -1;
+        }
+        if(pageSize == null){
+            pageSize = -1;
+        }
         final DetachedCriteria detachedCriteria = DetachedCriteria.forClass(clazz);
         if (criterion != null) {
             detachedCriteria.add(criterion);
@@ -46,7 +52,13 @@ public class PageDao extends BaseDao {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Page<T> selectPage(final String hql, final Object[] params, int pageNum, int pageSize) {
+    public <T> Page<T> selectPage(final String hql, final Object[] params, Integer pageNum, Integer pageSize) {
+        if(pageNum == null){
+            pageNum = -1;
+        }
+        if(pageSize == null){
+            pageSize = -1;
+        }
         long totalCount = selectCount(hql, params);
 
         Collection<T> data = null;

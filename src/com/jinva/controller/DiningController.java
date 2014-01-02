@@ -2,6 +2,7 @@ package com.jinva.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import com.jinva.controller.base.BaseControllerSupport;
 import com.jinva.service.DiningService;
 import com.jinva.service.JinvaService;
 import com.jinva.service.storage.IStorage;
+import com.jinva.support.page.Page;
 import com.jinva.util.CodeSupport;
 import com.jinva.util.CommonUtil;
 import com.jinva.util.StorageUtil;
@@ -74,15 +76,20 @@ public class DiningController extends BaseControllerSupport {
     
     @RequestMapping(value = "orderProviderList", method = RequestMethod.GET)
     public String orderProviderList(HttpServletRequest request, HttpSession session) {
-        List<OrderProvider> orderProviderList = jinvaService.getOrderProviderList(0, -1, getUserId(session));
+        Integer pageNum = getInteger(request, "pageNum", 1);
+        Integer pageSize = getInteger(request, "pageSize", 10);
+        
+        Page<OrderProvider> page = diningService.getOrderProviderList(getUserId(session), pageNum, pageSize);
+        Collection<OrderProvider> orderProviderList = page.getData();
+        
         jinvaService.parseOrderProviderName(orderProviderList, new HashMap<String, String>());//改成读缓存
         jinvaService.parseOrderProviderTeam(orderProviderList);
         jinvaService.parseOrderProviderRestaurant(orderProviderList, new HashMap<String, String>());
-        request.setAttribute("orderProviderList", orderProviderList);
+        
+        request.setAttribute("orderProviderPage", page);
         request.setAttribute("orderProviderStatusCode", CodeSupport.getOrderProviderStatusCode(request));
         return index();
     }
-    //TODO
     
     @RequestMapping(value = "teamList", method = RequestMethod.GET)
     public String teamList(HttpServletRequest request, HttpSession session) {
