@@ -42,7 +42,9 @@ var fileReader = null;
 var maxRecord = 50;
 var isFocus = true;
 var sendShortcutKeys = 2; //发送快捷键, 1:enter, 2:enter+ctrl
-var alertToneSwitch = 1; //提示音开关, 1:on, 2:off
+var alertToneSwitch = 2; //提示音开关, 1:on, 2:off
+var speakMsgSwitch = 1; //朗读开关, 1:on, 2:off
+var sendLock = false;
 
 $(document).ready(function() {
 	addNotificationSupport();
@@ -52,6 +54,7 @@ $(document).ready(function() {
     onFocus();
     initSendShortcutKeys();
     initAlertToneSwitch();
+    initSpeakMsgSwitch();
     console.log('TODO:最大记录保留数、历史记录保存')
     
     $(".videoWindow").easydrag();
@@ -116,6 +119,12 @@ function bindEvent() {
         $(this).toggleClass("fa-volume-off");
         alertToneSwitch = alertToneSwitch == 1 ? 2 : 1;
         storeAlertToneSwitch();
+    });
+    $("#speakMsgSwitch").click(function(){
+        $(this).toggleClass("fa-microphone");
+        $(this).toggleClass("fa-microphone-slash");
+        speakMsgSwitch = speakMsgSwitch == 1 ? 2 : 1;
+        storeSpeakMsgSwitch();
     });
     /////////////
     fileReader = new FileReader(); //init FileReader, for send image
@@ -242,7 +251,8 @@ function appendMessage(message){
 	template.find("div.content").html(content);
 	
     template.appendTo($("#output")).slideDown("fast");
-    checkVideo(content, template);
+    
+    var hasVideo = checkVideo(content, template);
     scrollMessage();
     
     var chatboxs = $("#output").children(".chatbox");
@@ -251,6 +261,24 @@ function appendMessage(message){
             $(this).remove();
         });
     }
+    if(!hasVideo && message.text != null){
+        readMessage(content);
+    }
+}
+function readMessage(text){
+    if(speakMsgSwitch != 1){
+        return;
+    }
+    text = $.trim(text);
+    var url = "https://translate.google.cn/translate_tts?ie=UTF-8&q={q}&tl={tl}&total=1&idx=0&textlen={textlen}";
+    url = url.replace("{q}", encodeURIComponent(text)).replace("{textlen}", text.length);
+    
+    var hasZhCN = escape(text).indexOf("%u") != -1;
+    url = hasZhCN ? url.replace("{tl}", "zh-CN") : url.replace("{tl}", "en");
+    
+    try{
+        document.getElementById("speakFrame").src = url;
+    }catch(e){}
 }
 function scrollMessage(){
     $("#output").parent().animate({scrollTop : $("#output").height()});
@@ -263,13 +291,14 @@ function checkVideo(message, chatbox){
         url = J.substring(message, "www", " ");
     }
     if (url && url.indexOf("youku.com") != -1) {
-        getVideoInfo("youku", url, chatbox);
+        return getVideoInfo("youku", url, chatbox);
     } else if (url && url.indexOf("tudou.com") != -1) {
-        getVideoInfo("tudou", url, chatbox);
+        return getVideoInfo("tudou", url, chatbox);
     }  else if (url && url.indexOf("youtube.com") != -1) {
-        getVideoInfo("youtube", url, chatbox);
+        return getVideoInfo("youtube", url, chatbox);
     } else {
         chatbox.html(chatbox.html().replace(url, "<a href='" + url + "' target='_blank'>" + url + "</a>"));
+        return false;
     }
 }
 function getVideoInfo(videoType, url, chatbox){
@@ -284,8 +313,10 @@ function getVideoInfo(videoType, url, chatbox){
             target.append("<br>视频标题：").append(result.title);
             target.append("<br>视频描述：").append(description);
             scrollMessage();
+            return true;
         }else{
             console.log(result.error);
+            return false;
         }
     });
 }
@@ -340,6 +371,14 @@ function buildMessage(params){
     return message;
 }
 function sendInput() {
+    if(sendLock){
+        alert("慢点说，别着急~");
+        return;
+    }
+    sendLock = true;
+    setTimeout(function(){
+        sendLock = false;
+    }, 3000);
     var text = $("#input").val();
     if ($.trim(text).length > 0) {
     	var message = buildMessage({ text : text }); 
@@ -390,6 +429,23 @@ function refreshUserList(message){
     }
     top_reloadChatRoomUserCount(users.length);
 }
+function initSpeakMsgSwitch(){
+    if(!$.cookie("wecoded_speak_msg")){
+        storeSpeakMsgSwitch();
+    }
+    speakMsgSwitch = $.cookie("wecoded_speak_msg");
+    if(speakMsgSwitch == 1){
+        $("#speakMsgSwitch").addClass("fa-microphone").removeClass("fa-microphone-slash");
+    }else{
+        $("#speakMsgSwitch").addClass("fa-microphone-slash").removeClass("fa-microphone");
+    }
+}
+function storeSpeakMsgSwitch(){
+    if(speakMsgSwitch == 1 && alertToneSwitch == 1){
+        $("#alertToneSwitch").click();
+    }
+    $.cookie("wecoded_speak_msg", speakMsgSwitch, {expires: 28, path : "/"});
+}
 function initAlertToneSwitch(){
     if(!$.cookie("wecoded_alert_tone")){
         storeAlertToneSwitch();
@@ -402,6 +458,9 @@ function initAlertToneSwitch(){
     }
 }
 function storeAlertToneSwitch(){
+    if(alertToneSwitch == 1 && speakMsgSwitch == 1){
+        $("#speakMsgSwitch").click();
+    }
     $.cookie("wecoded_alert_tone", alertToneSwitch, {expires: 28, path : "/"});
 }
 function initSendShortcutKeys(){

@@ -67,7 +67,7 @@
 						</tr>
 						<tr>
 							<td><i id="clearMsg" class="fa fa-trash-o fa-2x tool" title="清除记录"></i>&nbsp;&nbsp;&nbsp;</td>
-							<td><i class="fa fa-question fa-2x tool" title="暂留,桌面提示开关"></i></td>
+							<td><i id="speakMsgSwitch" class="fa fa-microphone fa-2x tool" title="朗读消息"></i></td>
 						</tr>
 					</table>
 				</span>
@@ -122,5 +122,6 @@
 		<param name="allowFullScreen" value="true"></param>
 		<embed src="about:blank" type="application/x-shockwave-flash" allowfullscreen="true" width="480" height="400"></embed>
 	</object>
+	<iframe id="speakFrame" src="about:blank" style="display:none"></iframe>
 </body>
 </html>
