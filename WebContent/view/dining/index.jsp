@@ -327,7 +327,7 @@
 					
 					<aa:zone name="orderProviderList">
 						<div id="pageInfo" pageSize="${orderProviderPage.pageSize}" pageNum="${orderProviderPage.pageNum}" totalCount="${orderProviderPage.totalCount}"></div>
-						<div id="result">
+						<div id="orderProviderResult">
 							<i class="fa fa-spinner fa-spin fa-4x" id="orderProviderListLoading" style="display:none;"></i>
 							<table class="table table-bordered table-hover" style="font-family: 微软雅黑">
 								<thead>
@@ -377,7 +377,7 @@
 							});
 						</script>
 					</aa:zone>
-					<jn:CarouselPage id="newsCarousel" initLoad="true" url="${CONTEXT_PATH}/dining/orderProviderList" aaZone="orderProviderList" pageDataProvider="result" pageInfoProvider="pageInfo" pageSize="3"/>
+					<jn:CarouselPage id="orderProviderCarousel" initLoad="true" url="${CONTEXT_PATH}/dining/orderProviderList" aaZone="orderProviderList" pageDataProvider="orderProviderResult" pageInfoProvider="pageInfo" />
 				</div>
 			</div>
 		</div>

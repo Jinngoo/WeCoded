@@ -1,3 +1,4 @@
+package rss;
 public class RssItem {
 
     // required

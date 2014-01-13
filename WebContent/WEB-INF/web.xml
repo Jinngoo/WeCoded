@@ -84,6 +84,10 @@
  		<listener-class>com.jinva.util.InitListener</listener-class>
  	</listener>
 
+    <session-config> 
+	   <session-timeout>300</session-timeout> 
+    </session-config> 
+    
 <!-- 	<distributable/> -->
 	
 

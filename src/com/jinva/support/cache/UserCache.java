@@ -18,7 +18,7 @@ public class UserCache {
     private BaseDao baseDao;
 
     private static Map<String, User> cache;
-
+    
     private void init() {
         if (cache == null) {
             reload();

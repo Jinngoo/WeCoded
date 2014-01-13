@@ -1,11 +1,23 @@
+package rss;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.stream.FileImageInputStream;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -51,7 +63,7 @@ public class Test {
         wangyiChannel.put("营销", "http://mkt.163.com/special/009044MP/");
     }
     
-    private static void test() throws IOException, DocumentException {
+    private static void testRss() throws IOException, DocumentException {
         URL url = new URL(baidu);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         InputStream in = connection.getInputStream();
@@ -65,7 +77,6 @@ public class Test {
         XMLWriter writer = new XMLWriter(System.out, format);
         writer.write(document);
         
-        System.out.println(channel.size());
 
         IOUtils.closeQuietly(in);
         IOUtils.close(connection);
@@ -100,9 +111,31 @@ public class Test {
         rssChannel.setDescription(channel.element("description").getText());
         return rssChannel;
     }
+    
+    private static void testJson() throws IOException, URISyntaxException{
+        File f = new File("/rss/");
+        System.out.println(f);
+        System.out.println(f.exists());
+//        Enumeration<URL> urls = Test.class.getClassLoader().getResources("");
+//        JSONArray jsonArray = new JSONArray();
+//        while(urls.hasMoreElements()){
+//            URL url = urls.nextElement();
+//            InputStream in = url.openStream();
+//            
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            IOUtils.copy(in, out);
+//            String jsonStr = new String(out.toByteArray(), Charsets.UTF_8);
+//            IOUtils.closeQuietly(out);
+//            IOUtils.closeQuietly(in);
+//            JSONObject json = JSONObject.fromObject(jsonStr);
+//            jsonArray.add(json);
+//        }
+//        System.out.println(jsonArray);
+//        InputStream in = Test.class.getClassLoader().getResourceAsStream("rss/rss_163.json");
+    }
 
     public static void main(String[] args) throws Exception {
-        test();
+        testJson();
     }
 
 }
