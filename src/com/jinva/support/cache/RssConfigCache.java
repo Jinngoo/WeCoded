@@ -1,7 +1,6 @@
 package com.jinva.support.cache;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,27 +10,46 @@ import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
-import rss.Test;
-
 @Component
 public class RssConfigCache {
 
-    private void init() {
-        
+    private JSONObject rssConfig;
+	
+    public static void main(String[] args) throws IOException {
+        new RssConfigCache();
+    }
+    
+    public RssConfigCache() {
+        reload();
     }
 
     private void reload() {
-        
+    	rssConfig = new JSONObject();
+    	JSONObject rss163 = readAsJson("rss/rss_163.json");
+    	rssConfig.put("rss163", rss163);
     }
     
-    private JSONObject readJson() throws IOException{
-        InputStream in = Test.class.getClassLoader().getResourceAsStream("rss/rss_163.json");
+    private JSONObject readAsJson(String path){
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(path);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        IOUtils.copy(in, out);
+        try {
+			IOUtils.copy(in, out);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
         String jsonStr = new String(out.toByteArray(), Charsets.UTF_8);
         IOUtils.closeQuietly(out);
         IOUtils.closeQuietly(in);
         return JSONObject.fromObject(jsonStr);
     }
+
+	public JSONObject getRssConfig() {
+		return rssConfig;
+	}
+
+	public void setRssConfig(JSONObject rssConfig) {
+		this.rssConfig = rssConfig;
+	}
 
 }

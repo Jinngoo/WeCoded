@@ -63,54 +63,8 @@ public class Test {
         wangyiChannel.put("营销", "http://mkt.163.com/special/009044MP/");
     }
     
-    private static void testRss() throws IOException, DocumentException {
-        URL url = new URL(baidu);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        InputStream in = connection.getInputStream();
 
-        SAXReader reader = new SAXReader();
-        Document document = reader.read(in);
-
-        RssChannel channel = build(document);
-        
-        OutputFormat format = OutputFormat.createPrettyPrint();
-        XMLWriter writer = new XMLWriter(System.out, format);
-        writer.write(document);
-        
-
-        IOUtils.closeQuietly(in);
-        IOUtils.close(connection);
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private static RssChannel build(Document document) {
-        Element rss = document.getRootElement();
-        Element channel = rss.element("channel");
-        RssChannel rssChannel = buildChannel(channel);
-        List<Element> items = channel.elements("item");
-        for (int i = 0, size = items.size(); i < size; i++) {
-            RssItem rssItem = buildItem(items.get(i));
-            rssChannel.addItem(rssItem);
-        }
-        return rssChannel;
-    }
-
-    private static RssItem buildItem(Element item) {
-        RssItem rssItem = new RssItem();
-        rssItem.setTitle(item.element("title").getText());
-        rssItem.setLink(item.element("link").getText());
-        rssItem.setDescription(item.element("description").getText());
-        return rssItem;
-    }
-
-    private static RssChannel buildChannel(Element channel) {
-        RssChannel rssChannel = new RssChannel();
-        rssChannel.setTitle(channel.element("title").getText());
-        rssChannel.setLink(channel.element("link").getText());
-        rssChannel.setDescription(channel.element("description").getText());
-        return rssChannel;
-    }
+    
     
     private static void testJson() throws IOException, URISyntaxException{
         File f = new File("/rss/");
