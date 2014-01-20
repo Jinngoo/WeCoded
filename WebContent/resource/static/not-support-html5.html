@@ -27,6 +27,19 @@
 <script type="text/javascript">
 	function onload(){
 	    document.getElementById("ua").innerHTML = navigator.userAgent;
+	    redirectIndex();
+	}
+	function redirectIndex(){
+	    var userAgent = navigator.userAgent;
+	    if (userAgent.indexOf("MSIE") != -1) {
+		    if (userAgent.indexOf("MSIE 5.0") != -1 || userAgent.indexOf("MSIE 6.0") != -1 || userAgent.indexOf("MSIE 7.0") != -1
+		            || userAgent.indexOf("MSIE 8.0") != -1) {
+		        return;
+		    }
+		}
+	    var url = window.location.href;
+		url = url.substring(0, url.indexOf("/resource"));
+		window.location.href = url;
 	}
 </script>
 </head>
