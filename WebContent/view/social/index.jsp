@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>News</title>
+    <title>Social</title>
     <%@ include file="../head.jsp"%>  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -18,15 +18,9 @@
 	<script type="text/javascript" src="${AJAXANYWHERE}"></script>
 	
 	<script type="text/javascript" src="${JN_UTIL}"></script>
+	<script type="text/javascript" src="${RESOURCE}/js/social/index.js"></script>
 	
     <script type="text/javascript">
-	    $(document).ready(function(){
-	    	$("#mainContent").slideDown("fast");
-	 
-	    	$("#public_btn").click(function(){
-	    		$("#public_topic").html("不支持啊不支持");
-	    	});
-	    });
     </script>
     <style type="text/css">
 	</style>
@@ -45,6 +39,8 @@
 			
 				<!-- news -->
 				<div class="tab-pane active span8" id="news">
+					<div id="newsType"></div>
+					<div id="newsContent"></div>
 					<div id="newsCarousel" class="carousel slide" data-ride="carousel" style="width:870px">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
@@ -53,7 +49,7 @@
 							<li data-target="#newsCarousel" data-slide-to="2"></li>
 						</ol>
 						<!-- Wrapper for slides -->
-						<div class="carousel-inner">
+						<div class="carousel-inner" style="display:none">
 							<div class="item active">
 								<img src="${RESOURCE}/image/01.jpg"/>
 								<div class="carousel-caption"><h4>制作中啊制作中</h4><p>愤怒地将花费血脖肉凤凰的荣誉撒弄死了的年深法定总分覆盖从难对付合同的呼声年深绿色阿隆索你疯啦</p></div>

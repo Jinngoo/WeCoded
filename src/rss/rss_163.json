@@ -1,0 +1,26 @@
+{
+	"uri" : "",
+	"name" : "网易新闻",
+	"channels" : [{
+				"name" : "新闻",
+				"uri" : "http://news.163.com/special/00011K6L/",
+				"sub" : [{
+							"name" : "头条",
+							"uri" : "rss_newstop.xml"
+						}, {
+							"name" : "国内",
+							"uri" : "rss_gn.xml"
+						}]
+			}, {
+				"name" : "体育",
+				"uri" : "http://sports.163.com/special/00051K7F/",
+				"sub" : [{
+							"name" : "NBA",
+							"uri" : "rss_sportslq.xml"
+						}, {
+							"name" : "CBA",
+							"uri" : "rss_sportscba.xml"
+						}]
+			}]
+
+}

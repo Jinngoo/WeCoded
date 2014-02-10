@@ -21,7 +21,7 @@
 			</div>
 			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
 				<ul class="nav navbar-nav">
-					<li><a href="${CONTEXT_PATH}/news">首页</a></li>
+					<li><a href="${CONTEXT_PATH}/social">首页</a></li>
 					<li><a href="${CONTEXT_PATH}/dining" id="diningLink">吃的</a></li>
 					<li><a href="${CONTEXT_PATH}/chatRoom" id="chatRoomLink" target="_blank">聊天室</a></li>
 					<li><a href="${CONTEXT_PATH}/game">游戏</a></li>
