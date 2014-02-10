@@ -1,3 +1,10 @@
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -5,6 +12,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
@@ -102,7 +111,108 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-        test();
+//        test();
+            
+//            URL url = new URL("http://minecrack.fr.nf/mc/cloaksminecrackd/Jinngoo.png");
+//            HttpURLConnection c = (HttpURLConnection) url.openConnection();
+//            c.connect();
+//            System.out.println("start");
+//            InputStream in = c.getInputStream();
+//            
+//            FileOutputStream out = new FileOutputStream("e:/ab.png");
+//            System.out.println("got");
+//            IOUtils.copy(in, out);
+        
+//        readPng("C:/Users/Jinnan/Desktop/tett", "Jinngoo.png");
+        
+        
+        BufferedImage in = ImageIO.read(new File("C:/Users/Jinnan/Desktop/tett/Jinngoo.png")); 
+        BufferedImage out = getConvertedImage(in);
+        
+        ImageIO.write(out, "PNG", new File("C:/Users/Jinnan/Desktop/tett/output.png"));
     }
+    
+    /**
+     * 将背景为黑色不透明的图片转化为背景透明的图片
+     * @param image 背景为黑色不透明的图片（用555格式转化后的都是黑色不透明的）
+     * @return 转化后的图片
+     */
+    private static BufferedImage getConvertedImage(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        // 采用带1 字节alpha的TYPE_4BYTE_ABGR，可以修改像素的布尔透明
+        BufferedImage convertedImage = new BufferedImage(width * 8, height * 8, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g2D = (Graphics2D) convertedImage.getGraphics();
+//        g2D.drawImage(image, 0, 0, null);
+        // 像素替换，直接把背景颜色的像素替换成0
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int rgb = image.getRGB(i, j);
+//                convertedImage.setRGB(i, j, rgb);
+                drawScale(convertedImage, i, j, 8, rgb);
+            }
+        }
+        g2D.drawImage(convertedImage, 0, 0, null);
+        return convertedImage;
+    }
+    
+    private static void drawScale(BufferedImage image, int x, int y, int scale, int rgb){
+        int startX = x * scale;
+        int startY = y * scale;
+        int endX = (x+1) * scale;
+        int endY = (y+1) * scale;
+        for(int i = startX; i < endX; i ++){
+            for(int j = startY; j < endY; j ++){
+//                System.out.println(i + "," + j + ":" + rgb);
+                image.setRGB(i, j, rgb);
+            }
+        }
+//        image.setRGB(x, y, rgb);
+//        System.out.println(rgb);
+    }
+    
+    public static void readPng(String path, String name) {  
+        byte[] bs = getFileToByte(new File(path + "/" + name));  
+        int start = 8;  
+        int end = bs.length - 8;  
+        int count = bs.length - 16;  
+        for (int i = 0; i < count; i++) {  
+            System.out.print(Integer.toHexString(bs[i]) + " ");  
+            if (i != 0 && i % 27 == 0) {  
+                System.out.println();  
+            }  
+        }  
+        try {  
+            File f = new File(path + "/output_" + name);  
+            if (f.exists() == false) {  
+                f.createNewFile();  
+            }  
+            FileOutputStream fos = new FileOutputStream(f);  
+            fos.write(bs);  
+        } catch (FileNotFoundException e) {  
+            e.printStackTrace();  
+        } catch (IOException ie) {  
+            ie.printStackTrace();  
+        }  
+    }  
+    public static byte[] getFileToByte(File file) {  
+        byte[] by = new byte[(int) file.length()];  
+        try {  
+            InputStream is = new FileInputStream(file);  
+            ByteArrayOutputStream bytestream = new ByteArrayOutputStream();  
+            byte[] bb = new byte[2048];  
+            int ch;  
+            ch = is.read(bb);  
+            while (ch != -1) {  
+                bytestream.write(bb, 0, ch);  
+                ch = is.read(bb);  
+                System.out.println("ch : " + ch);  
+            }  
+            by = bytestream.toByteArray();  
+        } catch (Exception ex) {  
+            ex.printStackTrace();  
+        }  
+        return by;  
+    }  
 
 }
