@@ -1,4 +1,5 @@
-<<<<<<< HEAD:src/Test.java
+package rss;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -6,40 +7,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-=======
-package rss;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
->>>>>>> 4f708ccf19fd89e220c6479f20660d093502102d:src/rss/Test.java
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD:src/Test.java
 import javax.imageio.ImageIO;
 
-=======
-import javax.imageio.stream.FileImageInputStream;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import org.apache.commons.io.Charsets;
->>>>>>> 4f708ccf19fd89e220c6479f20660d093502102d:src/rss/Test.java
-import org.apache.commons.io.IOUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 
 /**
  * 
@@ -104,7 +79,6 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-<<<<<<< HEAD:src/Test.java
 //        test();
             
 //            URL url = new URL("http://minecrack.fr.nf/mc/cloaksminecrackd/Jinngoo.png");
@@ -163,9 +137,6 @@ public class Test {
         }
 //        image.setRGB(x, y, rgb);
 //        System.out.println(rgb);
-=======
-        testJson();
->>>>>>> 4f708ccf19fd89e220c6479f20660d093502102d:src/rss/Test.java
     }
     
     public static void readPng(String path, String name) {  
