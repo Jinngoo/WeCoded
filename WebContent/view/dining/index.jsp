@@ -232,7 +232,7 @@
 								<div class="input-group">
 									<span class="input-group-addon"><div class="label">公开</div></span>
 									<div class="form-control no-border">
-										<div class="make-switch" data-on-label="是" data-off-label="否">
+										<div class="make-switch" data-on-label="是" data-off-label="否" title="他人是否能编辑、选择订餐。TODO 应该只能创建者可选">
 											<input type="checkbox" id="restaurant_belong_checkbox">
 										</div>
 										<a data-toggle="collapse" data-target=".createRestaurant" class="button glow button-rounded button-flat button-small" style="float: right">取消</a>

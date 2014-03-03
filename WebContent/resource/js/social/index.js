@@ -18,6 +18,7 @@ function loadChannel(){
 		var rss = result.rss163;
 		var channels = rss.channels;
 		var output = $("#newsType").empty();
+		output.append("<h2>新闻RSS Test</h2>");
 		for(var i = 0; i < channels.length; i ++){
 			var channel = channels[i];
 			var subs = channel.sub;

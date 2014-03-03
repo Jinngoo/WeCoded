@@ -9,7 +9,7 @@ $(document).ready(function(){
             return;
         }
         
-        $("#dish_restaurantId").val('${restaurant.id}');
+        $("#dish_restaurantId").val($("#restaurantId").val());
         ajaxAnywhere.formName = "dish_form";
         AjaxAnywhere.prototype.getZonesToReaload = function(){
             return "dishList";
@@ -65,7 +65,7 @@ function upload(){
     var xhr = form.data('jqxhr');
     xhr.done(function() {
         $("#uploadImgPanel").collapse('hide');
-        var url = contextPath + "/aa_dishList?restaurantId=${restaurant.id}";
+        var url = contextPath + "/aa_dishList?restaurantId=" + $("#restaurantId").val();
         ajaxAnywhere.formName = "";
         AjaxAnywhere.prototype.getZonesToReaload = function(){
             return "dishList";
@@ -91,7 +91,7 @@ $.get(url, {}, function(data, textStatus, jqXHR){
 }
 function deleteDish(dishId){
     $("#toDeleteId").val(dishId);
-$('#deleteConfirmModal').modal({
+    $('#deleteConfirmModal').modal({
         backdrop: true,
         keyboard: true,
         show: true

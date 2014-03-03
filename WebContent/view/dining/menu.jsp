@@ -51,6 +51,7 @@
 	<c:set var="iamOwner" value="${restaurant.ownerId eq sessionScope.user.id }" />
 	<c:set var="canEdit" value="${iamOwner or restaurant.belong eq 2 }"/>
 	
+    <input type="hidden" id="restaurantId" value="${restaurant.id}">
 	<div class="container">
 		<div id="mainContent" style="display:none;margin-left:20px;">
 			<div class="well">
