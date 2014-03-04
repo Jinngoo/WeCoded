@@ -2,6 +2,7 @@ package com.jinva.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -54,6 +56,8 @@ public class DiningController extends BaseControllerSupport {
 
     @Autowired
     private IStorage storage;
+    
+    private String admins;
     
     @RequestMapping(value = "")
     public String index() {
@@ -110,6 +114,10 @@ public class DiningController extends BaseControllerSupport {
         return index();
     }
     
+    /**
+     * list
+     * 餐馆列表
+     */
     @RequestMapping(value = "restaurantList", method = RequestMethod.GET)
     public String restaurantList(HttpServletRequest request, HttpSession session) throws InterruptedException{
         String userId = getUserId(session);
@@ -119,6 +127,7 @@ public class DiningController extends BaseControllerSupport {
         request.setAttribute("myRestaurantList", myRestaurantList);
         request.setAttribute("publicRestaurantList", publicRestaurantList);
         request.setAttribute("otherRestaurantList", otherRestaurantList);
+        request.setAttribute("isAdmin", isAdmin(getUser(session).getName()));
         return index();
     }
     
@@ -454,6 +463,15 @@ public class DiningController extends BaseControllerSupport {
         orderProvider.setStatus(OrderProvider.STATUS_END);
         jinvaService.update(orderProvider);
         return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
+    
+    public boolean isAdmin(String loginId) {
+        return Arrays.asList(admins.split(";|,")).contains(loginId);
+    }
+    
+    @Value("#{propertiesReader[admins]}")
+    public void setAdmins(String admins) {
+        this.admins = admins;
     }
 
 }
