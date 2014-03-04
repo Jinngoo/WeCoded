@@ -260,7 +260,7 @@
 											<i class="fa fa-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
 											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
 											<c:if test="${restaurant.ownerId eq sessionScope.user.id }">
-												<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
+												<i class="fa fa-trash-o" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
 											</c:if>
 										</jn:PopoverButton>
 									</c:forEach>
@@ -279,7 +279,7 @@
 											imgUrl="${CONTEXT_PATH}/getImage/3/${restaurant.id}">
 											<i class="fa fa-list-alt" flicker="dish_menu_${restaurant.dishCount}_${restaurant.ownerId}" style="cursor:pointer;" onclick="showRestaurantMenu('${restaurant.id}')" title="菜单"></i>
 											<i class="fa fa-wrench" style="cursor:pointer;" onclick="editRestaurant('${restaurant.id}')" title="编辑"></i>
-											<i class="fa fa-trash" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
+											<i class="fa fa-trash-o" style="cursor:pointer;" onclick="deleteRestaurant('${restaurant.id}', false)" title="删除"></i>
 										</jn:PopoverButton>
 									</c:forEach>
 								</div>
