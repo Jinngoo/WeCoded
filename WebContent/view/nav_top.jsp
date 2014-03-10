@@ -24,7 +24,7 @@
 					<li><a href="${CONTEXT_PATH}/social">首页</a></li>
 					<li><a href="${CONTEXT_PATH}/dining" id="diningLink">吃的</a></li>
 					<li><a href="${CONTEXT_PATH}/chatRoom" id="chatRoomLink" target="_blank">聊天室</a></li>
-					<li><a href="${CONTEXT_PATH}/game">游戏</a></li>
+					<li><a href="${CONTEXT_PATH}/location">工位图 </a></li>
 					<li><a href="${CONTEXT_PATH}/message">消息(x)</a></li>
 					<li><a href="${CONTEXT_PATH}/setting">设置</a></li>
 				</ul>
