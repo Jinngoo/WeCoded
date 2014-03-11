@@ -87,7 +87,7 @@
 							<td>${status.index+1}</td>
 							<td><span class="label label-success" userId="${order.userId}">${order.userName}</span></td>
 							<td><span class="label label-primary" restaurantId="${order.restaurantId}">${order.restaurantName}</span></td>
-							<td><span class="label label-primary" dishId="${order.dishId}">${order.dishName}</span></td>
+							<td style="text-align:right"><span class="label label-primary" dishId="${order.dishId}">${order.dishName}</span></td>
 							<td><span class="badge">${order.dishNum}</span></td>
 							<td>${order.dishPrice}</td>
 							<td class="totalPrice"><fmt:formatNumber value="${order.dishPrice * order.dishNum }" pattern="#.##" minFractionDigits="2" /></td>

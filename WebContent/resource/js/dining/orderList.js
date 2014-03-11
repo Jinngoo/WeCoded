@@ -87,7 +87,7 @@ function showOrderStatistics(callback){
                 tr += "<td>" + index++ + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].user + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].restaurant + "</td>";
-                tr += "<td>" + statistics[restaurant][dish].dish + "</td>";
+                tr += "<td style=\"text-align:right\">" + statistics[restaurant][dish].dish + "</td>";
                 tr += "<td><span class=\"badge\">" + statistics[restaurant][dish].count + "</span></td>";
                 tr += "<td>" + statistics[restaurant][dish].price + "</td>";
                 tr += "<td>" + statistics[restaurant][dish].totalPrice + "</td>";
