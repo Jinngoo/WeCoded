@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>工位图-BETA</title>
+		<title>工位图-3.0</title>
     	<%@ include file="../head.jsp"%>  
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
