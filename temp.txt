@@ -1,0 +1,13 @@
+代理？
+<pre>
+and~ 
+[http]
+	proxy = ip:port
+	sslVerify = false
+[https]
+	proxy = ip:pory
+	sslVerify = false
+也可以试试 
+$ git config http.sslcainfo $some_location/goagent-ca.crt
+即 sslCAinfo = /opt/goagent/local/CA.crt
+</pre>
