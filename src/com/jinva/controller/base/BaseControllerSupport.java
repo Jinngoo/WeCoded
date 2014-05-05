@@ -1,5 +1,6 @@
 package com.jinva.controller.base;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,16 +10,28 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.jinva.bean.datamodel.User;
 import com.jinva.consts.JinvaConsts;
 
 public class BaseControllerSupport {
 
+    private String admins;
+    
     protected Log logger = LogFactory.getLog(getClass());
 
     protected String redirectIndex(){
         return "redirect:/";
+    }
+    
+    protected boolean isAdmin(String loginId) {
+        return Arrays.asList(admins.split(";|,")).contains(loginId);
+    }
+    
+    @Value("#{propertiesReader[admins]}")
+    public void setAdmins(String admins) {
+        this.admins = admins;
     }
     
     protected User getUser(HttpSession session) {

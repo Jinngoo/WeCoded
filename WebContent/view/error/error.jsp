@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>工位图-3.0</title>
+		<title>出错啦</title>
     	<%@ include file="../head.jsp"%>  
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
@@ -19,6 +19,13 @@
 	</head>
 	<body>
 		<%@ include file="../nav_top.jsp" %>
-        <iframe src="${locatorUrl}" style="width: 100%; height: 660px" />
+        
+        <div class="container">
+            <h1>
+                <c:out value="${message }" />
+            </h1>
+        </div>
+        
+        <%@ include file="../nav_bottom.jsp" %>
 	</body>
 </html>
